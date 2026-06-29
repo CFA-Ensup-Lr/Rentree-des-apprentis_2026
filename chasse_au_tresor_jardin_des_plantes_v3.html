@@ -1,0 +1,315 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+#app{padding:1rem 0;min-height:600px}
+.screen{display:none}
+.screen.active{display:block}
+#screen-intro{text-align:center;padding:2rem 1rem}
+#screen-intro h1{font-size:22px;font-weight:500;color:var(--color-text-primary);margin-bottom:.5rem}
+#screen-intro p{color:var(--color-text-secondary);font-size:15px;margin-bottom:1.5rem;line-height:1.6}
+.btn-start{background:var(--color-background-info);color:var(--color-text-info);border:none;padding:12px 28px;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;cursor:pointer}
+.btn-start:hover{opacity:.85}
+#screen-map{padding:.5rem}
+.map-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.map-header h2{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.progress-bar{background:var(--color-background-secondary);border-radius:20px;height:8px;width:160px;overflow:hidden}
+.progress-fill{height:100%;background:#1D9E75;border-radius:20px;transition:width .4s ease}
+.map-container{position:relative;width:100%;max-width:520px;margin:0 auto}
+.map-container img{width:100%;display:block;border-radius:var(--border-radius-lg)}
+.spot{position:absolute;width:36px;height:36px;border-radius:50%;border:3px solid white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;cursor:pointer;transition:all .3s;transform:translate(-50%,-50%)}
+.spot.active{background:#1D9E75;color:white;box-shadow:0 0 0 6px rgba(29,158,117,.25);animation:pulse 2s infinite}
+.spot.done{background:#085041;color:#9FE1CB;cursor:default;opacity:.7}
+.spot.locked{background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:not-allowed;border-color:var(--color-border-tertiary)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 6px rgba(29,158,117,.25)}50%{box-shadow:0 0 0 12px rgba(29,158,117,.1)}}
+.spot-label{position:absolute;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:3px 8px;font-size:11px;color:var(--color-text-secondary);white-space:nowrap;pointer-events:none;transform:translateX(-50%);bottom:calc(100% + 6px);left:50%}
+#screen-question{padding:.5rem}
+.question-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem}
+.q-location{font-size:12px;color:var(--color-text-secondary);margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
+.q-riddle{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;margin-bottom:1rem;font-size:14px;color:var(--color-text-secondary);line-height:1.6;font-style:italic;border-left:3px solid #1D9E75}
+.q-text{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:1rem;line-height:1.5}
+.choices{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
+.choice{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px;font-size:14px;color:var(--color-text-primary);cursor:pointer;text-align:left;transition:all .2s;line-height:1.4}
+.choice:hover{border-color:var(--color-border-secondary);background:var(--color-background-primary)}
+.choice.selected-correct{background:#E1F5EE;border-color:#1D9E75;color:#085041}
+.choice.selected-wrong{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}
+.choice.reveal-correct{background:#E1F5EE;border-color:#1D9E75;color:#085041}
+.feedback{padding:10px 14px;border-radius:var(--border-radius-md);font-size:14px;margin-bottom:1rem;line-height:1.5}
+.feedback.correct{background:#E1F5EE;color:#085041}
+.feedback.wrong{background:#FCEBEB;color:#791F1F}
+.btn-next{width:100%;background:#1D9E75;color:white;border:none;padding:12px;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;cursor:pointer;display:none}
+.btn-next:hover{opacity:.9}
+#screen-win{text-align:center;padding:2rem 1rem}
+#screen-win h2{font-size:22px;font-weight:500;margin-bottom:.5rem;color:var(--color-text-primary)}
+.win-score{font-size:36px;font-weight:500;color:#1D9E75;margin:1rem 0}
+.form-group{text-align:left;margin-bottom:1rem}
+.form-group label{display:block;font-size:13px;color:var(--color-text-secondary);margin-bottom:4px}
+.form-group input{width:100%;padding:10px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:14px;background:var(--color-background-secondary);color:var(--color-text-primary)}
+.btn-send{background:#1D9E75;color:white;border:none;padding:12px 28px;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;cursor:pointer;width:100%;margin-top:.5rem;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-send:hover{opacity:.9}
+.btn-send:disabled{opacity:.5;cursor:not-allowed}
+#screen-name{padding:1rem}
+.name-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;max-width:420px;margin:0 auto}
+.name-card h2{font-size:18px;font-weight:500;margin-bottom:.5rem;color:var(--color-text-primary)}
+.name-card p{color:var(--color-text-secondary);font-size:14px;margin-bottom:1.25rem;line-height:1.5}
+#send-status{margin-top:1rem;padding:10px 14px;border-radius:var(--border-radius-md);font-size:14px;display:none;line-height:1.5}
+#send-status.ok{background:#E1F5EE;color:#085041}
+#send-status.err{background:#FCEBEB;color:#791F1F}
+</style>
+
+<div id="app">
+
+<div id="screen-intro" class="screen active">
+  <h1>Chasse au trésor 🌿</h1>
+  <p>Bienvenue à la rentrée des apprentis !<br>Parcours le Jardin des Plantes, trouve les 8 spots, réponds aux questions et tente de gagner !</p>
+  <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem;margin-bottom:1.5rem;text-align:left">
+    <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:.5rem">Comment jouer :</p>
+    <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.7">1. Suis les énigmes pour trouver chaque spot sur la carte<br>2. Rends-toi physiquement à cet endroit du jardin<br>3. Réponds à la question sur le contrat d'apprentissage<br>4. Passe au spot suivant !</p>
+  </div>
+  <button class="btn-start" onclick="startGame()">Commencer la chasse</button>
+</div>
+
+<div id="screen-name" class="screen">
+  <div class="name-card">
+    <h2>Qui es-tu ?</h2>
+    <p>Entre tes infos pour participer au tirage au sort !</p>
+    <div class="form-group">
+      <label>Prénom</label>
+      <input type="text" id="input-prenom" placeholder="Ton prénom">
+    </div>
+    <div class="form-group">
+      <label>Nom</label>
+      <input type="text" id="input-nom" placeholder="Ton nom">
+    </div>
+    <div class="form-group">
+      <label>Site CFA</label>
+      <input type="text" id="input-site" placeholder="Ex : Montpellier, Sète, Nîmes...">
+    </div>
+    <button class="btn-start" onclick="saveName()" style="width:100%;margin-top:.5rem">C'est parti !</button>
+  </div>
+</div>
+
+<div id="screen-map" class="screen">
+  <div class="map-header">
+    <h2>Spot <span id="spot-num">1</span> / 8</h2>
+    <div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;text-align:right">Progression</div>
+      <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="map-container">
+    <img src="/mnt/user-data/uploads/plan_vierge_jardin_des_plantes.jpg" alt="Plan du Jardin des Plantes de Montpellier">
+    <div id="spots-container"></div>
+  </div>
+  <div style="margin-top:1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;font-size:13px;color:var(--color-text-secondary)">
+    <span style="color:var(--color-text-primary);font-weight:500">Spot actif :</span> le spot vert clignote sur la carte. Appuie dessus pour voir l'énigme !
+  </div>
+</div>
+
+<div id="screen-question" class="screen">
+  <div class="question-card">
+    <div class="q-location"><i class="ti ti-map-pin" aria-hidden="true"></i><span id="q-location-name"></span></div>
+    <div class="q-riddle" id="q-riddle"></div>
+    <p class="q-text" id="q-text"></p>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback" style="display:none"></div>
+    <button class="btn-next" id="btn-next" onclick="nextSpot()">Spot suivant →</button>
+  </div>
+  <button onclick="showMap()" style="margin-top:1rem;width:100%;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:10px;font-size:14px;color:var(--color-text-secondary);cursor:pointer">← Retour à la carte</button>
+</div>
+
+<div id="screen-win" class="screen">
+  <div style="font-size:48px;margin-bottom:1rem">🎉</div>
+  <h2>Bravo, tu as terminé !</h2>
+  <p style="color:var(--color-text-secondary);font-size:15px;margin-bottom:.5rem;line-height:1.6">Tu as parcouru tout le Jardin des Plantes et répondu aux 8 questions.</p>
+  <div class="win-score" id="win-score"></div>
+  <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem;margin-bottom:1.5rem;text-align:left">
+    <div class="form-group" style="margin-bottom:.75rem">
+      <label>Nom complet</label>
+      <input type="text" id="win-name-display" readonly>
+    </div>
+    <div class="form-group" style="margin-bottom:0">
+      <label>Site CFA</label>
+      <input type="text" id="win-site-display" readonly>
+    </div>
+  </div>
+  <button class="btn-send" id="btn-send" onclick="sendResults()">
+    <i class="ti ti-send" aria-hidden="true"></i> Envoyer mes résultats au CFA
+  </button>
+  <div id="send-status"></div>
+</div>
+
+</div>
+
+<script>
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xrevkllb";
+
+const SPOTS = [
+  {id:1,label:"La Noria",x:"28%",y:"72%",riddle:"Je suis un ancien puits entouré d'arcades, orné de plantes succulentes. Tout près de moi dort un mystérieux tombeau... Rends-toi à la Noria et au tombeau de Narcissa.",question:"Quel est le statut juridique de l'apprenti ?",choices:["Étudiant salarié","Stagiaire","Salarié lié par un contrat de travail","Fonctionnaire stagiaire"],correct:2,feedback:"L'apprenti est un salarié à part entière ! Il signe un contrat de travail (le contrat d'apprentissage) et bénéficie des mêmes droits qu'un salarié."},
+  {id:2,label:"Monument Rabelais",x:"44%",y:"68%",riddle:"Au pied d'une montagne artificielle plantée d'arbustes méditerranéens, un monument rend hommage à un célèbre carabin. Rends-toi devant le monument François Rabelais.",question:"À combien de semaines de congés payés par an a droit un apprenti ?",choices:["2 semaines","4 semaines","5 semaines","6 semaines"],correct:2,feedback:"Comme tout salarié, l'apprenti a droit à 5 semaines de congés payés par an, soit 2,5 jours par mois travaillé."},
+  {id:3,label:"Bassin aux lotus",x:"56%",y:"40%",riddle:"Près d'un grand bassin où fleurissent des lotus, se dresse une rotonde ancienne. André Gide et Paul Valéry s'y promenaient. Rends-toi au bassin aux lotus.",question:"De quel document l'apprenti bénéficie-t-il pour des réductions sur les transports, la culture et la restauration universitaire ?",choices:["La carte Vitale","La carte étudiant","Le passeport mobilité","La carte de réduction SNCF"],correct:1,feedback:"L'apprenti bénéficie de la carte étudiant, qui donne accès aux réductions sur les transports, les activités culturelles et les restaurants universitaires du CROUS."},
+  {id:4,label:"Serre Martins",x:"72%",y:"22%",riddle:"Au nord du jardin, une grande serre abrite cactus, agaves et aloès venus des régions sèches du monde entier. Rends-toi devant la serre Martins.",question:"Comment évolue le salaire d'un apprenti ?",choices:["Il est fixe pendant toute la durée du contrat","Il augmente selon l'âge et l'année d'exécution du contrat","Il est librement négocié avec l'entreprise","Il est identique au SMIC pour tous les apprentis"],correct:1,feedback:"Le salaire de l'apprenti est calculé en pourcentage du SMIC et évolue selon l'âge de l'apprenti ET l'année d'exécution du contrat."},
+  {id:5,label:"L'Orangerie",x:"30%",y:"50%",riddle:"Construite en 1806 par Claude-Mathieu de la Gardette, ce grand bâtiment sobre abrite agrumes et cycadales l'hiver. Rends-toi devant l'Orangerie.",question:"À qui l'apprenti doit-il s'adresser en premier en cas de maladie ?",choices:["Au directeur du CFA","À son employeur / maître d'apprentissage","À la Sécurité sociale directement","Au médiateur de l'apprentissage"],correct:1,feedback:"En cas de maladie, l'apprenti doit prévenir son employeur dans les 48h, puis envoyer son arrêt de travail à l'entreprise ET à la CPAM."},
+  {id:6,label:"Bambouseraie",x:"60%",y:"58%",riddle:"Un coin de verdure dense et exotique au cœur du jardin, où les tiges vertes montent haut vers le ciel. Rends-toi à la bambouseraie.",question:"Quelles aides peuvent faciliter l'accès au logement pour un apprenti ?",choices:["Uniquement le 1% logement patronal","L'APL et Mobili-Jeune","Seulement les aides de la région","L'apprenti n'a aucune aide au logement"],correct:1,feedback:"L'apprenti peut bénéficier de l'APL via la CAF, et de Mobili-Jeune (aide d'Action Logement pour les moins de 30 ans en alternance). Il peut aussi solliciter les résidences CROUS."},
+  {id:7,label:"Observatoire",x:"55%",y:"30%",riddle:"Surnommé 'le marabout algérien', ce petit pavillon n'a jamais servi à observer les étoiles mais à des études spectroscopiques. Rends-toi devant l'observatoire.",question:"À partir de quel âge peut-on bénéficier de l'aide au permis B pour les apprentis ?",choices:["16 ans","17 ans","18 ans","15 ans"],correct:0,feedback:"L'aide au permis B pour les apprentis est accessible dès 16 ans, avec une prise en charge par l'employeur et/ou l'État."},
+  {id:8,label:"Entrée principale",x:"50%",y:"88%",riddle:"Tu es presque au bout ! Reviens là où tout a commencé : l'entrée principale du Jardin des Plantes, Boulevard Henri IV. Le trésor t'attend.",question:"Quel est le rôle du maître d'apprentissage ?",choices:["Uniquement signer le contrat","Former l'apprenti, suivre sa progression et faire le lien avec le CFA","Payer le salaire de l'apprenti","Évaluer les examens au CFA"],correct:1,feedback:"Le maître d'apprentissage forme l'apprenti au métier, suit sa progression, et fait le lien avec le CFA tout au long du contrat."}
+];
+
+let currentSpot=0,answered=[],answered_correct=[],playerName="",playerSite="";
+
+function startGame(){showScreen('screen-name')}
+
+function saveName(){
+  const p=document.getElementById('input-prenom').value.trim();
+  const n=document.getElementById('input-nom').value.trim();
+  const s=document.getElementById('input-site').value.trim();
+  if(!p||!n){alert('Entre ton prénom et ton nom pour continuer !');return;}
+  playerName=p+" "+n;
+  playerSite=s||"Non renseigné";
+  answered=new Array(SPOTS.length).fill(null);
+  answered_correct=new Array(SPOTS.length).fill(false);
+  currentSpot=0;
+  renderMap();
+  showScreen('screen-map');
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showMap(){renderMap();showScreen('screen-map')}
+
+function renderMap(){
+  document.getElementById('spot-num').textContent=currentSpot+1;
+  document.getElementById('progress').style.width=(currentSpot/SPOTS.length*100)+'%';
+  const container=document.getElementById('spots-container');
+  container.innerHTML='';
+  SPOTS.forEach((s,i)=>{
+    const div=document.createElement('div');
+    div.className='spot '+(i<currentSpot?'done':i===currentSpot?'active':'locked');
+    div.style.left=s.x;div.style.top=s.y;
+    div.textContent=i<currentSpot?'✓':(i===currentSpot?s.id:'🔒');
+    if(i===currentSpot){
+      const lbl=document.createElement('div');
+      lbl.className='spot-label';lbl.textContent=s.label;
+      div.appendChild(lbl);
+      div.onclick=()=>showQuestion(i);
+    }
+    container.appendChild(div);
+  });
+}
+
+function showQuestion(idx){
+  const s=SPOTS[idx];
+  document.getElementById('q-location-name').textContent=s.label;
+  document.getElementById('q-riddle').textContent=s.riddle;
+  document.getElementById('q-text').textContent=s.question;
+  const choicesEl=document.getElementById('choices');
+  choicesEl.innerHTML='';
+  s.choices.forEach((c,i)=>{
+    const btn=document.createElement('button');
+    btn.className='choice';btn.textContent=c;
+    btn.onclick=()=>selectAnswer(idx,i,btn);
+    choicesEl.appendChild(btn);
+  });
+  document.getElementById('feedback').style.display='none';
+  document.getElementById('btn-next').style.display='none';
+  showScreen('screen-question');
+}
+
+function selectAnswer(spotIdx,choiceIdx,btn){
+  if(answered[spotIdx]!==null)return;
+  answered[spotIdx]=choiceIdx;
+  const s=SPOTS[spotIdx];
+  document.querySelectorAll('.choice').forEach((c,i)=>{
+    c.style.pointerEvents='none';
+    if(i===s.correct)c.classList.add('reveal-correct');
+  });
+  const fb=document.getElementById('feedback');
+  fb.style.display='block';
+  if(choiceIdx===s.correct){
+    btn.classList.add('selected-correct');
+    fb.className='feedback correct';
+    fb.innerHTML='<strong>Bonne réponse !</strong> '+s.feedback;
+    answered_correct[spotIdx]=true;
+  } else {
+    btn.classList.add('selected-wrong');
+    fb.className='feedback wrong';
+    fb.innerHTML='<strong>Pas tout à fait...</strong> '+s.feedback;
+  }
+  const btnNext=document.getElementById('btn-next');
+  btnNext.style.display='block';
+  btnNext.textContent=currentSpot===SPOTS.length-1?'Voir mes résultats 🎉':'Spot suivant →';
+}
+
+function nextSpot(){
+  currentSpot++;
+  if(currentSpot>=SPOTS.length)showWin();
+  else{renderMap();showScreen('screen-map');}
+}
+
+function showWin(){
+  const score=answered_correct.filter(Boolean).length;
+  document.getElementById('win-score').textContent=score+' / '+SPOTS.length+' bonnes réponses';
+  document.getElementById('win-name-display').value=playerName;
+  document.getElementById('win-site-display').value=playerSite;
+  showScreen('screen-win');
+  playWin();
+}
+
+function playWin(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    [523,659,784,1047].forEach((f,i)=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.frequency.value=f;o.type='sine';
+      g.gain.setValueAtTime(0,ctx.currentTime+i*.15);
+      g.gain.linearRampToValueAtTime(.3,ctx.currentTime+i*.15+.05);
+      g.gain.linearRampToValueAtTime(0,ctx.currentTime+i*.15+.3);
+      o.start(ctx.currentTime+i*.15);o.stop(ctx.currentTime+i*.15+.35);
+    });
+  }catch(e){}
+}
+
+async function sendResults(){
+  const btn=document.getElementById('btn-send');
+  const status=document.getElementById('send-status');
+  const score=answered_correct.filter(Boolean).length;
+  btn.disabled=true;
+  btn.innerHTML='<i class="ti ti-loader" aria-hidden="true"></i> Envoi en cours...';
+
+  const details=SPOTS.map((s,i)=>s.label+' : '+(answered_correct[i]?'✓ Correct':'✗ Incorrect')).join(' | ');
+
+  const payload={
+    nom: playerName,
+    site_cfa: playerSite,
+    score: score+'/8',
+    details_reponses: details,
+    _subject: 'Chasse au trésor — '+playerName+' — '+score+'/8'
+  };
+
+  try{
+    const res=await fetch(FORMSPREE_ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    if(res.ok){
+      status.className='send-status ok';
+      status.style.display='block';
+      status.innerHTML='<strong>Résultats envoyés !</strong> Le CFA a bien reçu ta participation. Bonne chance pour le tirage au sort 🍀';
+      btn.innerHTML='<i class="ti ti-check" aria-hidden="true"></i> Résultats envoyés !';
+    } else {
+      throw new Error('Erreur serveur');
+    }
+  } catch(e){
+    status.className='send-status err';
+    status.style.display='block';
+    status.innerHTML="<strong>Oups, une erreur s'est produite.</strong> Rends-toi au stand du CFA pour valider ta participation !";
+    btn.disabled=false;
+    btn.innerHTML='<i class="ti ti-send" aria-hidden="true"></i> Réessayer';
+  }
+}
+</script>
