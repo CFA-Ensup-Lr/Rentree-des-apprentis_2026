@@ -98,7 +98,7 @@ body{font-family:var(--font-sans)}
     </div>
   </div>
   <div class="map-container">
-    <img src="/mnt/user-data/uploads/plan_vierge_jardin_des_plantes.png" alt="Plan du Jardin des Plantes de Montpellier">
+    <img src="plan_vierge_jardin_des_plantes.png" alt="Plan du Jardin des Plantes de Montpellier">
     <div id="spots-container"></div>
   </div>
   <div style="margin-top:1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;font-size:13px;color:var(--color-text-secondary)">
