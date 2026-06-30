@@ -4,7 +4,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 .screen{display:none}
 .screen.active{display:block}
 
-#screen-intro{
+#screen-intro.active{
   text-align:center;
   padding:2rem 1rem;
   background-image:url(fond-jeu-concours.png);
