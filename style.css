@@ -43,7 +43,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 .feedback.correct{background:#dff0e4;color:#1f5c38}
 .feedback.wrong{background:#fbe3e3;color:#7a2424}
 
-.btn-next{width:100%;background:#287ec0;color:white;border:none;padding:12px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;display:none}
+.btn-next{width:100%;background:#287ec0;color:white;border:none;padding:12px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;display:none}
 .btn-next:hover{opacity:.9}
 
 #screen-win{text-align:center;padding:2rem 1rem}
@@ -54,7 +54,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 .form-group label{display:block;font-size:13px;color:#287ec0;margin-bottom:4px}
 .form-group input{width:100%;padding:10px 12px;border:1px solid #96bbda;border-radius:10px;font-size:14px;background:#FFFFFF;color:#1A1A1A}
 
-.btn-send{background:#e58833;color:white;border:none;padding:12px 28px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;width:100%;margin-top:.5rem;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-send{background:#e58833;color:white;border:none;padding:12px 28px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;width:100%;margin-top:.5rem;display:flex;align-items:center;justify-content:center;gap:8px}
 .btn-send:hover{opacity:.9}
 .btn-send:disabled{opacity:.5;cursor:not-allowed}
 
