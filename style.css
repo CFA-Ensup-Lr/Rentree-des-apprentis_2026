@@ -4,7 +4,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 .screen{display:none}
 .screen.active{display:block}
 
-#screen-intro{text-align:center;padding:2rem 1rem;background-image:url(fond jeu concours.png);background-size:cover;background-position:center;}
+#screen-intro{text-align:center;padding:2rem 1rem;background-image:url(fond-jeu-concours.png);background-size:cover;background-position:center;}
 #screen-intro h1{font-size:24px;font-weight:600;color:#287ec0;margin-bottom:.5rem}
 #screen-intro p{color:#287ec0;font-size:15px;margin-bottom:1.5rem;line-height:1.6}
 .btn-start{background:#e58833;color:#FFFFFF;border:none;padding:12px 28px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer}
