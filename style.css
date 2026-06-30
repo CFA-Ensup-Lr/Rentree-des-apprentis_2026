@@ -54,3 +54,7 @@ body{font-family:var(--font-sans)}
 #send-status.ok{background:#E1F5EE;color:#085041}
 #send-status.err{background:#FCEBEB;color:#791F1F}
 .btn-start{background:#1D9E75;}
+h2 {
+    color: #287ec0;
+    letter-spacing: 1px;
+}
