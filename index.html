@@ -6,8 +6,8 @@
   <h1>Chasse au trésor 🌿</h1>
   <p>Bienvenue à la rentrée des apprentis !<br>Parcours le Jardin des Plantes, trouve les 8 spots, réponds aux questions et tente de gagner !</p>
   <div style="background:#e9eff5;border-radius:14px;padding:1rem;margin-bottom:1.5rem;text-align:left">
-    <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:.5rem">Comment jouer :</p>
-    <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.7">1. Suis les énigmes pour trouver chaque spot sur la carte<br>2. Rends-toi physiquement à cet endroit du jardin<br>3. Réponds à la question sur le partenaire et sur le contrat d'apprentissage<br>4. Passe au spot suivant !</p>
+    <p style="font-size:13px;color:#287ec0;margin-bottom:.5rem">Comment jouer :</p>
+    <p style="font-size:13px;color:#287ec0;line-height:1.7">1. Suis les énigmes pour trouver chaque spot sur la carte<br>2. Rends-toi physiquement à cet endroit du jardin<br>3. Réponds à la question sur le partenaire et sur le contrat d'apprentissage<br>4. Passe au spot suivant !</p>
   </div>
   <button class="btn-start" onclick="startGame()">Commencer la chasse</button>
 </div>
@@ -36,7 +36,7 @@
   <div class="map-header">
     <h2>Spot <span id="spot-num">1</span> / 8</h2>
     <div>
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;text-align:right">Progression</div>
+      <div style="font-size:12px;color:#287ec0;margin-bottom:4px;text-align:right">Progression</div>
       <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
     </div>
   </div>
@@ -44,8 +44,8 @@
     <img src="plan_vierge_jardin_des_plantes.png" alt="Plan du Jardin des Plantes de Montpellier">
     <div id="spots-container"></div>
   </div>
-  <div style="margin-top:1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;font-size:13px;color:var(--color-text-secondary)">
-    <span style="color:var(--color-text-primary);font-weight:500">Spot actif :</span> le spot vert clignote sur la carte. Appuie dessus pour voir l'énigme !
+  <div style="margin-top:1rem;background:#e9eff5;border-radius:10px;padding:12px;font-size:13px;color:#287ec0">
+     <span style="color:#1A1A1A;font-weight:500">Spot actif :</span> le spot vert clignote sur la carte. Appuie dessus pour voir l'énigme !
   </div>
 </div>
 
@@ -58,15 +58,15 @@
     <div class="feedback" id="feedback" style="display:none"></div>
     <button class="btn-next" id="btn-next" onclick="nextSpot()">Spot suivant →</button>
   </div>
-  <button onclick="showMap()" style="margin-top:1rem;width:100%;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:10px;font-size:14px;color:var(--color-text-secondary);cursor:pointer">← Retour à la carte</button>
+  <button onclick="showMap()" style="margin-top:1rem;width:100%;background:transparent;border:1px solid #96bbda;border-radius:10px;padding:10px;font-size:14px;color:#287ec0;cursor:pointer">← Retour à la carte</button>
 </div>
 
 <div id="screen-win" class="screen">
   <div style="font-size:48px;margin-bottom:1rem">🎉</div>
   <h2>Bravo, tu as terminé !</h2>
-  <p style="color:var(--color-text-secondary);font-size:15px;margin-bottom:.5rem;line-height:1.6">Tu as parcouru tout le Jardin des Plantes et répondu aux 8 questions.</p>
+  <p style="color:#287ec0;font-size:15px;margin-bottom:.5rem;line-height:1.6">Tu as parcouru tout le Jardin des Plantes et répondu aux 8 questions.</p>
   <div class="win-score" id="win-score"></div>
-  <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem;margin-bottom:1.5rem;text-align:left">
+  <div style="background:#e9eff5;border-radius:14px;padding:1rem;margin-bottom:1.5rem;text-align:left">
     <div class="form-group" style="margin-bottom:.75rem">
       <label>Nom complet</label>
       <input type="text" id="win-name-display" readonly>
