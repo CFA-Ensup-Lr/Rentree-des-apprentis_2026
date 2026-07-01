@@ -17,7 +17,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
   align-items:center;
 }
 #screen-intro h1{font-size:28px;font-weight:700;color:#FFFFFF;margin-bottom:.5rem;text-shadow:0 2px 8px rgba(0,0,0,.5)}
-#screen-intro p{color:#FFFFFF;font-size:15px;margin-bottom:1.5rem;line-height:1.6;max-width:90%}
+#screen-intro p{color:#FFFFFF;font-size:15px;font-weight:400;margin-bottom:1.5rem;line-height:1.6;max-width:90%}
 .btn-start{background:#e58833;color:#FFFFFF;border:none;padding:12px 28px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer}
 .btn-start:hover{opacity:.85}
 
