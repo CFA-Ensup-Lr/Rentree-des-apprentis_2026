@@ -125,8 +125,17 @@ function saveName(){
 }
 
 function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  const current = document.querySelector('.screen.active');
+  const next = document.getElementById(id);
+  if(current && current !== next){
+    current.classList.add('exit');
+    setTimeout(()=>{
+      current.classList.remove('active','exit');
+      current.style.display='none';
+    },350);
+  }
+  next.style.display='block';
+  setTimeout(()=>next.classList.add('active'),10);
 }
 
 function showMap(){renderMap();showScreen('screen-map')}
