@@ -15,6 +15,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
   flex-direction:column;
   justify-content:center;
   align-items:center;
+  position:relative;
+}
+#screen-intro.active::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,0.35);
+  z-index:0;
+}
+
+#screen-intro.active > *{
+  position:relative;
+  z-index:1;
 }
 #screen-intro h1{font-size:28px;font-weight:700;color:#FFFFFF;margin-bottom:.5rem;text-shadow:0 2px 8px rgba(0,0,0,.5)}
 #screen-intro p{color:#FFFFFF;font-size:15px;font-weight:400;margin-bottom:1.5rem;line-height:1.6;max-width:90%}
