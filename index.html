@@ -192,12 +192,12 @@ function renderSubMap(id){
 
         else if(i===currentSubSpot){
 
-            div.classList.add("active");
-            div.textContent=i+1;
+    div.classList.add("active");
+    div.textContent=i+1;
 
-            div.onclick=()=>alert("Sous spot "+(i+1));
+    div.onclick=()=>showSubQuestion(id,i);
 
-        }
+}
 
         else{
 
