@@ -167,6 +167,52 @@ function showSubMap(spot){
 
 }
 
+
+function renderSubMap(id){
+
+    const container = document.getElementById("subspots-container");
+
+    container.innerHTML="";
+
+    SUBSPOTS[id].forEach((s,i)=>{
+
+        const div=document.createElement("div");
+
+        div.className="spot";
+
+        div.style.left=s.x;
+        div.style.top=s.y;
+
+        if(i<currentSubSpot){
+
+            div.classList.add("done");
+            div.textContent="✓";
+
+        }
+
+        else if(i===currentSubSpot){
+
+            div.classList.add("active");
+            div.textContent=i+1;
+
+            div.onclick=()=>showSubQuestion(id,i);
+
+        }
+
+        else{
+
+            div.classList.add("locked");
+            div.textContent="🔒";
+
+        }
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
 function startGame(){showScreen('screen-name')}
 
 function saveName(){
