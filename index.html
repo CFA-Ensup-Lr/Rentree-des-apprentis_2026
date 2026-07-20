@@ -148,7 +148,24 @@ const SUBSPOTS = {
 
 };
 
-let currentSpot=0,answered=[],answered_correct=[],playerName="",playerSite="";
+let currentSpot = 0;
+let currentSubSpot = 0;
+
+let answered = [];
+let answered_correct = [];
+
+let playerName = "";
+let playerSite = "";
+
+function showSubMap(spot){
+
+    currentSubSpot = 0;
+
+    renderSubMap(spot);
+
+    showScreen("screen-submap");
+
+}
 
 function startGame(){showScreen('screen-name')}
 
