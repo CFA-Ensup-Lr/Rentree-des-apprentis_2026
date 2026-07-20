@@ -196,7 +196,15 @@ function renderMap(){
       const lbl=document.createElement('div');
       lbl.className='spot-label';lbl.textContent=s.label;
       div.appendChild(lbl);
-      div.onclick=()=>showQuestion(i);
+      if(i===0){
+
+    div.onclick = ()=>showSubMap(1);
+
+}else{
+
+    div.onclick = ()=>showQuestion(i);
+
+};
     }
     container.appendChild(div);
   });
