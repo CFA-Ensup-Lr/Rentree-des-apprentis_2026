@@ -120,6 +120,34 @@ const SPOTS = [
   {id:8,label:"Entrée principale",x:"50%",y:"88%",riddle:"Tu es presque au bout ! Reviens là où tout a commencé : l'entrée principale du Jardin des Plantes, Boulevard Henri IV. Le trésor t'attend.",question:"Quel est le rôle du maître d'apprentissage ?",choices:["Uniquement signer le contrat","Former l'apprenti, suivre sa progression et faire le lien avec le CFA","Payer le salaire de l'apprenti","Évaluer les examens au CFA"],correct:1,feedback:"Le maître d'apprentissage forme l'apprenti au métier, suit sa progression, et fait le lien avec le CFA tout au long du contrat."}
 ];
 
+const SUBSPOTS = {
+
+    1: [
+
+        {
+            id:1,
+            x:"42%",
+            y:"63%",
+            label:"Sous spot 1",
+            question:"....",
+            choices:["A","B","C"],
+            correct:1
+        },
+
+        {
+            id:2,
+            x:"58%",
+            y:"38%",
+            label:"Sous spot 1",
+            question:"....",
+            choices:["A","B","C"],
+            correct:1
+        }
+
+    ]
+
+};
+
 let currentSpot=0,answered=[],answered_correct=[],playerName="",playerSite="";
 
 function startGame(){showScreen('screen-name')}
