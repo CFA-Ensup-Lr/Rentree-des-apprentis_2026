@@ -154,6 +154,7 @@ const SUBSPOTS = {
 
 let currentSpot = 0;
 let currentSubSpot = 0;
+let inSubMap = false;
 
 let answered = [];
 let answered_correct = [];
@@ -217,6 +218,8 @@ function renderSubMap(id){
 }
 
 function showSubQuestion(spotId, subId){
+
+    inSubMap = true;
 
     const s = SUBSPOTS[spotId][subId];
 
@@ -345,6 +348,7 @@ function renderMap(){
 }
 
 function showQuestion(idx){
+  inSubMap = false;
   const s=SPOTS[idx];
   document.getElementById('q-location-name').textContent=s.label;
   document.getElementById('q-riddle').textContent=s.riddle;
@@ -395,18 +399,31 @@ function nextSpot(){
 
 function nextAction(){
 
-    // Si on est dans la carte zoomée
-    if(currentSubSpot < SUBSPOTS[1].length){
+    // Si on répond à une question d'un sous-spot
+    if(inSubMap){
 
-        renderSubMap(1);
-        showScreen('screen-submap');
+        if(currentSubSpot < SUBSPOTS[1].length){
+
+            renderSubMap(1);
+            showScreen('screen-submap');
+
+        } 
+        else {
+
+            // Tous les sous-spots sont terminés
+            currentSpot++;
+            inSubMap = false;
+
+            renderMap();
+            showScreen('screen-map');
+
+        }
 
     } 
     else {
 
-        currentSpot++;
-        renderMap();
-        showScreen('screen-map');
+        // Question classique des spots principaux
+        nextSpot();
 
     }
 
