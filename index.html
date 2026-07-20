@@ -64,7 +64,7 @@
     <p class="q-text" id="q-text"></p>
     <div class="choices" id="choices"></div>
     <div class="feedback" id="feedback" style="display:none"></div>
-    <button class="btn-next" id="btn-next" onclick="nextSpot()">Spot suivant →</button>
+    <button class="btn-next" id="btn-next" onclick="nextAction()">Prochain spot →</button>
   </div>
   <button onclick="showMap()" style="margin-top:1rem;width:100%;background:transparent;border:1px solid #96bbda;border-radius:10px;padding:10px;font-size:14px;color:#287ec0;cursor:pointer">← Retour à la carte</button>
 </div>
@@ -212,6 +212,73 @@ function renderSubMap(id){
 
 }
 
+function showSubQuestion(spotId, subId){
+
+    const s = SUBSPOTS[spotId][subId];
+
+    document.getElementById('q-location-name').textContent = s.label;
+    document.getElementById('q-riddle').textContent = "";
+    document.getElementById('q-text').textContent = s.question;
+
+    const choicesEl = document.getElementById('choices');
+    choicesEl.innerHTML = "";
+
+    s.choices.forEach((c,i)=>{
+
+        const btn=document.createElement('button');
+
+        btn.className="choice";
+        btn.textContent=c;
+
+        btn.onclick=()=>selectSubAnswer(spotId,subId,i,btn);
+
+        choicesEl.appendChild(btn);
+
+    });
+
+    document.getElementById('feedback').style.display='none';
+    document.getElementById('btn-next').style.display='none';
+
+    showScreen('screen-question');
+
+}
+
+function selectSubAnswer(spotId,subId,choiceIdx,btn){
+
+    const s = SUBSPOTS[spotId][subId];
+
+    document.querySelectorAll('.choice').forEach(c=>{
+        c.style.pointerEvents='none';
+    });
+
+
+    const fb=document.getElementById('feedback');
+    fb.style.display='block';
+
+
+    if(choiceIdx===s.correct){
+
+        btn.classList.add('selected-correct');
+
+        fb.className='feedback correct';
+        fb.innerHTML="<strong>Bonne réponse !</strong>";
+
+        currentSubSpot++;
+
+    } else {
+
+        btn.classList.add('selected-wrong');
+
+        fb.className='feedback wrong';
+        fb.innerHTML="<strong>Mauvaise réponse !</strong>";
+
+    }
+
+
+    document.getElementById('btn-next').style.display='block';
+    document.getElementById('btn-next').textContent="Retour à la carte";
+
+}
 
 function startGame(){showScreen('screen-name')}
 
@@ -320,6 +387,25 @@ function nextSpot(){
   currentSpot++;
   if(currentSpot>=SPOTS.length)showWin();
   else{renderMap();showScreen('screen-map');}
+}
+
+function nextAction(){
+
+    // Si on est dans la carte zoomée
+    if(currentSubSpot < SUBSPOTS[1].length){
+
+        renderSubMap(1);
+        showScreen('screen-submap');
+
+    } 
+    else {
+
+        currentSpot++;
+        renderMap();
+        showScreen('screen-map');
+
+    }
+
 }
 
 function showWin(){
