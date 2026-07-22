@@ -119,35 +119,36 @@ const SPOTS = [
 ];
 
 const SUBSPOTS = {
-
-    1: [
-
-        {
-    id:1,
-    x:"42%",
-    y:"63%",
-    label:"Sous spot 1",
-    question:"Quel est le rôle d'un CFA ?",
-    choices:[
-        "Former les apprentis",
-        "Vendre des formations uniquement",
-        "Remplacer l'entreprise"
-    ],
-    correct:0
-},
-
-        {
-            id:2,
-            x:"58%",
-            y:"38%",
-            label:"Sous spot 1",
-            question:"....",
-            choices:["A","B","C"],
-            correct:1
-        }
-
-    ]
-
+  1: [
+    {
+      id: 1,
+      x: "42%",
+      y: "63%",
+      label: "Stand CFA Ensup-LR",
+      question: "Le CFA Ensup-LR est un CFA dit 'hors murs'. Qu'est-ce que cela signifie ?",
+      choices: [
+        "Il n'a pas de bâtiment propre et s'appuie sur les locaux des universités partenaires",
+        "Il propose uniquement des formations en ligne",
+        "Il est situé en dehors de Montpellier"
+      ],
+      correct: 0,
+      feedback: "Le CFA Ensup-LR est public et hors murs : il n'a pas ses propres locaux de formation et s'appuie sur les universités et grandes écoles partenaires."
+    },
+    {
+      id: 2,
+      x: "58%",
+      y: "38%",
+      label: "Question alternance",
+      question: "Pendant les 45 premiers jours d'un contrat d'apprentissage, qui peut rompre le contrat librement ?",
+      choices: [
+        "Uniquement l'apprenti",
+        "Uniquement l'employeur",
+        "L'employeur ou l'apprenti, librement"
+      ],
+      correct: 2,
+      feedback: "Pendant les 45 premiers jours en entreprise, c'est la période d'essai : l'employeur comme l'apprenti peuvent rompre le contrat sans justification ni préavis."
+    }
+  ]
 };
 
 let currentSpot = 0;
