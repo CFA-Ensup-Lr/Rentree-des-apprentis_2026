@@ -252,7 +252,32 @@ function selectSubAnswer(spotId, subId, questionIndex, choiceIdx, btn) {
     btn.classList.add('selected-wrong');
     document.querySelectorAll('.choice')[q.correct].classList.add('reveal-correct');
     fb.className = 'feedback wrong';
-    fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (q.feedback ||
+    fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (q.feedback || "");
+  }
+  const btnNext = document.getElementById('btn-next');
+  btnNext.style.display = 'block';
+  const isLastQuestion = questionIndex === s.questions.length - 1;
+  const isLastSubspot = subId === SUBSPOTS[spotId].length - 1;
+  if (!isLastQuestion) {
+    btnNext.textContent = "Question suivante →";
+    btnNext.onclick = () => showSubQuestionStep(spotId, subId, questionIndex + 1);
+  } else if (!isLastSubspot) {
+    btnNext.textContent = "Spot suivant →";
+    btnNext.onclick = () => {
+      currentSubSpot++;
+      renderSubMap(spotId);
+      showScreen('screen-submap');
+    };
+  } else {
+    btnNext.textContent = "Continuer →";
+    btnNext.onclick = () => {
+      currentSpot++;
+      inSubMap = false;
+      renderMap();
+      showScreen('screen-map');
+    };
+  }
+}
 
 function startGame(){showScreen('screen-name')}
 
