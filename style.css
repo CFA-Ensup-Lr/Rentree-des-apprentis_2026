@@ -66,10 +66,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 .spot.active{background:#e58833;color:white;box-shadow:0 0 0 6px rgba(229,136,51,.25);animation:pulse 2s infinite}
 
 #spots-container .spot.active{
-  background:#e58833;
-  width:36px;
-  height:36px;
-  padding:0;
+  background:#e58833!important;
+  width:36px!important;
+  height:36px!important;
+  padding:0!important;
 }
 .spot.done{background:#287ec0;color:#e9eff5;cursor:default;opacity:.7}
 .spot.locked{background:#a9c5d3;color:#FFFFFF;cursor:not-allowed;border-color:#96bbda}
