@@ -186,13 +186,17 @@ function renderSubMap(id){
 
         }
 
-        else if(i===currentSubSpot){
-
+else if(i===currentSubSpot){
     div.classList.add("active");
-    div.textContent=i+1;
-
+    if(s.logo){
+        const img = document.createElement('img');
+        img.src = s.logo;
+        img.alt = s.label;
+        div.appendChild(img);
+    } else {
+        div.textContent = i+1;
+    }
     div.onclick=()=>showSubQuestion(id,i);
-
 }
 
         else{
