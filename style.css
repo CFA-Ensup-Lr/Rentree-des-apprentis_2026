@@ -116,3 +116,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 #screen-map{padding:1rem}
 #screen-question{padding:1rem}
 #screen-win{padding:2rem 1rem}
+
+.spot.active img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:50%;
+}
