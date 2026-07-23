@@ -123,3 +123,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
   object-fit:contain;
   border-radius:50%;
 }
+
+.spot.active{
+  width:56px;
+  height:56px;
+  background:#FFFFFF;
+  color:white;
+  box-shadow:0 0 0 6px rgba(229,136,51,.25);
+  animation:pulse 2s infinite;
+  padding:4px;
+}
