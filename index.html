@@ -140,9 +140,32 @@ const SUBSPOTS = {
           feedback: "C'est la période d'essai : l'employeur comme l'apprenti peuvent rompre sans justification ni préavis."
         }
       ]
+    },
+    {
+      id: 2,
+      x: "42%",
+      y: "70%",
+      logo: "logo-cap-emploi.png",
+      label: "Stand CAP Emploi",
+      questions: [
+        {
+          question: "CAP Emploi est un organisme spécialisé dans l'accompagnement vers l'emploi. À quel public s'adresse-t-il ?",
+          choices: ["Aux jeunes diplômés sans expérience", "Aux personnes en situation de handicap", "Aux demandeurs d'emploi de longue durée"],
+          correct: 1,
+          feedback: "CAP Emploi accompagne les personnes en situation de handicap dans leur recherche d'emploi et leur maintien dans l'emploi."
+        },
+        {
+          question: "Un apprenti en situation de handicap peut-il bénéficier d'aménagements spécifiques dans son contrat ?",
+          choices: ["Non, le contrat est identique pour tous", "Oui, notamment sur la durée du contrat et les conditions de travail", "Oui, mais uniquement sur la durée du contrat"],
+          correct: 1,
+          feedback: "Un apprenti RQTH peut bénéficier d'aménagements : durée du contrat allongée, aménagement du poste, aides financières pour l'employeur."
+        }
+      ]
     }
   ]
 };
+
+Ajuste le x et y de CAP Emploi selon où tu veux le placer sur ta carte zoomée.
   
 let currentSpot = 0;
 let currentSubSpot = 0;
