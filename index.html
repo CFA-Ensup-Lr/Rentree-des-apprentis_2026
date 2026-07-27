@@ -153,49 +153,46 @@
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqevdlen";
 
 const SPOTS = [
-  
-  {id:8,label:"Entrée principale",x:"50%",y:"88%",bg:"bg-entree.jpg",
-    riddle:"Tu es presque au bout ! Reviens là où tout a commencé : l'entrée principale du Jardin des Plantes, Boulevard Henri IV. Le trésor t'attend.",
-    question:"Quel est le rôle du maître d'apprentissage ?",
-    choices:["Uniquement signer le contrat","Former l'apprenti, suivre sa progression et faire le lien avec le CFA","Payer le salaire de l'apprenti","Évaluer les examens au CFA"],correct:1,
-    feedback:"Le maître d'apprentissage forme l'apprenti au métier, suit sa progression, et fait le lien avec le CFA tout au long du contrat."}
-  
   {id:1,label:"La Noria",x:"28%",y:"72%",bg:"bg-noria.jpg",
     riddle:"Je suis un ancien puits entouré d'arcades, orné de plantes succulentes. Tout près de moi dort un mystérieux tombeau... Rends-toi à la Noria et au tombeau de Narcissa.",
     question:"Quel est le statut juridique de l'apprenti ?",
     choices:["Étudiant salarié","Stagiaire","Salarié lié par un contrat de travail","Fonctionnaire stagiaire"],correct:2,
     feedback:"L'apprenti est un salarié à part entière ! Il signe un contrat de travail (le contrat d'apprentissage) et bénéficie des mêmes droits qu'un salarié."},
-
-   {id:6,label:"Bambouseraie",x:"60%",y:"58%",bg:"bg-bambouseraie.jpg",
-    riddle:"Un coin de verdure dense et exotique au cœur du jardin, où les tiges vertes montent haut vers le ciel. Rends-toi à la bambouseraie.",
-    question:"Quelles aides peuvent faciliter l'accès au logement pour un apprenti ?",
-    choices:["Uniquement le 1% logement patronal","L'APL et Mobili-Jeune","Seulement les aides de la région","L'apprenti n'a aucune aide au logement"],correct:1,
-    feedback:"L'apprenti peut bénéficier de l'APL via la CAF, et de Mobili-Jeune (aide d'Action Logement pour les moins de 30 ans en alternance). Il peut aussi solliciter les résidences CROUS."},
-  
   {id:2,label:"Monument Rabelais",x:"44%",y:"68%",bg:"bg-rabelais.jpg",
     riddle:"Au pied d'une montagne artificielle plantée d'arbustes méditerranéens, un monument rend hommage à un célèbre carabin. Rends-toi devant le monument François Rabelais.",
     question:"À combien de semaines de congés payés par an a droit un apprenti ?",
     choices:["2 semaines","4 semaines","5 semaines","6 semaines"],correct:2,
     feedback:"Comme tout salarié, l'apprenti a droit à 5 semaines de congés payés par an, soit 2,5 jours par mois travaillé."},
-
-  {id:4,label:"Serre Martins",x:"72%",y:"22%",bg:"bg-serre-martins.jpg",
-    riddle:"Au nord du jardin, une grande serre abrite cactus, agaves et aloès venus des régions sèches du monde entier. Rends-toi devant la serre Martins.",
-    question:"Comment évolue le salaire d'un apprenti ?",
-    choices:["Il est fixe pendant toute la durée du contrat","Il augmente selon l'âge et l'année d'exécution du contrat","Il est librement négocié avec l'entreprise","Il est identique au SMIC pour tous les apprentis"],correct:1,
-    feedback:"Le salaire de l'apprenti est calculé en pourcentage du SMIC et évolue selon l'âge de l'apprenti ET l'année d'exécution du contrat."},
- 
   {id:3,label:"Bassin aux lotus",x:"56%",y:"40%",bg:"bg-bassin-lotus.jpg",
     riddle:"Près d'un grand bassin où fleurissent des lotus, se dresse une rotonde ancienne. André Gide et Paul Valéry s'y promenaient. Rends-toi au bassin aux lotus.",
     question:"De quel document l'apprenti bénéficie-t-il pour des réductions sur les transports, la culture et la restauration universitaire ?",
     choices:["La carte Vitale","La carte étudiant","Le passeport mobilité","La carte de réduction SNCF"],correct:1,
     feedback:"L'apprenti bénéficie de la carte étudiant, qui donne accès aux réductions sur les transports, les activités culturelles et les restaurants universitaires du CROUS."},
- 
-  {id:7,label:"Pavillon astronomique",x:"55%",y:"30%",bg:"bg-pavillon.jpg",
+  {id:4,label:"Serre Martins",x:"72%",y:"22%",bg:"bg-serre-martins.jpg",
+    riddle:"Au nord du jardin, une grande serre abrite cactus, agaves et aloès venus des régions sèches du monde entier. Rends-toi devant la serre Martins.",
+    question:"Comment évolue le salaire d'un apprenti ?",
+    choices:["Il est fixe pendant toute la durée du contrat","Il augmente selon l'âge et l'année d'exécution du contrat","Il est librement négocié avec l'entreprise","Il est identique au SMIC pour tous les apprentis"],correct:1,
+    feedback:"Le salaire de l'apprenti est calculé en pourcentage du SMIC et évolue selon l'âge de l'apprenti ET l'année d'exécution du contrat."},
+  {id:5,label:"L'Orangerie",x:"30%",y:"50%",bg:"bg-orangerie.jpg",
+    riddle:"Construite en 1806 par Claude-Mathieu de la Gardette, ce grand bâtiment sobre abrite agrumes et cycadales l'hiver. Rends-toi devant l'Orangerie.",
+    question:"À qui l'apprenti doit-il s'adresser en premier en cas de maladie ?",
+    choices:["Au directeur du CFA","À son employeur / maître d'apprentissage","À la Sécurité sociale directement","Au médiateur de l'apprentissage"],correct:1,
+    feedback:"En cas de maladie, l'apprenti doit prévenir son employeur dans les 48h, puis envoyer son arrêt de travail à l'entreprise ET à la CPAM."},
+  {id:6,label:"Bambouseraie",x:"60%",y:"58%",bg:"bg-bambouseraie.jpg",
+    riddle:"Un coin de verdure dense et exotique au cœur du jardin, où les tiges vertes montent haut vers le ciel. Rends-toi à la bambouseraie.",
+    question:"Quelles aides peuvent faciliter l'accès au logement pour un apprenti ?",
+    choices:["Uniquement le 1% logement patronal","L'APL et Mobili-Jeune","Seulement les aides de la région","L'apprenti n'a aucune aide au logement"],correct:1,
+    feedback:"L'apprenti peut bénéficier de l'APL via la CAF, et de Mobili-Jeune (aide d'Action Logement pour les moins de 30 ans en alternance). Il peut aussi solliciter les résidences CROUS."},
+  {id:7,label:"Observatoire",x:"55%",y:"30%",bg:"bg-observatoire.jpg",
     riddle:"Surnommé « le marabout algérien », ce petit pavillon n'a jamais servi à observer les étoiles mais à des études spectroscopiques. Rends-toi devant l'observatoire.",
     question:"À partir de quel âge peut-on bénéficier de l'aide au permis B pour les apprentis ?",
     choices:["16 ans","17 ans","18 ans","15 ans"],correct:0,
     feedback:"L'aide au permis B pour les apprentis est accessible dès 16 ans, avec une prise en charge par l'employeur et/ou l'État."},
- 
+  {id:8,label:"Entrée principale",x:"50%",y:"88%",bg:"bg-entree.jpg",
+    riddle:"Tu es presque au bout ! Reviens là où tout a commencé : l'entrée principale du Jardin des Plantes, Boulevard Henri IV. Le trésor t'attend.",
+    question:"Quel est le rôle du maître d'apprentissage ?",
+    choices:["Uniquement signer le contrat","Former l'apprenti, suivre sa progression et faire le lien avec le CFA","Payer le salaire de l'apprenti","Évaluer les examens au CFA"],correct:1,
+    feedback:"Le maître d'apprentissage forme l'apprenti au métier, suit sa progression, et fait le lien avec le CFA tout au long du contrat."}
 ];
 
 /* Stands partenaires — déclenchés depuis le spot "La Noria".
