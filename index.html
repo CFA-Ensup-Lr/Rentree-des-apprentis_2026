@@ -20,7 +20,7 @@
       <ol>
         <li><span class="num">1</span><span>Suis les énigmes pour repérer chaque spot sur la carte</span></li>
         <li><span class="num">2</span><span>Rends-toi physiquement à cet endroit du jardin</span></li>
-        <li><span class="num">3</span><span>Réponds à une question sur l'apprentissage (et sur le stand partenaire, à la Noria)</span></li>
+        <li><span class="num">3</span><span>Réponds à une question sur l'apprentissage (et découvre le village des stands partenaires en chemin)</span></li>
         <li><span class="num">4</span><span>Passe au spot suivant, jusqu'au trésor final</span></li>
       </ol>
     </div>
@@ -152,10 +152,11 @@
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqevdlen";
 
-/* Ordre du parcours : Entrée principale -> Rabelais -> Noria (stands)
-   -> Bambouseraie -> Serre Martins -> Observatoire -> Bassin aux lotus.
-   Les coordonnées x/y restent celles de chaque lieu réel sur le plan
-   du Jardin des Plantes ; seul l'ordre de passage change. */
+/* Ordre du parcours : Entrée principale -> Monument Rabelais -> Stand
+   des partenaires -> La Noria -> Bambouseraie -> Serre Martins ->
+   Bassin aux lotus. Les coordonnées x/y restent celles de chaque lieu
+   réel sur le plan du Jardin des Plantes ; le stand des partenaires
+   est positionné juste à côté de la Noria (même zone du jardin). */
 const SPOTS = [
   {id:1,label:"Entrée principale",x:"50%",y:"88%",bg:"bg-entree.jpg",
     riddle:"Bienvenue au Jardin des Plantes ! Ton aventure commence là où tout débute : l'entrée principale, Boulevard Henri IV.",
@@ -167,26 +168,23 @@ const SPOTS = [
     question:"À combien de semaines de congés payés par an a droit un apprenti ?",
     choices:["2 semaines","4 semaines","5 semaines","6 semaines"],correct:2,
     feedback:"Comme tout salarié, l'apprenti a droit à 5 semaines de congés payés par an, soit 2,5 jours par mois travaillé."},
-  {id:3,label:"La Noria",x:"28%",y:"72%",bg:"bg-noria.jpg",hasStands:true,
-    riddle:"Je suis un ancien puits entouré d'arcades, orné de plantes succulentes. Tout près de moi dort un mystérieux tombeau... Rends-toi à la Noria et au tombeau de Narcissa. C'est aussi ici que t'attend le village des stands partenaires !",
+  {id:3,label:"Stand des partenaires",x:"20%",y:"80%",bg:"bg-village-partenaires.jpg",hasStands:true,
+    riddle:"Un village de tentes s'est installé pour l'occasion, juste à côté de la Noria. De nombreux partenaires de l'apprentissage t'y attendent avec leurs questions. Rends-toi au village des stands partenaires !"},
+  {id:4,label:"La Noria",x:"28%",y:"72%",bg:"bg-noria.jpg",
+    riddle:"Je suis un ancien puits entouré d'arcades, orné de plantes succulentes. Tout près de moi dort un mystérieux tombeau... Rends-toi à la Noria et au tombeau de Narcissa.",
     question:"Quel est le statut juridique de l'apprenti ?",
     choices:["Étudiant salarié","Stagiaire","Salarié lié par un contrat de travail","Fonctionnaire stagiaire"],correct:2,
     feedback:"L'apprenti est un salarié à part entière ! Il signe un contrat de travail (le contrat d'apprentissage) et bénéficie des mêmes droits qu'un salarié."},
-  {id:4,label:"Bambouseraie",x:"60%",y:"58%",bg:"bg-bambouseraie.jpg",
+  {id:5,label:"Bambouseraie",x:"60%",y:"58%",bg:"bg-bambouseraie.jpg",
     riddle:"Un coin de verdure dense et exotique au cœur du jardin, où les tiges vertes montent haut vers le ciel. Rends-toi à la bambouseraie.",
     question:"Quelles aides peuvent faciliter l'accès au logement pour un apprenti ?",
     choices:["Uniquement le 1% logement patronal","L'APL et Mobili-Jeune","Seulement les aides de la région","L'apprenti n'a aucune aide au logement"],correct:1,
     feedback:"L'apprenti peut bénéficier de l'APL via la CAF, et de Mobili-Jeune (aide d'Action Logement pour les moins de 30 ans en alternance). Il peut aussi solliciter les résidences CROUS."},
-  {id:5,label:"Serre Martins",x:"72%",y:"22%",bg:"bg-serre-martins.jpg",
+  {id:6,label:"Serre Martins",x:"72%",y:"22%",bg:"bg-serre-martins.jpg",
     riddle:"Au nord du jardin, une grande serre abrite cactus, agaves et aloès venus des régions sèches du monde entier. Rends-toi devant la serre Martins.",
     question:"Comment évolue le salaire d'un apprenti ?",
     choices:["Il est fixe pendant toute la durée du contrat","Il augmente selon l'âge et l'année d'exécution du contrat","Il est librement négocié avec l'entreprise","Il est identique au SMIC pour tous les apprentis"],correct:1,
     feedback:"Le salaire de l'apprenti est calculé en pourcentage du SMIC et évolue selon l'âge de l'apprenti ET l'année d'exécution du contrat."},
-  {id:6,label:"Observatoire",x:"55%",y:"30%",bg:"bg-observatoire.jpg",
-    riddle:"Surnommé « le marabout algérien », ce petit pavillon n'a jamais servi à observer les étoiles mais à des études spectroscopiques. Rends-toi devant l'observatoire.",
-    question:"À partir de quel âge peut-on bénéficier de l'aide au permis B pour les apprentis ?",
-    choices:["16 ans","17 ans","18 ans","15 ans"],correct:0,
-    feedback:"L'aide au permis B pour les apprentis est accessible dès 16 ans, avec une prise en charge par l'employeur et/ou l'État."},
   {id:7,label:"Bassin aux lotus",x:"56%",y:"40%",bg:"bg-bassin-lotus.jpg",
     riddle:"Près d'un grand bassin où fleurissent des lotus, se dresse une rotonde ancienne. André Gide et Paul Valéry s'y promenaient. Rends-toi au bassin aux lotus. Le trésor n'est plus très loin !",
     question:"De quel document l'apprenti bénéficie-t-il pour des réductions sur les transports, la culture et la restauration universitaire ?",
