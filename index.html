@@ -14,7 +14,7 @@
   <div id="screen-intro" class="screen active">
     <div class="intro-badge">🌿 Rentrée des apprentis</div>
     <h1>Chasse au trésor<br>du Jardin des Plantes</h1>
-    <p class="intro-desc">Parcours le jardin, trouve les 8 spots, réponds aux énigmes et tente de gagner !</p>
+    <p class="intro-desc">Parcours le jardin, trouve les 7 spots, réponds aux énigmes et tente de gagner !</p>
     <div class="intro-steps">
       <p class="label">Comment jouer</p>
       <ol>
@@ -59,7 +59,7 @@
   <div id="screen-map" class="screen">
     <div class="topbar">
       <button class="btn-back" id="back-map" onclick="goBack()" aria-label="Retour">‹</button>
-      <div class="topbar-title"><div class="eyebrow">Spot <span id="spot-num">1</span> / 8</div><h2 id="map-title">Trouve le prochain spot</h2></div>
+      <div class="topbar-title"><div class="eyebrow">Spot <span id="spot-num">1</span> / 7</div><h2 id="map-title">Trouve le prochain spot</h2></div>
     </div>
     <div class="map-body">
       <div class="map-header-row">
@@ -152,56 +152,56 @@
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqevdlen";
 
+/* Ordre du parcours : Entrée principale -> Rabelais -> Noria (stands)
+   -> Bambouseraie -> Serre Martins -> Observatoire -> Bassin aux lotus.
+   Les coordonnées x/y restent celles de chaque lieu réel sur le plan
+   du Jardin des Plantes ; seul l'ordre de passage change. */
 const SPOTS = [
-  {id:1,label:"La Noria",x:"28%",y:"72%",bg:"bg-noria.jpg",
-    riddle:"Je suis un ancien puits entouré d'arcades, orné de plantes succulentes. Tout près de moi dort un mystérieux tombeau... Rends-toi à la Noria et au tombeau de Narcissa.",
-    question:"Quel est le statut juridique de l'apprenti ?",
-    choices:["Étudiant salarié","Stagiaire","Salarié lié par un contrat de travail","Fonctionnaire stagiaire"],correct:2,
-    feedback:"L'apprenti est un salarié à part entière ! Il signe un contrat de travail (le contrat d'apprentissage) et bénéficie des mêmes droits qu'un salarié."},
+  {id:1,label:"Entrée principale",x:"50%",y:"88%",bg:"bg-entree.jpg",
+    riddle:"Bienvenue au Jardin des Plantes ! Ton aventure commence là où tout débute : l'entrée principale, Boulevard Henri IV.",
+    question:"Quel est le rôle du maître d'apprentissage ?",
+    choices:["Uniquement signer le contrat","Former l'apprenti, suivre sa progression et faire le lien avec le CFA","Payer le salaire de l'apprenti","Évaluer les examens au CFA"],correct:1,
+    feedback:"Le maître d'apprentissage forme l'apprenti au métier, suit sa progression, et fait le lien avec le CFA tout au long du contrat."},
   {id:2,label:"Monument Rabelais",x:"44%",y:"68%",bg:"bg-rabelais.jpg",
     riddle:"Au pied d'une montagne artificielle plantée d'arbustes méditerranéens, un monument rend hommage à un célèbre carabin. Rends-toi devant le monument François Rabelais.",
     question:"À combien de semaines de congés payés par an a droit un apprenti ?",
     choices:["2 semaines","4 semaines","5 semaines","6 semaines"],correct:2,
     feedback:"Comme tout salarié, l'apprenti a droit à 5 semaines de congés payés par an, soit 2,5 jours par mois travaillé."},
-  {id:3,label:"Bassin aux lotus",x:"56%",y:"40%",bg:"bg-bassin-lotus.jpg",
-    riddle:"Près d'un grand bassin où fleurissent des lotus, se dresse une rotonde ancienne. André Gide et Paul Valéry s'y promenaient. Rends-toi au bassin aux lotus.",
-    question:"De quel document l'apprenti bénéficie-t-il pour des réductions sur les transports, la culture et la restauration universitaire ?",
-    choices:["La carte Vitale","La carte étudiant","Le passeport mobilité","La carte de réduction SNCF"],correct:1,
-    feedback:"L'apprenti bénéficie de la carte étudiant, qui donne accès aux réductions sur les transports, les activités culturelles et les restaurants universitaires du CROUS."},
-  {id:4,label:"Serre Martins",x:"72%",y:"22%",bg:"bg-serre-martins.jpg",
-    riddle:"Au nord du jardin, une grande serre abrite cactus, agaves et aloès venus des régions sèches du monde entier. Rends-toi devant la serre Martins.",
-    question:"Comment évolue le salaire d'un apprenti ?",
-    choices:["Il est fixe pendant toute la durée du contrat","Il augmente selon l'âge et l'année d'exécution du contrat","Il est librement négocié avec l'entreprise","Il est identique au SMIC pour tous les apprentis"],correct:1,
-    feedback:"Le salaire de l'apprenti est calculé en pourcentage du SMIC et évolue selon l'âge de l'apprenti ET l'année d'exécution du contrat."},
-  {id:5,label:"L'Orangerie",x:"30%",y:"50%",bg:"bg-orangerie.jpg",
-    riddle:"Construite en 1806 par Claude-Mathieu de la Gardette, ce grand bâtiment sobre abrite agrumes et cycadales l'hiver. Rends-toi devant l'Orangerie.",
-    question:"À qui l'apprenti doit-il s'adresser en premier en cas de maladie ?",
-    choices:["Au directeur du CFA","À son employeur / maître d'apprentissage","À la Sécurité sociale directement","Au médiateur de l'apprentissage"],correct:1,
-    feedback:"En cas de maladie, l'apprenti doit prévenir son employeur dans les 48h, puis envoyer son arrêt de travail à l'entreprise ET à la CPAM."},
-  {id:6,label:"Bambouseraie",x:"60%",y:"58%",bg:"bg-bambouseraie.jpg",
+  {id:3,label:"La Noria",x:"28%",y:"72%",bg:"bg-noria.jpg",hasStands:true,
+    riddle:"Je suis un ancien puits entouré d'arcades, orné de plantes succulentes. Tout près de moi dort un mystérieux tombeau... Rends-toi à la Noria et au tombeau de Narcissa. C'est aussi ici que t'attend le village des stands partenaires !",
+    question:"Quel est le statut juridique de l'apprenti ?",
+    choices:["Étudiant salarié","Stagiaire","Salarié lié par un contrat de travail","Fonctionnaire stagiaire"],correct:2,
+    feedback:"L'apprenti est un salarié à part entière ! Il signe un contrat de travail (le contrat d'apprentissage) et bénéficie des mêmes droits qu'un salarié."},
+  {id:4,label:"Bambouseraie",x:"60%",y:"58%",bg:"bg-bambouseraie.jpg",
     riddle:"Un coin de verdure dense et exotique au cœur du jardin, où les tiges vertes montent haut vers le ciel. Rends-toi à la bambouseraie.",
     question:"Quelles aides peuvent faciliter l'accès au logement pour un apprenti ?",
     choices:["Uniquement le 1% logement patronal","L'APL et Mobili-Jeune","Seulement les aides de la région","L'apprenti n'a aucune aide au logement"],correct:1,
     feedback:"L'apprenti peut bénéficier de l'APL via la CAF, et de Mobili-Jeune (aide d'Action Logement pour les moins de 30 ans en alternance). Il peut aussi solliciter les résidences CROUS."},
-  {id:7,label:"Observatoire",x:"55%",y:"30%",bg:"bg-observatoire.jpg",
+  {id:5,label:"Serre Martins",x:"72%",y:"22%",bg:"bg-serre-martins.jpg",
+    riddle:"Au nord du jardin, une grande serre abrite cactus, agaves et aloès venus des régions sèches du monde entier. Rends-toi devant la serre Martins.",
+    question:"Comment évolue le salaire d'un apprenti ?",
+    choices:["Il est fixe pendant toute la durée du contrat","Il augmente selon l'âge et l'année d'exécution du contrat","Il est librement négocié avec l'entreprise","Il est identique au SMIC pour tous les apprentis"],correct:1,
+    feedback:"Le salaire de l'apprenti est calculé en pourcentage du SMIC et évolue selon l'âge de l'apprenti ET l'année d'exécution du contrat."},
+  {id:6,label:"Observatoire",x:"55%",y:"30%",bg:"bg-observatoire.jpg",
     riddle:"Surnommé « le marabout algérien », ce petit pavillon n'a jamais servi à observer les étoiles mais à des études spectroscopiques. Rends-toi devant l'observatoire.",
     question:"À partir de quel âge peut-on bénéficier de l'aide au permis B pour les apprentis ?",
     choices:["16 ans","17 ans","18 ans","15 ans"],correct:0,
     feedback:"L'aide au permis B pour les apprentis est accessible dès 16 ans, avec une prise en charge par l'employeur et/ou l'État."},
-  {id:8,label:"Entrée principale",x:"50%",y:"88%",bg:"bg-entree.jpg",
-    riddle:"Tu es presque au bout ! Reviens là où tout a commencé : l'entrée principale du Jardin des Plantes, Boulevard Henri IV. Le trésor t'attend.",
-    question:"Quel est le rôle du maître d'apprentissage ?",
-    choices:["Uniquement signer le contrat","Former l'apprenti, suivre sa progression et faire le lien avec le CFA","Payer le salaire de l'apprenti","Évaluer les examens au CFA"],correct:1,
-    feedback:"Le maître d'apprentissage forme l'apprenti au métier, suit sa progression, et fait le lien avec le CFA tout au long du contrat."}
+  {id:7,label:"Bassin aux lotus",x:"56%",y:"40%",bg:"bg-bassin-lotus.jpg",
+    riddle:"Près d'un grand bassin où fleurissent des lotus, se dresse une rotonde ancienne. André Gide et Paul Valéry s'y promenaient. Rends-toi au bassin aux lotus. Le trésor n'est plus très loin !",
+    question:"De quel document l'apprenti bénéficie-t-il pour des réductions sur les transports, la culture et la restauration universitaire ?",
+    choices:["La carte Vitale","La carte étudiant","Le passeport mobilité","La carte de réduction SNCF"],correct:1,
+    feedback:"L'apprenti bénéficie de la carte étudiant, qui donne accès aux réductions sur les transports, les activités culturelles et les restaurants universitaires du CROUS."}
 ];
 
 /* Stands partenaires — déclenchés depuis le spot "La Noria".
-   Répartis en deux allées : gauche (1-4) puis droite (5-8).
-   x/y sont à ajuster à ton vrai plan de zoom (plan_zoom_noria.png). */
+   16 stands répartis en quinconce (colonne centrale, décalée
+   alternativement à gauche et à droite) sur plan_zoom_noria.png.
+   x/y sont à ajuster à ton vrai plan de zoom si besoin. */
 const SUBSPOTS = {
   1: [
     {
-      id:1, x:"25%", y:"85%", zone:"Allée gauche",
+      id:1, x:"42%", y:"93%", zone:"Stands · côté gauche",
       logo:"logo-cfa.png", label:"Stand 1 — CFA Ensup-LR",
       questions:[
         {
@@ -221,7 +221,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:2, x:"25%", y:"63%", zone:"Allée gauche",
+      id:2, x:"58%", y:"87%", zone:"Stands · côté droit",
       logo:"logo-cap-emploi.png", label:"Stand 2 — CAP Emploi",
       questions:[
         {
@@ -241,7 +241,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:3, x:"25%", y:"41%", zone:"Allée gauche",
+      id:3, x:"42%", y:"81%", zone:"Stands · côté gauche",
       logo:"logo-fds.png", label:"Stand 3 — Faculté des Sciences",
       questions:[
         {
@@ -261,7 +261,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:4, x:"25%", y:"19%", zone:"Allée gauche",
+      id:4, x:"58%", y:"75%", zone:"Stands · côté droit",
       logo:"logo-moma.png", label:"Stand 4 — Montpellier Management (IAE)",
       questions:[
         {
@@ -281,7 +281,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:5, x:"72%", y:"85%", zone:"Allée droite",
+      id:5, x:"42%", y:"69%", zone:"Stands · côté gauche",
       logo:"logo-caf.png", label:"Stand 5 — CAF",
       questions:[
         {
@@ -301,7 +301,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:6, x:"72%", y:"63%", zone:"Allée droite",
+      id:6, x:"58%", y:"63%", zone:"Stands · côté droit",
       logo:"logo-crous.png", label:"Stand 6 — CROUS",
       questions:[
         {
@@ -321,7 +321,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:7, x:"72%", y:"41%", zone:"Allée droite",
+      id:7, x:"42%", y:"57%", zone:"Stands · côté gauche",
       logo:"logo-cpam.png", label:"Stand 7 — CPAM (Assurance Maladie)",
       questions:[
         {
@@ -341,7 +341,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:8, x:"72%", y:"19%", zone:"Allée droite",
+      id:8, x:"58%", y:"51%", zone:"Stands · côté droit",
       logo:"logo-iae.png", label:"Stand 8 — IAE Montpellier",
       questions:[
         {
@@ -357,6 +357,166 @@ const SUBSPOTS = {
           choices:["Le Rectorat","La DREETS / DDETS","La Préfecture"],
           correct:1,
           feedback:"Dans le secteur public, c'est la DREETS / DDETS qui enregistre le contrat d'apprentissage."
+        }
+      ]
+    },
+    {
+      id:9, x:"42%", y:"45%", zone:"Stands · côté gauche",
+      logo:"logo-mission-locale.png", label:"Stand 9 — Mission Locale",
+      questions:[
+        {
+          bg:"bg-missionlocale-q1.jpg",
+          question:"Quel est le public principal accompagné par la Mission Locale ?",
+          choices:["Les cadres en reconversion","Les jeunes de 16 à 25 ans en insertion professionnelle","Les retraités"],
+          correct:1,
+          feedback:"La Mission Locale accompagne les jeunes de 16 à 25 ans dans leur insertion sociale et professionnelle, y compris vers l'apprentissage."
+        },
+        {
+          bg:"bg-missionlocale-q2.jpg",
+          question:"Un jeune peut-il être orienté vers un contrat d'apprentissage par la Mission Locale ?",
+          choices:["Non, ce n'est pas son rôle","Oui, elle informe et oriente vers les CFA et les employeurs","Oui, mais uniquement après 25 ans"],
+          correct:1,
+          feedback:"La Mission Locale informe, oriente et accompagne les jeunes vers les dispositifs d'apprentissage et les employeurs partenaires."
+        }
+      ]
+    },
+    {
+      id:10, x:"58%", y:"39%", zone:"Stands · côté droit",
+      logo:"logo-francetravail.png", label:"Stand 10 — France Travail",
+      questions:[
+        {
+          bg:"bg-francetravail-q1.jpg",
+          question:"Comment s'appelle désormais Pôle Emploi depuis 2024 ?",
+          choices:["France Travail","Pôle Carrière","Agence Nationale de l'Emploi"],
+          correct:0,
+          feedback:"Pôle Emploi est devenu France Travail en 2024, dans le cadre de la réforme du service public de l'emploi."
+        },
+        {
+          bg:"bg-francetravail-q2.jpg",
+          question:"France Travail peut-il aider un employeur à recruter un apprenti ?",
+          choices:["Non, seulement les CFA le peuvent","Oui, via la diffusion d'offres et un accompagnement au recrutement","Oui, mais uniquement pour les grandes entreprises"],
+          correct:1,
+          feedback:"France Travail accompagne aussi les employeurs dans leurs recrutements, y compris pour des contrats d'apprentissage."
+        }
+      ]
+    },
+    {
+      id:11, x:"42%", y:"33%", zone:"Stands · côté gauche",
+      logo:"logo-cci.png", label:"Stand 11 — CCI Hérault",
+      questions:[
+        {
+          bg:"bg-cci-q1.jpg",
+          question:"Que signifie le sigle CCI ?",
+          choices:["Chambre de Commerce et d'Industrie","Centre de Communication Interentreprises","Conseil de Coordination Industrielle"],
+          correct:0,
+          feedback:"CCI = Chambre de Commerce et d'Industrie, un organisme qui accompagne les entreprises et forme notamment aux métiers du commerce."
+        },
+        {
+          bg:"bg-cci-q2.jpg",
+          question:"La CCI peut-elle accompagner une entreprise dans le recrutement d'un apprenti ?",
+          choices:["Non","Oui, notamment via des services dédiés à l'apprentissage","Oui, mais uniquement pour l'export"],
+          correct:1,
+          feedback:"La CCI propose un accompagnement aux entreprises pour recruter et former des apprentis."
+        }
+      ]
+    },
+    {
+      id:12, x:"58%", y:"27%", zone:"Stands · côté droit",
+      logo:"logo-cma.png", label:"Stand 12 — CMA Occitanie",
+      questions:[
+        {
+          bg:"bg-cma-q1.jpg",
+          question:"La CMA accompagne principalement quel secteur ?",
+          choices:["L'artisanat","La grande distribution","La fonction publique"],
+          correct:0,
+          feedback:"La Chambre de Métiers et de l'Artisanat accompagne les artisans et les entreprises artisanales, notamment via l'apprentissage."
+        },
+        {
+          bg:"bg-cma-q2.jpg",
+          question:"L'apprentissage est-il historiquement lié au secteur de l'artisanat ?",
+          choices:["Non, c'est un dispositif récent","Oui, c'est historiquement l'une des premières voies de formation par l'artisanat","Oui, mais uniquement depuis les années 2000"],
+          correct:1,
+          feedback:"L'apprentissage trouve ses racines dans la transmission des savoir-faire artisanaux, bien avant sa généralisation à d'autres secteurs."
+        }
+      ]
+    },
+    {
+      id:13, x:"42%", y:"21%", zone:"Stands · côté gauche",
+      logo:"logo-region-occitanie.png", label:"Stand 13 — Région Occitanie",
+      questions:[
+        {
+          bg:"bg-region-q1.jpg",
+          question:"Quel est le rôle de la Région dans le financement de l'apprentissage ?",
+          choices:["Aucun, c'est uniquement l'État qui finance","Elle peut soutenir les CFA et les apprentis via des aides complémentaires","Elle finance uniquement les universités"],
+          correct:1,
+          feedback:"La Région Occitanie peut soutenir les CFA et proposer des aides complémentaires aux apprentis (mobilité, équipement, transport...)."
+        },
+        {
+          bg:"bg-region-q2.jpg",
+          question:"Quelle aide régionale peut concerner le transport des apprentis ?",
+          choices:["Une aide au transport / à la mobilité","Une prime au logement","Une réduction d'impôt"],
+          correct:0,
+          feedback:"La Région propose notamment des aides à la mobilité et au transport pour faciliter le quotidien des apprentis."
+        }
+      ]
+    },
+    {
+      id:14, x:"58%", y:"15%", zone:"Stands · côté droit",
+      logo:"logo-facedu.png", label:"Stand 14 — Faculté d'Éducation",
+      questions:[
+        {
+          bg:"bg-facedu-q1.jpg",
+          question:"La Faculté d'Éducation forme principalement aux métiers de...",
+          choices:["L'enseignement et l'éducation","La finance","L'ingénierie"],
+          correct:0,
+          feedback:"La Faculté d'Éducation de Montpellier forme aux métiers de l'enseignement et de l'éducation."
+        },
+        {
+          bg:"bg-facedu-q2.jpg",
+          question:"Peut-on devenir enseignant en passant par la voie de l'apprentissage ?",
+          choices:["Non, c'est impossible","Oui, notamment via certains masters MEEF en apprentissage","Oui, mais uniquement dans le privé"],
+          correct:1,
+          feedback:"Certains parcours de type Master MEEF peuvent désormais s'effectuer en apprentissage."
+        }
+      ]
+    },
+    {
+      id:15, x:"42%", y:"9%", zone:"Stands · côté gauche",
+      logo:"logo-polytech.png", label:"Stand 15 — Polytech Montpellier",
+      questions:[
+        {
+          bg:"bg-polytech-q1.jpg",
+          question:"Polytech Montpellier forme des étudiants dans quel domaine ?",
+          choices:["Ingénierie","Droit","Médecine"],
+          correct:0,
+          feedback:"Polytech Montpellier est une école d'ingénieurs publique, avec plusieurs spécialités accessibles en apprentissage."
+        },
+        {
+          bg:"bg-polytech-q2.jpg",
+          question:"Le CFA Ensup-LR a-t-il déjà collaboré avec Polytech pour des évènements dédiés à l'apprentissage ?",
+          choices:["Non, jamais","Oui, notamment via des Job Dating dédiés aux formations d'ingénieurs","Oui, mais uniquement pour les stages"],
+          correct:1,
+          feedback:"Le CFA Ensup-LR organise régulièrement des Job Dating avec Polytech pour mettre en lien apprentis et entreprises."
+        }
+      ]
+    },
+    {
+      id:16, x:"58%", y:"4%", zone:"Stands · côté droit",
+      logo:"logo-bpsud.png", label:"Stand 16 — Banque Populaire du Sud",
+      questions:[
+        {
+          bg:"bg-bpsud-q1.jpg",
+          question:"Pourquoi un apprenti peut-il avoir besoin d'accompagnement bancaire ?",
+          choices:["Pour ouvrir un compte et gérer son premier salaire","Uniquement pour emprunter une voiture","Ce n'est jamais utile pour un apprenti"],
+          correct:0,
+          feedback:"Beaucoup d'apprentis ouvrent leur premier compte bancaire et ont besoin de conseils pour gérer leur salaire et leur budget."
+        },
+        {
+          bg:"bg-bpsud-q2.jpg",
+          question:"Certaines banques proposent-elles des offres spécifiques aux jeunes en alternance ?",
+          choices:["Non, jamais","Oui, avec des formules adaptées (frais réduits, accompagnement...)","Oui, mais uniquement aux étudiants boursiers"],
+          correct:1,
+          feedback:"Plusieurs banques proposent des offres dédiées aux alternants, avec des frais réduits et un accompagnement adapté."
         }
       ]
     }
@@ -382,6 +542,9 @@ let playerSite = "";
    Chaque écran affiché pousse la fonction de rendu de l'écran
    précédent dans navStack. goBack() dépile et ré-affiche
    l'écran précédent exact (avec son état), jamais "le début".
+   Le bouton retour est volontairement masqué sur l'écran
+   question (voir CSS #back-question) : on ne peut pas
+   revenir en arrière une fois sur une question.
    ========================================================= */
 let navStack = [];
 let currentRender = () => showScreen('screen-intro');
@@ -471,7 +634,7 @@ function renderMap(){
       const lbl=document.createElement('div');
       lbl.className='spot-label';lbl.textContent=s.label;
       div.appendChild(lbl);
-      if(i===0){
+      if(s.hasStands){
         div.onclick = ()=>go(()=>showSubMap(1));
       }else{
         div.onclick = ()=>go(()=>showQuestion(i));
@@ -736,6 +899,7 @@ async function sendResults(){
 
 /* Initialisation */
 updateBackButtons();
+
 </script>
 </body>
 </html>
