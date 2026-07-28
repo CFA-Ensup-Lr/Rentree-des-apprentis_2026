@@ -616,7 +616,7 @@ function showMap(){
 }
 
 function renderMap(){
-  document.getElementById('spot-num').textContent=currentSpot+1;
+  document.getElementById('spot-num').textContent=Math.min(currentSpot+1, SPOTS.length);
   document.getElementById('progress').style.width=(currentSpot/SPOTS.length*100)+'%';
   document.getElementById('map-title').textContent = currentSpot < SPOTS.length ? 'Trouve : ' + SPOTS[currentSpot].label : 'Trésor trouvé';
   const container=document.getElementById('spots-container');
