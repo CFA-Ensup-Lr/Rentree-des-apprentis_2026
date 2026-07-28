@@ -704,28 +704,34 @@ function selectAnswer(spotIdx,choiceIdx,btn){
 
 function nextSpot(){
   currentSpot++;
-  if(currentSpot>=SPOTS.length) go(()=>showWin());
-  else go(()=>{renderMap();showScreen('screen-map');});
+  if(currentSpot>=SPOTS.length){
+    showWin();
+  } else {
+    renderMap();
+    showScreen('screen-map');
+  }
 }
 
 function nextAction(){
   if(inSubMap){
-    const stands = SUBSPOTS[1];
-    if(currentSubSpot < stands.length){
-      go(()=>{renderSubMap(1);showScreen('screen-submap');});
+    if(currentSubSpot < SUBSPOTS[1].length){
+      renderSubMap(1);
+      showScreen('screen-submap');
     } else {
       currentSpot++;
       inSubMap = false;
-      go(()=>{renderMap();showScreen('screen-map');});
+      if(currentSpot>=SPOTS.length){
+        showWin();
+      } else {
+        renderMap();
+        showScreen('screen-map');
+      }
     }
   } else {
     nextSpot();
   }
 }
 
-/* =========================================================
-   SOUS-CARTE — STANDS PARTENAIRES
-   ========================================================= */
 function showSubMap(id){
   currentSubSpot = 0;
   renderSubMap(id);
