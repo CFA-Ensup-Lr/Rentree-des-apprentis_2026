@@ -136,6 +136,7 @@
         <img src="plan_zoom_noria.png" alt="Plan de la zone des stands partenaires">
         <div id="subspots-container"></div>
       </div>
+      <button class="btn-back-to-map" onclick="backToMainMap()">← Retour à la carte principale</button>
     </div>
   </div>
 
@@ -146,8 +147,11 @@
    DONNÉES
    - "bg" : nom de fichier image à déposer à la racine du
      projet, utilisée en fond de l'écran question (avec un
-     dégradé sombre appliqué automatiquement en CSS).
-     Remplace ces noms par tes vraies photos du jardin/stands.
+     dégradé noir appliqué automatiquement en bas de la photo
+     via CSS/JS : voir applyHeroBackground()).
+     Dépose de vraies photos du jardin/stands portant EXACTEMENT
+     ces noms de fichiers à la racine du projet (à côté de
+     index.html) pour qu'elles remplacent le fond vert de secours.
    ========================================================= */
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqevdlen";
@@ -158,12 +162,11 @@ const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqevdlen";
    réel sur le plan du Jardin des Plantes ; le stand des partenaires
    est positionné juste à côté de la Noria (même zone du jardin). */
 const SPOTS = [
-  {id:1,label:"Entrée principale",x:"90%",y:"50%",bg:"bg-entree.jpg",
+  {id:1,label:"Entrée principale",x:"50%",y:"88%",bg:"bg-entree.jpg",
     riddle:"Bienvenue au Jardin des Plantes ! Ton aventure commence là où tout débute : l'entrée principale, Boulevard Henri IV.",
-    question:"Qu'est-ce que le Jardin des Plantes ?",
-hint:"Petit indice : lisez bien le panneau à l'entrée !",
-    choices:["Le Jardin des plantes est un espace de loisirs et de promenade pour les familles","Le Jardin des plantes est un musée d'histoire naturelle en plein air","Le Jardin des plantes est un lieu de conservation et de recherche botanique"],correct:2,
-    feedback:"Exact ! Le Jardin des Plantes de Montpellier, fondé en 1593, est le plus ancien jardin botanique de France. Il est dédié à la conservation et à la recherche botanique."},
+    question:"Quel est le rôle du maître d'apprentissage ?",
+    choices:["Uniquement signer le contrat","Former l'apprenti, suivre sa progression et faire le lien avec le CFA","Payer le salaire de l'apprenti","Évaluer les examens au CFA"],correct:1,
+    feedback:"Le maître d'apprentissage forme l'apprenti au métier, suit sa progression, et fait le lien avec le CFA tout au long du contrat."},
   {id:2,label:"Monument Rabelais",x:"44%",y:"68%",bg:"bg-rabelais.jpg",
     riddle:"Au pied d'une montagne artificielle plantée d'arbustes méditerranéens, un monument rend hommage à un célèbre carabin. Rends-toi devant le monument François Rabelais.",
     question:"À combien de semaines de congés payés par an a droit un apprenti ?",
@@ -193,14 +196,15 @@ hint:"Petit indice : lisez bien le panneau à l'entrée !",
     feedback:"L'apprenti bénéficie de la carte étudiant, qui donne accès aux réductions sur les transports, les activités culturelles et les restaurants universitaires du CROUS."}
 ];
 
-/* Stands partenaires — déclenchés depuis le spot "La Noria".
+/* Stands partenaires — déclenchés depuis le spot "Stand des partenaires".
    16 stands répartis en quinconce (colonne centrale, décalée
    alternativement à gauche et à droite) sur plan_zoom_noria.png.
-   x/y sont à ajuster à ton vrai plan de zoom si besoin. */
+   Positions abaissées (plus bas dans l'image) par rapport à la
+   version précédente. x/y sont à ajuster à ton vrai plan si besoin. */
 const SUBSPOTS = {
   1: [
     {
-      id:1, x:"42%", y:"93%", zone:"Stands · côté gauche",
+      id:1, x:"42%", y:"97%", zone:"Stands · côté gauche",
       logo:"logo-cfa.png", label:"Stand 1 — CFA Ensup-LR",
       questions:[
         {
@@ -220,7 +224,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:2, x:"58%", y:"87%", zone:"Stands · côté droit",
+      id:2, x:"58%", y:"91.5%", zone:"Stands · côté droit",
       logo:"logo-cap-emploi.png", label:"Stand 2 — CAP Emploi",
       questions:[
         {
@@ -240,7 +244,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:3, x:"42%", y:"81%", zone:"Stands · côté gauche",
+      id:3, x:"42%", y:"86.1%", zone:"Stands · côté gauche",
       logo:"logo-fds.png", label:"Stand 3 — Faculté des Sciences",
       questions:[
         {
@@ -260,7 +264,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:4, x:"58%", y:"75%", zone:"Stands · côté droit",
+      id:4, x:"58%", y:"80.6%", zone:"Stands · côté droit",
       logo:"logo-moma.png", label:"Stand 4 — Montpellier Management (IAE)",
       questions:[
         {
@@ -280,7 +284,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:5, x:"42%", y:"69%", zone:"Stands · côté gauche",
+      id:5, x:"42%", y:"75.1%", zone:"Stands · côté gauche",
       logo:"logo-caf.png", label:"Stand 5 — CAF",
       questions:[
         {
@@ -300,7 +304,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:6, x:"58%", y:"63%", zone:"Stands · côté droit",
+      id:6, x:"58%", y:"69.7%", zone:"Stands · côté droit",
       logo:"logo-crous.png", label:"Stand 6 — CROUS",
       questions:[
         {
@@ -320,7 +324,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:7, x:"42%", y:"57%", zone:"Stands · côté gauche",
+      id:7, x:"42%", y:"64.2%", zone:"Stands · côté gauche",
       logo:"logo-cpam.png", label:"Stand 7 — CPAM (Assurance Maladie)",
       questions:[
         {
@@ -340,7 +344,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:8, x:"58%", y:"51%", zone:"Stands · côté droit",
+      id:8, x:"58%", y:"58.7%", zone:"Stands · côté droit",
       logo:"logo-iae.png", label:"Stand 8 — IAE Montpellier",
       questions:[
         {
@@ -360,7 +364,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:9, x:"42%", y:"45%", zone:"Stands · côté gauche",
+      id:9, x:"42%", y:"53.3%", zone:"Stands · côté gauche",
       logo:"logo-mission-locale.png", label:"Stand 9 — Mission Locale",
       questions:[
         {
@@ -380,7 +384,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:10, x:"58%", y:"39%", zone:"Stands · côté droit",
+      id:10, x:"58%", y:"47.8%", zone:"Stands · côté droit",
       logo:"logo-francetravail.png", label:"Stand 10 — France Travail",
       questions:[
         {
@@ -400,7 +404,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:11, x:"42%", y:"33%", zone:"Stands · côté gauche",
+      id:11, x:"42%", y:"42.3%", zone:"Stands · côté gauche",
       logo:"logo-cci.png", label:"Stand 11 — CCI Hérault",
       questions:[
         {
@@ -420,7 +424,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:12, x:"58%", y:"27%", zone:"Stands · côté droit",
+      id:12, x:"58%", y:"36.9%", zone:"Stands · côté droit",
       logo:"logo-cma.png", label:"Stand 12 — CMA Occitanie",
       questions:[
         {
@@ -440,7 +444,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:13, x:"42%", y:"21%", zone:"Stands · côté gauche",
+      id:13, x:"42%", y:"31.4%", zone:"Stands · côté gauche",
       logo:"logo-region-occitanie.png", label:"Stand 13 — Région Occitanie",
       questions:[
         {
@@ -460,7 +464,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:14, x:"58%", y:"15%", zone:"Stands · côté droit",
+      id:14, x:"58%", y:"25.9%", zone:"Stands · côté droit",
       logo:"logo-facedu.png", label:"Stand 14 — Faculté d'Éducation",
       questions:[
         {
@@ -480,7 +484,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:15, x:"42%", y:"9%", zone:"Stands · côté gauche",
+      id:15, x:"42%", y:"20.5%", zone:"Stands · côté gauche",
       logo:"logo-polytech.png", label:"Stand 15 — Polytech Montpellier",
       questions:[
         {
@@ -500,7 +504,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:16, x:"58%", y:"4%", zone:"Stands · côté droit",
+      id:16, x:"58%", y:"15%", zone:"Stands · côté droit",
       logo:"logo-bpsud.png", label:"Stand 16 — Banque Populaire du Sud",
       questions:[
         {
@@ -649,8 +653,8 @@ function renderMap(){
 function applyHeroBackground(bgFile, eyebrow, title){
   const hero = document.getElementById('question-hero');
   hero.style.backgroundImage = bgFile
-    ? `linear-gradient(180deg, rgba(15,26,20,0) 0%, rgba(15,26,20,.78) 100%), url(${bgFile})`
-    : 'linear-gradient(180deg, rgba(15,26,20,.15) 0%, rgba(15,26,20,.85) 100%)';
+    ? `linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.85) 100%), url(${bgFile})`
+    : 'linear-gradient(180deg, rgba(0,0,0,.15) 0%, rgba(0,0,0,.9) 100%)';
   document.getElementById('q-hero-eyebrow').textContent = eyebrow;
   document.getElementById('q-hero-title').textContent = title;
 }
@@ -743,6 +747,14 @@ function showSubMap(id){
   currentSubSpot = 0;
   renderSubMap(id);
   showScreen('screen-submap');
+}
+
+/* Retour direct à la carte principale depuis la sous-carte des stands,
+   sans faire avancer le parcours (le stand des partenaires reste actif
+   tant que tous les stands n'ont pas été visités). */
+function backToMainMap(){
+  inSubMap = false;
+  go(()=>{renderMap();showScreen('screen-map');});
 }
 
 function renderSubMap(id){
@@ -855,6 +867,7 @@ function showWin(){
   playWin();
 }
 
+/* Petite mélodie montante, jouée dès l'arrivée sur l'écran de victoire. */
 function playWin(){
   try{
     const ctx=new(window.AudioContext||window.webkitAudioContext)();
@@ -866,6 +879,23 @@ function playWin(){
       g.gain.linearRampToValueAtTime(.3,ctx.currentTime+i*.15+.05);
       g.gain.linearRampToValueAtTime(0,ctx.currentTime+i*.15+.3);
       o.start(ctx.currentTime+i*.15);o.stop(ctx.currentTime+i*.15+.35);
+    });
+  }catch(e){}
+}
+
+/* Carillon final, joué uniquement une fois que les résultats ont bien
+   été envoyés au CFA via Formspree (confirmation de participation). */
+function playSentChime(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    [784,988,1175,1568].forEach((f,i)=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.frequency.value=f;o.type='triangle';
+      g.gain.setValueAtTime(0,ctx.currentTime+i*.12);
+      g.gain.linearRampToValueAtTime(.25,ctx.currentTime+i*.12+.04);
+      g.gain.linearRampToValueAtTime(0,ctx.currentTime+i*.12+.4);
+      o.start(ctx.currentTime+i*.12);o.stop(ctx.currentTime+i*.12+.45);
     });
   }catch(e){}
 }
@@ -897,6 +927,7 @@ async function sendResults(){
       status.className='ok';
       status.innerHTML='<strong>Résultats envoyés !</strong> Le CFA a bien reçu ta participation. Bonne chance pour le tirage au sort 🍀';
       btn.innerHTML='✅ Résultats envoyés !';
+      playSentChime();
     } else {
       throw new Error('Erreur serveur');
     }
