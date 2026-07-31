@@ -96,6 +96,7 @@
       <div class="question-card">
         <div class="q-riddle" id="q-riddle" style="display:none"></div>
         <p class="q-text" id="q-text"></p>
+        <p id="q-hint" style="font-size:12px;font-style:italic;color:#287ec0;margin-bottom:1rem;display:none"></p>
         <div class="choices" id="choices"></div>
         <div class="feedback" id="feedback" style="display:none"></div>
         <button class="btn-next" id="btn-next" onclick="nextAction()">Prochain spot →</button>
@@ -169,9 +170,10 @@ const SPOTS = [
     feedback:"Le maître d'apprentissage forme l'apprenti au métier, suit sa progression, et fait le lien avec le CFA tout au long du contrat."},
   {id:2,label:"Monument Rabelais",x:"44%",y:"68%",bg:"bg-rabelais.jpg",
     riddle:"Au pied d'une montagne artificielle plantée d'arbustes méditerranéens, un monument rend hommage à un célèbre carabin. Rends-toi devant le monument François Rabelais.",
-    question:"À combien de semaines de congés payés par an a droit un apprenti ?",
-    choices:["2 semaines","4 semaines","5 semaines","6 semaines"],correct:2,
-    feedback:"Comme tout salarié, l'apprenti a droit à 5 semaines de congés payés par an, soit 2,5 jours par mois travaillé."},
+    question:"Qu'est-ce que le Jardin des Plantes ?",
+hint:"Petit indice : lisez bien le panneau à l'entrée !",
+    choices:["Le Jardin des plantes est un espace de loisirs et de promenade pour les familles","Le Jardin des plantes est un musée d'histoire naturelle en plein air","Le Jardin des plantes est un lieu de conservation et de recherche botanique"],correct:2,
+    feedback:"Exact ! Le Jardin des Plantes de Montpellier, fondé en 1593, est le plus ancien jardin botanique de France. Il est dédié à la conservation et à la recherche botanique."},
   {id:3,label:"Stand des partenaires",x:"20%",y:"80%",bg:"bg-village-partenaires.jpg",hasStands:true,
     riddle:"Un village de tentes s'est installé pour l'occasion, juste à côté de la Noria. De nombreux partenaires de l'apprentissage t'y attendent avec leurs questions. Rends-toi au village des stands partenaires !"},
   {id:4,label:"La Noria",x:"28%",y:"72%",bg:"bg-noria.jpg",
@@ -668,7 +670,14 @@ function showQuestion(idx){
   const riddleEl = document.getElementById('q-riddle');
   riddleEl.style.display='block';
   riddleEl.textContent=s.riddle;
-  document.getElementById('q-text').textContent=s.question;
+  document.getElementById('q-text').textContent = s.question;
+const hintEl = document.getElementById('q-hint');
+if(s.hint){
+  hintEl.textContent = s.hint;
+  hintEl.style.display = 'block';
+} else {
+  hintEl.style.display = 'none';
+}
   const choicesEl=document.getElementById('choices');
   choicesEl.innerHTML='';
   s.choices.forEach((c,i)=>{
