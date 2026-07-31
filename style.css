@@ -238,13 +238,15 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
   min-height:180px;
   background-size:cover;
   background-position:center;
-  background-color:var(--green-deep);
+  background-color:var(--green-deep); /* secours si la photo n'existe pas encore */
   display:flex;align-items:flex-end;
   padding:1.25rem 1rem;
 }
+/* Dégradé noir en bas de la photo (transparent en haut -> noir en bas),
+   appliqué en plus du background-image défini en JS (applyHeroBackground). */
 .question-hero::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg, rgba(15,26,20,0) 0%, rgba(15,26,20,.78) 100%);
+  background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.55) 100%);
 }
 .question-hero .hero-inner{position:relative;z-index:1;color:#fff}
 .question-hero .hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#f4d9c4;margin-bottom:4px}
@@ -309,6 +311,25 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
 #screen-submap{padding-bottom:calc(1.5rem + var(--safe-bottom))}
 .submap-body{padding:1rem}
 .map-container.submap{margin-bottom:0}
+
+/* Bouton "Retour à la carte principale" sous la carte zoomée */
+.btn-back-to-map{
+  width:100%;
+  margin-top:1rem;
+  background:var(--surface);
+  color:var(--green-deep);
+  border:1.5px solid var(--line);
+  padding:14px;
+  border-radius:var(--radius-md);
+  font-size:14.5px;
+  font-weight:600;
+  cursor:pointer;
+  min-height:48px;
+  box-shadow:0 4px 12px -6px rgba(31,77,61,.2);
+  transition:transform .15s ease, background .15s ease;
+}
+.btn-back-to-map:hover{background:var(--green-pale)}
+.btn-back-to-map:active{transform:scale(.98)}
 
 #subspots-container .spot.active{
   width:46px;height:46px;
