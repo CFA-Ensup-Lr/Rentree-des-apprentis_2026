@@ -697,9 +697,14 @@ function selectAnswer(spotIdx,choiceIdx,btn){
     fb.className='feedback wrong';
     fb.innerHTML='<strong>Pas tout à fait...</strong> '+s.feedback;
   }
-  const btnNext=document.getElementById('btn-next');
-  btnNext.style.display='block';
-  btnNext.textContent=currentSpot===SPOTS.length-1?'Voir mes résultats 🎉':'Spot suivant →';
+ const btnNext=document.getElementById('btn-next');
+btnNext.style.display='block';
+if(currentSpot===SPOTS.length-1){
+  btnNext.textContent='Voir mes résultats 🎉';
+  btnNext.onclick=()=>showWin();
+} else {
+  btnNext.textContent='Spot suivant →';
+  btnNext.onclick=()=>nextSpot();
 }
 
 function nextSpot(){
