@@ -705,12 +705,12 @@ function selectAnswer(spotIdx,choiceIdx,btn){
   if(choiceIdx===s.correct){
     btn.classList.add('selected-correct');
     fb.className='feedback correct';
-    fb.innerHTML = '<strong>Bonne réponse !</strong> ' + (q.feedbackCorrect || q.feedback || "");
+    fb.innerHTML = '<strong>Bonne réponse !</strong> ' + (s.feedbackCorrect || s.feedback || "");
     answered_correct[spotIdx]=true;
   } else {
     btn.classList.add('selected-wrong');
     fb.className='feedback wrong';
-    fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (q.feedbackWrong || q.feedback || "");
+    fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (s.feedbackWrong || s.feedback || "");
   }
  const btnNext=document.getElementById('btn-next');
 btnNext.style.display='block';
