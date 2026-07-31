@@ -2,913 +2,117 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
-<title>Chasse au trésor — Jardin des Plantes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chasse au trésor</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="app">
 
-  <!-- ===================== INTRO ===================== -->
-  <div id="screen-intro" class="screen active">
-    <div class="intro-badge">🌿 Rentrée des apprentis</div>
-    <h1>Chasse au trésor<br>du Jardin des Plantes</h1>
-    <p class="intro-desc">Parcours le jardin, trouve les 7 spots, réponds aux énigmes et tente de gagner !</p>
-    <div class="intro-steps">
-      <p class="label">Comment jouer</p>
-      <ol>
-        <li><span class="num">1</span><span>Suis les énigmes pour repérer chaque spot sur la carte</span></li>
-        <li><span class="num">2</span><span>Rends-toi physiquement à cet endroit du jardin</span></li>
-        <li><span class="num">3</span><span>Réponds à une question sur l'apprentissage (et découvre le village des stands partenaires en chemin)</span></li>
-        <li><span class="num">4</span><span>Passe au spot suivant, jusqu'au trésor final</span></li>
-      </ol>
-    </div>
-    <button class="btn-start" onclick="startGame()">Commencer la chasse</button>
+<div id="screen-intro" class="screen active">
+  <h1>Chasse au trésor 🌿</h1>
+  <p class="intro-desc">Bienvenue à la rentrée des apprentis !<br>Parcours le Jardin des Plantes, trouve les 8 spots, réponds aux questions et tente de gagner !</p>
+  <div style="background:#e9eff5;border-radius:14px;padding:1rem;margin-bottom:1.5rem;text-align:left">
+    <p style="font-size:13px;color:#287ec0;margin-bottom:.5rem">Comment jouer :</p>
+    <p style="font-size:13px;color:#287ec0;line-height:1.7">1. Suis les énigmes pour trouver chaque spot sur la carte<br>2. Rends-toi physiquement à cet endroit du jardin<br>3. Réponds à une question sur l'apprentissage et une question sur le stand partenaire<br>4. Passe au spot suivant !</p>
   </div>
+  <button class="btn-start" onclick="startGame()">Commencer la chasse</button>
+</div>
 
-  <!-- ===================== NOM ===================== -->
-  <div id="screen-name" class="screen">
-    <div class="topbar">
-      <button class="btn-back" id="back-name" onclick="goBack()" aria-label="Retour">‹</button>
-      <div class="topbar-title"><div class="eyebrow">Étape 1</div><h2>Ton profil</h2></div>
+<div id="screen-name" class="screen">
+  <div class="name-card">
+    <h2>Qui es-tu ?</h2>
+    <p>Entre tes infos pour participer au tirage au sort !</p>
+    <div class="form-group">
+      <label>Prénom</label>
+      <input type="text" id="input-prenom" placeholder="Ton prénom">
     </div>
-    <div style="padding:1.5rem 1.25rem;">
-      <div class="name-card">
-        <div class="eyebrow">Avant de commencer</div>
-        <h2>Qui es-tu ?</h2>
-        <p>Entre tes infos pour participer au tirage au sort !</p>
-        <div class="form-group">
-          <label>Prénom</label>
-          <input type="text" id="input-prenom" placeholder="Ton prénom" autocomplete="given-name">
-        </div>
-        <div class="form-group">
-          <label>Nom</label>
-          <input type="text" id="input-nom" placeholder="Ton nom" autocomplete="family-name">
-        </div>
-        <div class="form-group">
-          <label>Site CFA</label>
-          <input type="text" id="input-site" placeholder="Ex : Montpellier, Sète, Nîmes...">
-        </div>
-        <button class="btn-start" onclick="saveName()" style="width:100%;margin-top:.5rem">C'est parti !</button>
-      </div>
+    <div class="form-group">
+      <label>Nom</label>
+      <input type="text" id="input-nom" placeholder="Ton nom">
+    </div>
+    <div class="form-group">
+      <label>Site CFA</label>
+      <input type="text" id="input-site" placeholder="Ex : Montpellier, Sète, Nîmes...">
+    </div>
+    <button class="btn-start" onclick="saveName()" style="width:100%;margin-top:.5rem">C'est parti !</button>
+  </div>
+</div>
+
+<div id="screen-map" class="screen">
+  <div class="map-header">
+    <h2>Spot <span id="spot-num">1</span> / 8</h2>
+    <div>
+      <div style="font-size:12px;color:#287ec0;margin-bottom:4px;text-align:right">Progression</div>
+      <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
     </div>
   </div>
+  <div class="map-container">
+    <img src="plan_vierge_jardin_des_plantes.png" alt="Plan du Jardin des Plantes de Montpellier">
+    <div id="spots-container"></div>
+  </div>
+  <div style="margin-top:1rem;background:#e9eff5;border-radius:10px;padding:12px;font-size:13px;color:#287ec0">
+     <span style="color:#1A1A1A;font-weight:500">Spot actif :</span> le spot orange clignote sur la carte. Appuie dessus pour voir l'énigme !
+  </div>
+</div>
 
-  <!-- ===================== CARTE PRINCIPALE ===================== -->
-  <div id="screen-map" class="screen">
-    <div class="topbar">
-      <button class="btn-back" id="back-map" onclick="goBack()" aria-label="Retour">‹</button>
-      <div class="topbar-title"><div class="eyebrow">Spot <span id="spot-num">1</span> / 7</div><h2 id="map-title">Trouve le prochain spot</h2></div>
+<div id="screen-question" class="screen">
+  <div class="question-card">
+    <div class="q-location"><i class="ti ti-map-pin" aria-hidden="true"></i><span id="q-location-name"></span></div>
+    <div class="q-riddle" id="q-riddle"></div>
+    <p class="q-text" id="q-text"></p>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback" style="display:none"></div>
+    <button class="btn-next" id="btn-next">Spot suivant →</button>
+  </div>
+  <button onclick="showMap()" style="margin-top:1rem;width:100%;background:transparent;border:1px solid #96bbda;border-radius:10px;padding:10px;font-size:14px;color:#287ec0;cursor:pointer">← Retour à la carte</button>
+</div>
+
+<div id="screen-win" class="screen">
+  <div style="font-size:48px;margin-bottom:1rem">🎉</div>
+  <h2>Bravo, tu as terminé !</h2>
+  <p style="color:#287ec0;font-size:15px;margin-bottom:.5rem;line-height:1.6">Tu as parcouru tout le Jardin des Plantes et répondu aux 8 questions.</p>
+  <div class="win-score" id="win-score"></div>
+  <div style="background:#e9eff5;border-radius:14px;padding:1rem;margin-bottom:1.5rem;text-align:left">
+    <div class="form-group" style="margin-bottom:.75rem">
+      <label>Nom complet</label>
+      <input type="text" id="win-name-display" readonly>
     </div>
-    <div class="map-body">
-      <div class="map-header-row">
-        <span class="zone-label">Jardin des Plantes</span>
-        <div class="progress-wrap">
-          <div class="progress-text">Progression</div>
-          <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="map-container">
-        <img src="plan_vierge_jardin_des_plantes.png" alt="Plan du Jardin des Plantes de Montpellier">
-        <div id="spots-container"></div>
-      </div>
-      <div class="map-hint">
-        <span>📍</span>
-        <span><b>Spot actif :</b> le repère orange clignote sur la carte. Appuie dessus pour voir l'énigme !</span>
-      </div>
+    <div class="form-group" style="margin-bottom:0">
+      <label>Site CFA</label>
+      <input type="text" id="win-site-display" readonly>
     </div>
   </div>
+  <button class="btn-send" id="btn-send" onclick="sendResults()">
+    <i class="ti ti-send" aria-hidden="true"></i> Envoyer mes résultats au CFA
+  </button>
+  <div id="send-status"></div>
+</div>
 
-  <!-- ===================== QUESTION ===================== -->
-  <div id="screen-question" class="screen">
-    <div class="topbar">
-      <button class="btn-back" id="back-question" onclick="goBack()" aria-label="Retour">‹</button>
-      <div class="topbar-title"><div class="eyebrow" id="q-eyebrow">Énigme</div><h2 id="q-location-name-top">—</h2></div>
-    </div>
-    <div class="question-hero" id="question-hero">
-      <div class="hero-inner">
-        <div class="hero-eyebrow" id="q-hero-eyebrow">Jardin des Plantes</div>
-        <div class="hero-title" id="q-hero-title">—</div>
-      </div>
-    </div>
-    <div class="question-body">
-      <div class="question-card">
-        <div class="q-riddle" id="q-riddle" style="display:none"></div>
-        <p class="q-text" id="q-text"></p>
-        <div class="choices" id="choices"></div>
-        <div class="feedback" id="feedback" style="display:none"></div>
-        <button class="btn-next" id="btn-next" onclick="nextAction()">Prochain spot →</button>
-      </div>
-    </div>
-  </div>
+</div>
 
-  <!-- ===================== ÉCRAN DE VICTOIRE ===================== -->
-  <div id="screen-win" class="screen">
-    <div class="win-emoji">🎉</div>
-    <h2>Bravo, tu as terminé !</h2>
-    <p style="color:var(--ink-soft);font-size:15px;margin-bottom:.5rem;line-height:1.6">Tu as parcouru tout le Jardin des Plantes et répondu à toutes les questions.</p>
-    <div class="win-score" id="win-score"></div>
-    <div class="win-recap">
-      <div class="form-group" style="margin-bottom:.75rem">
-        <label>Nom complet</label>
-        <input type="text" id="win-name-display" readonly>
-      </div>
-      <div class="form-group" style="margin-bottom:0">
-        <label>Site CFA</label>
-        <input type="text" id="win-site-display" readonly>
-      </div>
-    </div>
-    <button class="btn-send" id="btn-send" onclick="sendResults()">
-      📨 Envoyer mes résultats au CFA
-    </button>
-    <div id="send-status"></div>
-  </div>
-
-  <!-- ===================== SOUS-CARTE : STANDS PARTENAIRES ===================== -->
   <div id="screen-submap" class="screen">
-    <div class="topbar">
-      <button class="btn-back" id="back-submap" onclick="goBack()" aria-label="Retour">‹</button>
-      <div class="topbar-title"><div class="eyebrow" id="submap-zone">Zone : La Noria</div><h2>Stands partenaires</h2></div>
+    <div class="map-header">
+      <h2>Zone : Village des partenaires</h2>
     </div>
-    <div class="submap-body">
-      <div class="map-container submap">
-        <img src="plan_zoom_noria.png" alt="Plan de la zone des stands partenaires">
-        <div id="subspots-container"></div>
-      </div>
+    <div class="map-container">
+      <img src="plan_zoom_noria.png">
+      <div id="subspots-container"></div>
     </div>
   </div>
 
 </div>
 
 <script>
-/* =========================================================
-   DONNÉES
-   - "bg" : nom de fichier image à déposer à la racine du
-     projet, utilisée en fond de l'écran question (avec un
-     dégradé sombre appliqué automatiquement en CSS).
-     Remplace ces noms par tes vraies photos du jardin/stands.
-   ========================================================= */
-
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqevdlen";
 
-/* Ordre du parcours : Entrée principale -> Monument Rabelais -> Stand
-   des partenaires -> La Noria -> Bambouseraie -> Serre Martins ->
-   Bassin aux lotus. Les coordonnées x/y restent celles de chaque lieu
-   réel sur le plan du Jardin des Plantes ; le stand des partenaires
-   est positionné juste à côté de la Noria (même zone du jardin). */
 const SPOTS = [
-  {id:1,label:"Entrée principale",x:"50%",y:"88%",bg:"bg-entree.jpg",
-    riddle:"Bienvenue au Jardin des Plantes ! Ton aventure commence là où tout débute : l'entrée principale, Boulevard Henri IV.",
-    question:"Quel est le rôle du maître d'apprentissage ?",
-    choices:["Uniquement signer le contrat","Former l'apprenti, suivre sa progression et faire le lien avec le CFA","Payer le salaire de l'apprenti","Évaluer les examens au CFA"],correct:1,
-    feedback:"Le maître d'apprentissage forme l'apprenti au métier, suit sa progression, et fait le lien avec le CFA tout au long du contrat."},
-  {id:2,label:"Monument Rabelais",x:"44%",y:"68%",bg:"bg-rabelais.jpg",
-    riddle:"Au pied d'une montagne artificielle plantée d'arbustes méditerranéens, un monument rend hommage à un célèbre carabin. Rends-toi devant le monument François Rabelais.",
-    question:"À combien de semaines de congés payés par an a droit un apprenti ?",
-    choices:["2 semaines","4 semaines","5 semaines","6 semaines"],correct:2,
-    feedback:"Comme tout salarié, l'apprenti a droit à 5 semaines de congés payés par an, soit 2,5 jours par mois travaillé."},
-  {id:3,label:"Stand des partenaires",x:"20%",y:"80%",bg:"bg-village-partenaires.jpg",hasStands:true,
-    riddle:"Un village de tentes s'est installé pour l'occasion, juste à côté de la Noria. De nombreux partenaires de l'apprentissage t'y attendent avec leurs questions. Rends-toi au village des stands partenaires !"},
-  {id:4,label:"La Noria",x:"28%",y:"72%",bg:"bg-noria.jpg",
-    riddle:"Je suis un ancien puits entouré d'arcades, orné de plantes succulentes. Tout près de moi dort un mystérieux tombeau... Rends-toi à la Noria et au tombeau de Narcissa.",
-    question:"Quel est le statut juridique de l'apprenti ?",
-    choices:["Étudiant salarié","Stagiaire","Salarié lié par un contrat de travail","Fonctionnaire stagiaire"],correct:2,
-    feedback:"L'apprenti est un salarié à part entière ! Il signe un contrat de travail (le contrat d'apprentissage) et bénéficie des mêmes droits qu'un salarié."},
-  {id:5,label:"Bambouseraie",x:"60%",y:"58%",bg:"bg-bambouseraie.jpg",
-    riddle:"Un coin de verdure dense et exotique au cœur du jardin, où les tiges vertes montent haut vers le ciel. Rends-toi à la bambouseraie.",
-    question:"Quelles aides peuvent faciliter l'accès au logement pour un apprenti ?",
-    choices:["Uniquement le 1% logement patronal","L'APL et Mobili-Jeune","Seulement les aides de la région","L'apprenti n'a aucune aide au logement"],correct:1,
-    feedback:"L'apprenti peut bénéficier de l'APL via la CAF, et de Mobili-Jeune (aide d'Action Logement pour les moins de 30 ans en alternance). Il peut aussi solliciter les résidences CROUS."},
-  {id:6,label:"Serre Martins",x:"72%",y:"22%",bg:"bg-serre-martins.jpg",
-    riddle:"Au nord du jardin, une grande serre abrite cactus, agaves et aloès venus des régions sèches du monde entier. Rends-toi devant la serre Martins.",
-    question:"Comment évolue le salaire d'un apprenti ?",
-    choices:["Il est fixe pendant toute la durée du contrat","Il augmente selon l'âge et l'année d'exécution du contrat","Il est librement négocié avec l'entreprise","Il est identique au SMIC pour tous les apprentis"],correct:1,
-    feedback:"Le salaire de l'apprenti est calculé en pourcentage du SMIC et évolue selon l'âge de l'apprenti ET l'année d'exécution du contrat."},
-  {id:7,label:"Bassin aux lotus",x:"56%",y:"40%",bg:"bg-bassin-lotus.jpg",
-    riddle:"Près d'un grand bassin où fleurissent des lotus, se dresse une rotonde ancienne. André Gide et Paul Valéry s'y promenaient. Rends-toi au bassin aux lotus. Le trésor n'est plus très loin !",
-    question:"De quel document l'apprenti bénéficie-t-il pour des réductions sur les transports, la culture et la restauration universitaire ?",
-    choices:["La carte Vitale","La carte étudiant","Le passeport mobilité","La carte de réduction SNCF"],correct:1,
-    feedback:"L'apprenti bénéficie de la carte étudiant, qui donne accès aux réductions sur les transports, les activités culturelles et les restaurants universitaires du CROUS."}
-];
-
-/* Stands partenaires — déclenchés depuis le spot "La Noria".
-   16 stands répartis en quinconce (colonne centrale, décalée
-   alternativement à gauche et à droite) sur plan_zoom_noria.png.
-   x/y sont à ajuster à ton vrai plan de zoom si besoin. */
-const SUBSPOTS = {
-  1: [
-    {
-      id:1, x:"42%", y:"93%", zone:"Stands · côté gauche",
-      logo:"logo-cfa.png", label:"Stand 1 — CFA Ensup-LR",
-      questions:[
-        {
-          bg:"bg-cfa-q1.jpg",
-          question:"Le CFA Ensup-LR est un CFA « hors murs ». Qu'est-ce que cela signifie ?",
-          choices:["Il n'a pas de bâtiment propre et dispense ses formations dans les locaux des universités partenaires","Il propose uniquement des formations à distance","Il est situé en dehors de Montpellier"],
-          correct:0,
-          feedback:"Le CFA Ensup-LR est public et hors murs : il s'appuie sur les locaux des universités partenaires."
-        },
-        {
-          bg:"bg-cfa-q2.jpg",
-          question:"Pendant les 45 premiers jours d'un contrat d'apprentissage, qui peut rompre le contrat librement, sans justification ni préavis ?",
-          choices:["Uniquement l'apprenti","Uniquement l'employeur","L'employeur ou l'apprenti, librement"],
-          correct:2,
-          feedback:"C'est la période d'essai : l'employeur comme l'apprenti peuvent rompre sans justification ni préavis."
-        }
-      ]
-    },
-    {
-      id:2, x:"58%", y:"87%", zone:"Stands · côté droit",
-      logo:"logo-cap-emploi.png", label:"Stand 2 — CAP Emploi",
-      questions:[
-        {
-          bg:"bg-capemploi-q1.jpg",
-          question:"CAP Emploi est un organisme spécialisé dans l'accompagnement vers l'emploi. À quel public s'adresse-t-il ?",
-          choices:["Aux jeunes diplômés sans expérience","Aux personnes en situation de handicap","Aux demandeurs d'emploi de longue durée"],
-          correct:1,
-          feedback:"CAP Emploi accompagne les personnes en situation de handicap dans leur recherche d'emploi et leur maintien dans l'emploi."
-        },
-        {
-          bg:"bg-capemploi-q2.jpg",
-          question:"Un apprenti en situation de handicap peut-il bénéficier d'aménagements spécifiques dans son contrat d'apprentissage ?",
-          choices:["Non, le contrat est identique pour tous les apprentis","Oui, notamment sur la durée du contrat et les conditions de travail","Oui, mais uniquement sur la durée du contrat"],
-          correct:1,
-          feedback:"Un apprenti RQTH peut bénéficier d'aménagements : durée du contrat allongée, aménagement du poste, aides financières pour l'employeur."
-        }
-      ]
-    },
-    {
-      id:3, x:"42%", y:"81%", zone:"Stands · côté gauche",
-      logo:"logo-fds.png", label:"Stand 3 — Faculté des Sciences",
-      questions:[
-        {
-          bg:"bg-fds-q1.jpg",
-          question:"La Faculté des Sciences de Montpellier a été fondée en quelle année ?",
-          choices:["1289","1808","1968"],
-          correct:1,
-          feedback:"La Faculté des Sciences de Montpellier a été créée en 1808, soit 519 ans après la fondation de l'université de Montpellier en 1289 !"
-        },
-        {
-          bg:"bg-fds-q2.jpg",
-          question:"Un apprenti peut-il effectuer une mobilité internationale (mission ou stage à l'étranger) pendant son contrat d'apprentissage ?",
-          choices:["Non, il doit rester en France pendant toute la durée du contrat","Oui, avec l'accord de l'employeur et du CFA, dans le cadre d'un avenant au contrat","Oui, sans aucune démarche particulière"],
-          correct:1,
-          feedback:"Oui ! Un apprenti peut partir à l'étranger avec l'accord de son employeur et du CFA, via un avenant au contrat. C'est la mobilité internationale des apprentis."
-        }
-      ]
-    },
-    {
-      id:4, x:"58%", y:"75%", zone:"Stands · côté droit",
-      logo:"logo-moma.png", label:"Stand 4 — Montpellier Management (IAE)",
-      questions:[
-        {
-          bg:"bg-moma-q1.jpg",
-          question:"Montpellier Management propose des formations en apprentissage jusqu'à quel niveau ?",
-          choices:["Licence (Bac+3)","Master (Bac+5)","Doctorat (Bac+8)"],
-          correct:1,
-          feedback:"Montpellier Management propose des formations jusqu'au Master (Bac+5), dont plusieurs accessibles en apprentissage."
-        },
-        {
-          bg:"bg-moma-q2.jpg",
-          question:"Quelle est la durée maximale d'un contrat d'apprentissage ?",
-          choices:["1 an","2 ans","3 ans"],
-          correct:2,
-          feedback:"Un contrat d'apprentissage peut durer jusqu'à 3 ans, voire 4 ans dans certains cas dérogatoires (handicap, sportif de haut niveau...)."
-        }
-      ]
-    },
-    {
-      id:5, x:"42%", y:"69%", zone:"Stands · côté gauche",
-      logo:"logo-caf.png", label:"Stand 5 — CAF",
-      questions:[
-        {
-          bg:"bg-caf-q1.jpg",
-          question:"La CAF verse une aide au logement appelée APL. Que signifie ce sigle ?",
-          choices:["Aide Personnalisée au Logement","Allocation Pour le Loyer","Aide Publique au Logement"],
-          correct:0,
-          feedback:"APL = Aide Personnalisée au Logement. Elle est versée directement au bailleur et réduit le montant du loyer à payer chaque mois."
-        },
-        {
-          bg:"bg-caf-q2.jpg",
-          question:"Un apprenti peut-il bénéficier de l'APL versée par la CAF ?",
-          choices:["Non, car il perçoit déjà un salaire","Oui, sous conditions de ressources, comme tout locataire","Oui, mais uniquement s'il est hébergé en résidence CROUS"],
-          correct:1,
-          feedback:"Oui ! L'apprenti peut bénéficier de l'APL comme tout locataire, sous conditions de ressources, sur simple demande à la CAF."
-        }
-      ]
-    },
-    {
-      id:6, x:"58%", y:"63%", zone:"Stands · côté droit",
-      logo:"logo-crous.png", label:"Stand 6 — CROUS",
-      questions:[
-        {
-          bg:"bg-crous-q1.jpg",
-          question:"Quelle résidence le CROUS de Montpellier dédie-t-il spécifiquement aux apprentis en alternance ?",
-          choices:["La résidence Triolet","La résidence Sud Alternance","La résidence Boutonnet"],
-          correct:1,
-          feedback:"La résidence Sud Alternance est dédiée aux apprentis en alternance."
-        },
-        {
-          bg:"bg-crous-q2.jpg",
-          question:"Le CFA Ensup-LR a un partenariat avec le CROUS pour l'hébergement des apprentis. Combien de nuits maximum par mois un apprenti peut-il bénéficier de ce dispositif ?",
-          choices:["10 nuits par mois","5 nuits par mois","Pas de limite"],
-          correct:1,
-          feedback:"Le dispositif permet de bénéficier de 5 nuits maximum par mois."
-        }
-      ]
-    },
-    {
-      id:7, x:"42%", y:"57%", zone:"Stands · côté gauche",
-      logo:"logo-cpam.png", label:"Stand 7 — CPAM (Assurance Maladie)",
-      questions:[
-        {
-          bg:"bg-cpam-q1.jpg",
-          question:"La CPAM gère la Sécurité sociale. En tant qu'apprenti salarié, comment es-tu affilié à l'Assurance Maladie ?",
-          choices:["Via la Sécurité sociale étudiante, comme avant","Automatiquement via ton employeur, comme tout salarié","Tu dois faire une démarche personnelle auprès de la CPAM"],
-          correct:1,
-          feedback:"En tant que salarié, l'apprenti est affilié automatiquement à l'Assurance Maladie via son employeur."
-        },
-        {
-          bg:"bg-cpam-q2.jpg",
-          question:"En cas d'arrêt maladie, à qui l'apprenti doit-il envoyer son arrêt de travail ?",
-          choices:["Uniquement à la CPAM","Uniquement à son employeur","À son employeur ET à la CPAM, dans les 48h"],
-          correct:2,
-          feedback:"L'arrêt de travail doit être envoyé à l'employeur ET à la CPAM, dans un délai de 48h."
-        }
-      ]
-    },
-    {
-      id:8, x:"58%", y:"51%", zone:"Stands · côté droit",
-      logo:"logo-iae.png", label:"Stand 8 — IAE Montpellier",
-      questions:[
-        {
-          bg:"bg-iae-q1.jpg",
-          question:"L'IAE de Montpellier fait partie de quelle université ?",
-          choices:["Université Paul Valéry Montpellier 3","Université de Montpellier","Montpellier Business School"],
-          correct:1,
-          feedback:"L'IAE de Montpellier fait partie de l'Université de Montpellier."
-        },
-        {
-          bg:"bg-iae-q2.jpg",
-          question:"Dans le secteur public, quel organisme enregistre le contrat d'apprentissage à la place de l'OPCO ?",
-          choices:["Le Rectorat","La DREETS / DDETS","La Préfecture"],
-          correct:1,
-          feedback:"Dans le secteur public, c'est la DREETS / DDETS qui enregistre le contrat d'apprentissage."
-        }
-      ]
-    },
-    {
-      id:9, x:"42%", y:"45%", zone:"Stands · côté gauche",
-      logo:"logo-mission-locale.png", label:"Stand 9 — Mission Locale",
-      questions:[
-        {
-          bg:"bg-missionlocale-q1.jpg",
-          question:"Quel est le public principal accompagné par la Mission Locale ?",
-          choices:["Les cadres en reconversion","Les jeunes de 16 à 25 ans en insertion professionnelle","Les retraités"],
-          correct:1,
-          feedback:"La Mission Locale accompagne les jeunes de 16 à 25 ans dans leur insertion sociale et professionnelle, y compris vers l'apprentissage."
-        },
-        {
-          bg:"bg-missionlocale-q2.jpg",
-          question:"Un jeune peut-il être orienté vers un contrat d'apprentissage par la Mission Locale ?",
-          choices:["Non, ce n'est pas son rôle","Oui, elle informe et oriente vers les CFA et les employeurs","Oui, mais uniquement après 25 ans"],
-          correct:1,
-          feedback:"La Mission Locale informe, oriente et accompagne les jeunes vers les dispositifs d'apprentissage et les employeurs partenaires."
-        }
-      ]
-    },
-    {
-      id:10, x:"58%", y:"39%", zone:"Stands · côté droit",
-      logo:"logo-francetravail.png", label:"Stand 10 — France Travail",
-      questions:[
-        {
-          bg:"bg-francetravail-q1.jpg",
-          question:"Comment s'appelle désormais Pôle Emploi depuis 2024 ?",
-          choices:["France Travail","Pôle Carrière","Agence Nationale de l'Emploi"],
-          correct:0,
-          feedback:"Pôle Emploi est devenu France Travail en 2024, dans le cadre de la réforme du service public de l'emploi."
-        },
-        {
-          bg:"bg-francetravail-q2.jpg",
-          question:"France Travail peut-il aider un employeur à recruter un apprenti ?",
-          choices:["Non, seulement les CFA le peuvent","Oui, via la diffusion d'offres et un accompagnement au recrutement","Oui, mais uniquement pour les grandes entreprises"],
-          correct:1,
-          feedback:"France Travail accompagne aussi les employeurs dans leurs recrutements, y compris pour des contrats d'apprentissage."
-        }
-      ]
-    },
-    {
-      id:11, x:"42%", y:"33%", zone:"Stands · côté gauche",
-      logo:"logo-cci.png", label:"Stand 11 — CCI Hérault",
-      questions:[
-        {
-          bg:"bg-cci-q1.jpg",
-          question:"Que signifie le sigle CCI ?",
-          choices:["Chambre de Commerce et d'Industrie","Centre de Communication Interentreprises","Conseil de Coordination Industrielle"],
-          correct:0,
-          feedback:"CCI = Chambre de Commerce et d'Industrie, un organisme qui accompagne les entreprises et forme notamment aux métiers du commerce."
-        },
-        {
-          bg:"bg-cci-q2.jpg",
-          question:"La CCI peut-elle accompagner une entreprise dans le recrutement d'un apprenti ?",
-          choices:["Non","Oui, notamment via des services dédiés à l'apprentissage","Oui, mais uniquement pour l'export"],
-          correct:1,
-          feedback:"La CCI propose un accompagnement aux entreprises pour recruter et former des apprentis."
-        }
-      ]
-    },
-    {
-      id:12, x:"58%", y:"27%", zone:"Stands · côté droit",
-      logo:"logo-cma.png", label:"Stand 12 — CMA Occitanie",
-      questions:[
-        {
-          bg:"bg-cma-q1.jpg",
-          question:"La CMA accompagne principalement quel secteur ?",
-          choices:["L'artisanat","La grande distribution","La fonction publique"],
-          correct:0,
-          feedback:"La Chambre de Métiers et de l'Artisanat accompagne les artisans et les entreprises artisanales, notamment via l'apprentissage."
-        },
-        {
-          bg:"bg-cma-q2.jpg",
-          question:"L'apprentissage est-il historiquement lié au secteur de l'artisanat ?",
-          choices:["Non, c'est un dispositif récent","Oui, c'est historiquement l'une des premières voies de formation par l'artisanat","Oui, mais uniquement depuis les années 2000"],
-          correct:1,
-          feedback:"L'apprentissage trouve ses racines dans la transmission des savoir-faire artisanaux, bien avant sa généralisation à d'autres secteurs."
-        }
-      ]
-    },
-    {
-      id:13, x:"42%", y:"21%", zone:"Stands · côté gauche",
-      logo:"logo-region-occitanie.png", label:"Stand 13 — Région Occitanie",
-      questions:[
-        {
-          bg:"bg-region-q1.jpg",
-          question:"Quel est le rôle de la Région dans le financement de l'apprentissage ?",
-          choices:["Aucun, c'est uniquement l'État qui finance","Elle peut soutenir les CFA et les apprentis via des aides complémentaires","Elle finance uniquement les universités"],
-          correct:1,
-          feedback:"La Région Occitanie peut soutenir les CFA et proposer des aides complémentaires aux apprentis (mobilité, équipement, transport...)."
-        },
-        {
-          bg:"bg-region-q2.jpg",
-          question:"Quelle aide régionale peut concerner le transport des apprentis ?",
-          choices:["Une aide au transport / à la mobilité","Une prime au logement","Une réduction d'impôt"],
-          correct:0,
-          feedback:"La Région propose notamment des aides à la mobilité et au transport pour faciliter le quotidien des apprentis."
-        }
-      ]
-    },
-    {
-      id:14, x:"58%", y:"15%", zone:"Stands · côté droit",
-      logo:"logo-facedu.png", label:"Stand 14 — Faculté d'Éducation",
-      questions:[
-        {
-          bg:"bg-facedu-q1.jpg",
-          question:"La Faculté d'Éducation forme principalement aux métiers de...",
-          choices:["L'enseignement et l'éducation","La finance","L'ingénierie"],
-          correct:0,
-          feedback:"La Faculté d'Éducation de Montpellier forme aux métiers de l'enseignement et de l'éducation."
-        },
-        {
-          bg:"bg-facedu-q2.jpg",
-          question:"Peut-on devenir enseignant en passant par la voie de l'apprentissage ?",
-          choices:["Non, c'est impossible","Oui, notamment via certains masters MEEF en apprentissage","Oui, mais uniquement dans le privé"],
-          correct:1,
-          feedback:"Certains parcours de type Master MEEF peuvent désormais s'effectuer en apprentissage."
-        }
-      ]
-    },
-    {
-      id:15, x:"42%", y:"9%", zone:"Stands · côté gauche",
-      logo:"logo-polytech.png", label:"Stand 15 — Polytech Montpellier",
-      questions:[
-        {
-          bg:"bg-polytech-q1.jpg",
-          question:"Polytech Montpellier forme des étudiants dans quel domaine ?",
-          choices:["Ingénierie","Droit","Médecine"],
-          correct:0,
-          feedback:"Polytech Montpellier est une école d'ingénieurs publique, avec plusieurs spécialités accessibles en apprentissage."
-        },
-        {
-          bg:"bg-polytech-q2.jpg",
-          question:"Le CFA Ensup-LR a-t-il déjà collaboré avec Polytech pour des évènements dédiés à l'apprentissage ?",
-          choices:["Non, jamais","Oui, notamment via des Job Dating dédiés aux formations d'ingénieurs","Oui, mais uniquement pour les stages"],
-          correct:1,
-          feedback:"Le CFA Ensup-LR organise régulièrement des Job Dating avec Polytech pour mettre en lien apprentis et entreprises."
-        }
-      ]
-    },
-    {
-      id:16, x:"58%", y:"4%", zone:"Stands · côté droit",
-      logo:"logo-bpsud.png", label:"Stand 16 — Banque Populaire du Sud",
-      questions:[
-        {
-          bg:"bg-bpsud-q1.jpg",
-          question:"Pourquoi un apprenti peut-il avoir besoin d'accompagnement bancaire ?",
-          choices:["Pour ouvrir un compte et gérer son premier salaire","Uniquement pour emprunter une voiture","Ce n'est jamais utile pour un apprenti"],
-          correct:0,
-          feedback:"Beaucoup d'apprentis ouvrent leur premier compte bancaire et ont besoin de conseils pour gérer leur salaire et leur budget."
-        },
-        {
-          bg:"bg-bpsud-q2.jpg",
-          question:"Certaines banques proposent-elles des offres spécifiques aux jeunes en alternance ?",
-          choices:["Non, jamais","Oui, avec des formules adaptées (frais réduits, accompagnement...)","Oui, mais uniquement aux étudiants boursiers"],
-          correct:1,
-          feedback:"Plusieurs banques proposent des offres dédiées aux alternants, avec des frais réduits et un accompagnement adapté."
-        }
-      ]
-    }
-  ]
-};
-
-/* =========================================================
-   ÉTAT DU JEU
-   ========================================================= */
-let currentSpot = 0;
-let currentSubSpot = 0;
-let currentSubQuestion = 0;
-let inSubMap = false;
-
-let answered = [];
-let answered_correct = [];
-
-let playerName = "";
-let playerSite = "";
-
-/* =========================================================
-   NAVIGATION — pile d'historique
-   Chaque écran affiché pousse la fonction de rendu de l'écran
-   précédent dans navStack. goBack() dépile et ré-affiche
-   l'écran précédent exact (avec son état), jamais "le début".
-   Le bouton retour est volontairement masqué sur l'écran
-   question (voir CSS #back-question) : on ne peut pas
-   revenir en arrière une fois sur une question.
-   ========================================================= */
-let navStack = [];
-let currentRender = () => showScreen('screen-intro');
-
-function go(renderFn){
-  navStack.push(currentRender);
-  currentRender = renderFn;
-  renderFn();
-  updateBackButtons();
-}
-
-function goBack(){
-  if(navStack.length === 0) return;
-  currentRender = navStack.pop();
-  currentRender();
-  updateBackButtons();
-}
-
-function updateBackButtons(){
-  const disabled = navStack.length === 0;
-  document.querySelectorAll('.btn-back').forEach(b=>{
-    if(disabled) b.setAttribute('disabled','true');
-    else b.removeAttribute('disabled');
-  });
-}
-
-/* =========================================================
-   TRANSITIONS D'ÉCRAN
-   ========================================================= */
-function showScreen(id){
-  const current = document.querySelector('.screen.active');
-  const next = document.getElementById(id);
-  if(current && current !== next){
-    current.classList.add('exit');
-    setTimeout(()=>{
-      current.classList.remove('active','exit');
-      current.style.display='none';
-    },380);
-  }
-  next.style.display='block';
-  next.classList.remove('exit');
-  setTimeout(()=>next.classList.add('active'),10);
-}
-
-/* =========================================================
-   INTRO / NOM
-   ========================================================= */
-function startGame(){
-  go(()=>showScreen('screen-name'));
-}
-
-function saveName(){
-  const p=document.getElementById('input-prenom').value.trim();
-  const n=document.getElementById('input-nom').value.trim();
-  const s=document.getElementById('input-site').value.trim();
-  if(!p||!n){alert('Entre ton prénom et ton nom pour continuer !');return;}
-  playerName=p+" "+n;
-  playerSite=s||"Non renseigné";
-  answered=new Array(SPOTS.length).fill(null);
-  answered_correct=new Array(SPOTS.length).fill(false);
-  currentSpot=0;
-  go(()=>{renderMap();showScreen('screen-map');});
-}
-
-/* =========================================================
-   CARTE PRINCIPALE
-   ========================================================= */
-function showMap(){
-  renderMap();
-  showScreen('screen-map');
-}
-
-function renderMap(){
-  document.getElementById('spot-num').textContent=Math.min(currentSpot+1, SPOTS.length);
-  document.getElementById('progress').style.width=(currentSpot/SPOTS.length*100)+'%';
-  document.getElementById('map-title').textContent = currentSpot < SPOTS.length ? 'Trouve : ' + SPOTS[currentSpot].label : 'Trésor trouvé';
-  const container=document.getElementById('spots-container');
-  container.innerHTML='';
-  SPOTS.forEach((s,i)=>{
-    const div=document.createElement('div');
-    div.className='spot '+(i<currentSpot?'done':i===currentSpot?'active':'locked');
-    div.style.left=s.x;div.style.top=s.y;
-    const inner=document.createElement('span');
-    inner.textContent=i<currentSpot?'✓':(i===currentSpot?s.id:'🔒');
-    div.appendChild(inner);
-    if(i===currentSpot){
-      const lbl=document.createElement('div');
-      lbl.className='spot-label';lbl.textContent=s.label;
-      div.appendChild(lbl);
-      if(s.hasStands){
-        div.onclick = ()=>go(()=>showSubMap(1));
-      }else{
-        div.onclick = ()=>go(()=>showQuestion(i));
-      }
-    }
-    container.appendChild(div);
-  });
-}
-
-/* =========================================================
-   QUESTIONS — SPOTS PRINCIPAUX
-   ========================================================= */
-function applyHeroBackground(bgFile, eyebrow, title){
-  const hero = document.getElementById('question-hero');
-  hero.style.backgroundImage = bgFile
-    ? `linear-gradient(180deg, rgba(15,26,20,0) 0%, rgba(15,26,20,.78) 100%), url(${bgFile})`
-    : 'linear-gradient(180deg, rgba(15,26,20,.15) 0%, rgba(15,26,20,.85) 100%)';
-  document.getElementById('q-hero-eyebrow').textContent = eyebrow;
-  document.getElementById('q-hero-title').textContent = title;
-}
-
-function showQuestion(idx){
-  inSubMap = false;
-  const s=SPOTS[idx];
-  document.getElementById('q-location-name-top').textContent=s.label;
-  document.getElementById('q-eyebrow').textContent='Spot '+(idx+1)+' / '+SPOTS.length;
-  applyHeroBackground(s.bg, 'Jardin des Plantes', s.label);
-  const riddleEl = document.getElementById('q-riddle');
-  riddleEl.style.display='block';
-  riddleEl.textContent=s.riddle;
-  document.getElementById('q-text').textContent=s.question;
-  const choicesEl=document.getElementById('choices');
-  choicesEl.innerHTML='';
-  s.choices.forEach((c,i)=>{
-    const btn=document.createElement('button');
-    btn.className='choice';btn.textContent=c;
-    btn.onclick=()=>selectAnswer(idx,i,btn);
-    choicesEl.appendChild(btn);
-  });
-  document.getElementById('feedback').style.display='none';
-  document.getElementById('btn-next').style.display='none';
-  showScreen('screen-question');
-}
-
-function selectAnswer(spotIdx,choiceIdx,btn){
-  if(answered[spotIdx]!==null)return;
-  answered[spotIdx]=choiceIdx;
-  const s=SPOTS[spotIdx];
-  document.querySelectorAll('.choice').forEach((c,i)=>{
-    c.style.pointerEvents='none';
-    if(i===s.correct)c.classList.add('reveal-correct');
-  });
-  const fb=document.getElementById('feedback');
-  fb.style.display='block';
-  if(choiceIdx===s.correct){
-    btn.classList.add('selected-correct');
-    fb.className='feedback correct';
-    fb.innerHTML='<strong>Bonne réponse !</strong> '+s.feedback;
-    answered_correct[spotIdx]=true;
-  } else {
-    btn.classList.add('selected-wrong');
-    fb.className='feedback wrong';
-    fb.innerHTML='<strong>Pas tout à fait...</strong> '+s.feedback;
-  }
- const btnNext=document.getElementById('btn-next');
-btnNext.style.display='block';
-if(currentSpot===SPOTS.length-1){
-  btnNext.textContent='Voir mes résultats 🎉';
-  btnNext.onclick=()=>showWin();
-} else {
-  btnNext.textContent='Spot suivant →';
-  btnNext.onclick=()=>nextSpot();
-}
-
-function nextSpot(){
-  currentSpot++;
-  if(currentSpot>=SPOTS.length){
-    showWin();
-  } else {
-    renderMap();
-    showScreen('screen-map');
-  }
-}
-
-function nextAction(){
-  if(inSubMap){
-    if(currentSubSpot < SUBSPOTS[1].length){
-      renderSubMap(1);
-      showScreen('screen-submap');
-    } else {
-      currentSpot++;
-      inSubMap = false;
-      if(currentSpot>=SPOTS.length){
-        showWin();
-      } else {
-        renderMap();
-        showScreen('screen-map');
-      }
-    }
-  } else {
-    nextSpot();
-  }
-}
-
-function showSubMap(id){
-  currentSubSpot = 0;
-  renderSubMap(id);
-  showScreen('screen-submap');
-}
-
-function renderSubMap(id){
-  const stands = SUBSPOTS[id];
-  const container = document.getElementById('subspots-container');
-  container.innerHTML='';
-  const activeStand = stands[currentSubSpot];
-  document.getElementById('submap-zone').textContent = activeStand ? activeStand.zone : 'Tous les stands visités';
-  stands.forEach((s,i)=>{
-    const div=document.createElement('div');
-    div.className='spot';
-    div.style.left=s.x;div.style.top=s.y;
-    if(i<currentSubSpot){
-      div.classList.add('done');
-      const inner=document.createElement('span');inner.textContent='✓';div.appendChild(inner);
-    } else if(i===currentSubSpot){
-      div.classList.add('active');
-      if(s.logo){
-        const img=document.createElement('img');
-        img.src=s.logo;img.alt=s.label;
-        div.appendChild(img);
-      } else {
-        const inner=document.createElement('span');inner.textContent=i+1;div.appendChild(inner);
-      }
-      div.onclick=()=>go(()=>showSubQuestion(id,i));
-    } else {
-      div.classList.add('locked');
-      const inner=document.createElement('span');inner.textContent='🔒';div.appendChild(inner);
-    }
-    container.appendChild(div);
-  });
-}
-
-function showSubQuestion(spotId, subId){
-  inSubMap = true;
-  currentSubQuestion = 0;
-  showSubQuestionStep(spotId, subId, 0);
-}
-
-function showSubQuestionStep(spotId, subId, questionIndex){
-  const s = SUBSPOTS[spotId][subId];
-  const q = s.questions[questionIndex];
-  document.getElementById('q-location-name-top').textContent=s.label;
-  document.getElementById('q-eyebrow').textContent = s.zone + ' · Question ' + (questionIndex+1) + '/' + s.questions.length;
-  applyHeroBackground(q.bg, s.zone, s.label);
-  document.getElementById('q-riddle').style.display='none';
-  document.getElementById('q-text').textContent = q.question;
-  const choicesEl = document.getElementById('choices');
-  choicesEl.innerHTML = "";
-  q.choices.forEach((c, i) => {
-    const btn = document.createElement('button');
-    btn.className = "choice";
-    btn.textContent = c;
-    btn.onclick = () => selectSubAnswer(spotId, subId, questionIndex, i, btn);
-    choicesEl.appendChild(btn);
-  });
-  document.getElementById('feedback').style.display = 'none';
-  document.getElementById('btn-next').style.display = 'none';
-  showScreen('screen-question');
-}
-
-function selectSubAnswer(spotId, subId, questionIndex, choiceIdx, btn){
-  const s = SUBSPOTS[spotId][subId];
-  const q = s.questions[questionIndex];
-  document.querySelectorAll('.choice').forEach(c => { c.style.pointerEvents = 'none'; });
-  const fb = document.getElementById('feedback');
-  fb.style.display = 'block';
-  if (choiceIdx === q.correct) {
-    btn.classList.add('selected-correct');
-    fb.className = 'feedback correct';
-    fb.innerHTML = '<strong>Bonne réponse !</strong> ' + (q.feedback || "");
-  } else {
-    btn.classList.add('selected-wrong');
-    document.querySelectorAll('.choice')[q.correct].classList.add('reveal-correct');
-    fb.className = 'feedback wrong';
-    fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (q.feedback || "");
-  }
-  const btnNext = document.getElementById('btn-next');
-  btnNext.style.display = 'block';
-  const isLastQuestion = questionIndex === s.questions.length - 1;
-  const isLastStand = subId === SUBSPOTS[spotId].length - 1;
-  if (!isLastQuestion) {
-    btnNext.textContent = "Question suivante →";
-    btnNext.onclick = () => go(()=>showSubQuestionStep(spotId, subId, questionIndex + 1));
-  } else if (!isLastStand) {
-    btnNext.textContent = "Stand suivant →";
-    btnNext.onclick = () => {
-      currentSubSpot++;
-      go(()=>{renderSubMap(spotId);showScreen('screen-submap');});
-    };
-  } else {
-    btnNext.textContent = "Continuer →";
-    btnNext.onclick = () => {
-      currentSpot++;
-      inSubMap = false;
-      go(()=>{renderMap();showScreen('screen-map');});
-    };
-  }
-}
-
-/* =========================================================
-   VICTOIRE
-   ========================================================= */
-function showWin(){
-  const score=answered_correct.filter(Boolean).length;
-  document.getElementById('win-score').textContent=score+' / '+SPOTS.length+' bonnes réponses';
-  document.getElementById('win-name-display').value=playerName;
-  document.getElementById('win-site-display').value=playerSite;
-  showScreen('screen-win');
-  playWin();
-}
-
-function playWin(){
-  try{
-    const ctx=new(window.AudioContext||window.webkitAudioContext)();
-    [523,659,784,1047].forEach((f,i)=>{
-      const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(ctx.destination);
-      o.frequency.value=f;o.type='sine';
-      g.gain.setValueAtTime(0,ctx.currentTime+i*.15);
-      g.gain.linearRampToValueAtTime(.3,ctx.currentTime+i*.15+.05);
-      g.gain.linearRampToValueAtTime(0,ctx.currentTime+i*.15+.3);
-      o.start(ctx.currentTime+i*.15);o.stop(ctx.currentTime+i*.15+.35);
-    });
-  }catch(e){}
-}
-
-async function sendResults(){
-  const btn=document.getElementById('btn-send');
-  const status=document.getElementById('send-status');
-  const score=answered_correct.filter(Boolean).length;
-  btn.disabled=true;
-  btn.innerHTML='⏳ Envoi en cours...';
-
-  const details=SPOTS.map((s,i)=>s.label+' : '+(answered_correct[i]?'✓ Correct':'✗ Incorrect')).join(' | ');
-
-  const payload={
-    nom: playerName,
-    site_cfa: playerSite,
-    score: score+'/'+SPOTS.length,
-    details_reponses: details,
-    _subject: 'Chasse au trésor — '+playerName+' — '+score+'/'+SPOTS.length
-  };
-
-  try{
-    const res=await fetch(FORMSPREE_ENDPOINT,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify(payload)
-    });
-    if(res.ok){
-      status.className='ok';
-      status.innerHTML='<strong>Résultats envoyés !</strong> Le CFA a bien reçu ta participation. Bonne chance pour le tirage au sort 🍀';
-      btn.innerHTML='✅ Résultats envoyés !';
-    } else {
-      throw new Error('Erreur serveur');
-    }
-  } catch(e){
-    status.className='err';
-    status.innerHTML="<strong>Oups, une erreur s'est produite.</strong> Rends-toi au stand du CFA pour valider ta participation !";
-    btn.disabled=false;
-    btn.innerHTML='📨 Réessayer';
-  }
-}
-
-/* Initialisation */
-updateBackButtons();
-
-</script>
-</body>
-</html>
+  {id:1,label:"La Noria",x:"28%",y:"72%",riddle:"Je suis un ancien puits entouré d'arcades, orné de plantes succulentes. Tout près de moi dort un mystérieux tombeau... Rends-toi à la Noria et au tombeau de Narcissa.",question:"Quel est le statut juridique de l'apprenti ?",choices:["Étudiant salarié","Stagiaire","Salarié lié par un contrat de travail","Fonctionnaire stagiaire"],correct:2,feedback:"L'apprenti est un salarié à part entière ! Il signe un contrat de travail (le contrat d'apprentissage) et bénéficie des mêmes droits qu'un salarié."},
+  {id:2,label:"Monument Rabelais",x:"44%",y:"68%",riddle:"Au pied d'une montagne artificielle plantée d'arbustes méditerranéens, un monument rend hommage à un célèbre carabin. Rends-toi devant le monument François Rabelais.",question:"À combien de semaines de congés payés par an a droit un apprenti ?",choices:["2 semaines","4 semaines","5 semaines","6 semaines"],correct:2,feedback:"Comme tout salarié, l'apprenti a droit à 5 semaines de congés payés par an, soit 2,5 jours par mois travaillé."},
+  {id:3,label:"Bassin aux lotus",x:"56%",y:"40%",riddle:"Près d'un grand bassin où fleurissent des lotus, se dresse une rotonde ancienne. André Gide et Paul Valéry s'y promenaient. Rends-toi au bassin aux lotus.",question:"De quel document l'apprenti bénéficie-t-il pour des réductions sur les transports, la culture et la restauration universitaire ?",choices:["La carte Vitale","La carte étudiant","Le passeport mobilité","La carte de réduction SNCF"],correct:1,feedback:"L'apprenti bénéficie de la carte étudiant, qui donne accès aux réductions sur les transports, les activités culturelles et les restaurants universitaires du CROUS."},
+  {id:4,label:"Serre Martins",x:"72%",y:"22%",riddle:"Au nord du jardin, une grande serre abrite cactus, agaves et aloès venus des régions sèches du monde entier. Rends-toi devant la serre Martins.",question:"Comment évolue le salaire d'un apprenti ?",choices:["Il est fixe pendant toute la durée du contrat","Il augmente selon l'âge et l'année d'exécution du contrat","Il est librement négocié avec l'entreprise","Il est identique au SMIC pour tous les apprentis"],correct:1,feedback:"Le salaire de l'apprenti est calculé en pourcentage du SMIC et évolue selon l'âge de l'apprenti ET l'année d'exécution du contrat."},
+  {id:5,label:"L'Orangerie",x:"30%",y:"50%",riddle:"Construite en 1806 par Claude-Mathieu de la Gardette, ce grand bâtiment sobre abrite agrumes et cycadales l'hiver. Rends-toi devant l'Orangerie.",question:"À qui l'apprenti doit-il s'adresser en premier en cas de maladie ?",choices:["Au directeur du CFA","À son employeur / maître d'apprentissage","À la Sécurité sociale directement","Au médiateur de l'apprentissage"],correct:1,feedback:"En cas de maladie, l'apprenti doit prévenir son employeur dans les 48h, puis envoyer son arrêt de travail à l'entreprise ET à la CPAM."},
+  {id:6,label:"Bambouseraie",x:"60%",y:"58%",riddle:"Un coin de verdure dense et exotique au cœur du jardin, où les tiges vertes montent haut vers le ciel. Rends-toi à la bambouseraie.",question:"Quelles aides peuvent faciliter l'accès au logement pour un apprenti ?",choices:["Uniquement le 1% logement patronal","L'APL et Mobili-Jeune","Seulement les aides de la région","L'apprenti n'a aucune aide au logement"],correct:1,feedback:"L'apprenti peut bénéficier de l'APL via la CAF, et de Mobili-Jeune (aide d'Action Logement pour les moins de 30 ans en alternance). Il peut aussi solliciter les résidences CROUS."},
+  {id:7,label:"Observatoire",x:"55%",y:"30%",riddle:"Surnommé 'le marabout algérien', ce petit pavillon n'a jamais servi à observer les étoiles mais à des études spectroscopiques. Rends-toi devant l'observatoire.",question:"À partir de quel âge peut-on bénéficier de l'aide au permis B pour les apprentis ?",choices:["16 ans","17 ans","18 ans","15 ans"],correct:0,feedback:"L'aide au permis B pour les apprentis est accessible dès 16 ans, avec une prise en charge par l'employeur et/ou l'État."},
+  {id:8,label:"Entrée principale",x:"50%",y:"88%",riddle:"Tu es presque au
