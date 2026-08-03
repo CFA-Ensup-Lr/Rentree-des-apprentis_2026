@@ -449,20 +449,23 @@ function showScreen(id){
    INTRO / NOM
    ========================================================= */
 function startGame(){
+  const hasSave = localStorage.getItem('chasse_tresor_save');
+  if(hasSave){
+    const resume = confirm('Une partie est en cours. Veux-tu reprendre où tu en étais ?');
+    if(resume){
+      if(loadGame()){
+        if(inSubMap){
+          go(()=>{renderSubMap(1);showScreen('screen-submap');});
+        } else {
+          go(()=>{renderMap();showScreen('screen-map');});
+        }
+        return;
+      }
+    } else {
+      clearSave();
+    }
+  }
   go(()=>showScreen('screen-name'));
-}
-
-function saveName(){
-  const p=document.getElementById('input-prenom').value.trim();
-  const n=document.getElementById('input-nom').value.trim();
-  const s=document.getElementById('input-site').value.trim();
-  if(!p||!n){alert('Entre ton prénom et ton nom pour continuer !');return;}
-  playerName=p+" "+n;
-  playerSite=s||"Non renseigné";
-  answered=new Array(SPOTS.length).fill(null);
-  answered_correct=new Array(SPOTS.length).fill(false);
-  currentSpot=0;
-  go(()=>{renderMap();showScreen('screen-map');});
 }
 
 /* =========================================================
@@ -867,7 +870,39 @@ async function sendResults(){
     btn.innerHTML='📨 Réessayer';
   }
 }
+function saveGame(){
+  const state = {
+    playerName,
+    playerSite,
+    currentSpot,
+    currentSubSpot,
+    inSubMap,
+    answered: JSON.stringify(answered),
+    answered_correct: JSON.stringify(answered_correct)
+  };
+  localStorage.setItem('chasse_tresor_save', JSON.stringify(state));
+}
 
+function loadGame(){
+  const raw = localStorage.getItem('chasse_tresor_save');
+  if(!raw) return false;
+  try{
+    const state = JSON.parse(raw);
+    playerName = state.playerName || "";
+    playerSite = state.playerSite || "";
+    currentSpot = state.currentSpot || 0;
+    currentSubSpot = state.currentSubSpot || 0;
+    inSubMap = state.inSubMap || false;
+    answered = JSON.parse(state.answered || '[]');
+    answered_correct = JSON.parse(state.answered_correct || '[]');
+    return true;
+  } catch(e){ return false; }
+}
+
+function clearSave(){
+  localStorage.removeItem('chasse_tresor_save');
+}
+  
 /* Initialisation */
 updateBackButtons();
 
