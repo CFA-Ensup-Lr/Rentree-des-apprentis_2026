@@ -494,9 +494,6 @@ function renderMap(){
     inner.textContent=i<currentSpot?'✓':(i===currentSpot?s.id:'🔒');
     div.appendChild(inner);
     if(i===currentSpot){
-      const lbl=document.createElement('div');
-      lbl.className='spot-label';lbl.textContent=s.label;
-      div.appendChild(lbl);
       if(s.hasStands){
         div.onclick = ()=>go(()=>showSubMap(1));
       }else{
