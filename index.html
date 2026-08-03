@@ -458,6 +458,20 @@ function startGame(){
   go(()=>showScreen('screen-name'));
 }
 
+function saveName(){
+  const p=document.getElementById('input-prenom').value.trim();
+  const n=document.getElementById('input-nom').value.trim();
+  const s=document.getElementById('input-site').value.trim();
+  if(!p||!n){alert('Entre ton prénom et ton nom pour continuer !');return;}
+  playerName=p+" "+n;
+  playerSite=s||"Non renseigné";
+  answered=new Array(SPOTS.length).fill(null);
+  answered_correct=new Array(SPOTS.length).fill(false);
+  currentSpot=0;
+  saveGame();
+  go(()=>{renderMap();showScreen('screen-map');});
+}
+
 /* =========================================================
    CARTE PRINCIPALE
    ========================================================= */
