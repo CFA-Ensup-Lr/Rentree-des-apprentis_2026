@@ -247,7 +247,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:3, x:"39%", y:"47%", zone:"Stands · côté gauche",
+      id:3, x:"39%", y:"44%", zone:"Stands · côté gauche",
       logo:"logo-fds.png", label:"Stand 3 — Faculté des Sciences",
       questions:[
         {
@@ -563,48 +563,51 @@ function showQuestion(idx){
     const fb = document.getElementById('feedback');
     const btnNext = document.getElementById('btn-next');
     btnValider.onclick = () => {
-      const val = document.getElementById('secret-input').value.trim();
-      attempts++;
-      if(val === s.secretCode){
-        fb.style.display = 'block';
-        fb.className = 'feedback correct';
-        fb.innerHTML = '<strong>Code correct !</strong> ' + (s.secretFeedback || 'Bien joué, tu as trouvé le spot !');
-        answered_correct[idx] = true;
-        btnValider.style.display = 'none';
-        input.disabled = true;
-        attemptsDisplay.style.display = 'none';
-        btnNext.style.display = 'block';
-        if(currentSpot === SPOTS.length - 1){
-          btnNext.textContent = 'Voir mes résultats 🎉';
-          btnNext.onclick = () => showWin();
-        } else {
-          btnNext.textContent = 'Spot suivant →';
-          btnNext.onclick = () => nextSpot();
-        }
+  const val = document.getElementById('secret-input').value.trim();
+  attempts++;
+  if(val === s.secretCode){
+    fb.style.display = 'block';
+    fb.className = 'feedback correct';
+    fb.innerHTML = '<strong>Code correct !</strong> ' + (s.secretFeedback || 'Bien joué, tu as trouvé le spot !');
+    answered_correct[idx] = true;
+    saveGame(); // ← ici, après code correct
+    btnValider.style.display = 'none';
+    input.disabled = true;
+    attemptsDisplay.style.display = 'none';
+    btnNext.style.display = 'block';
+    if(currentSpot === SPOTS.length - 1){
+      btnNext.textContent = 'Voir mes résultats 🎉';
+      btnNext.onclick = () => showWin();
+    } else {
+      btnNext.textContent = 'Spot suivant →';
+      btnNext.onclick = () => nextSpot();
+    }
+  } else {
+    const remaining = maxAttempts - attempts;
+    fb.style.display = 'block';
+    if(remaining > 0){
+      fb.className = 'feedback wrong';
+      fb.innerHTML = '<strong>Code incorrect.</strong> Cherche encore... le code est affiché sur place !';
+      attemptsDisplay.textContent = remaining + ' tentative' + (remaining > 1 ? 's' : '') + ' restante' + (remaining > 1 ? 's' : '');
+      saveGame(); // ← ici, après tentative échouée
+    } else {
+      fb.className = 'feedback wrong';
+      fb.innerHTML = '<strong>Plus de tentatives.</strong> Dommage ! Tu passes au spot suivant sans point pour celui-ci.';
+      saveGame(); // ← ici, après épuisement des tentatives
+      btnValider.style.display = 'none';
+      input.disabled = true;
+      attemptsDisplay.style.display = 'none';
+      btnNext.style.display = 'block';
+      if(currentSpot === SPOTS.length - 1){
+        btnNext.textContent = 'Voir mes résultats 🎉';
+        btnNext.onclick = () => showWin();
       } else {
-        const remaining = maxAttempts - attempts;
-        fb.style.display = 'block';
-        if(remaining > 0){
-          fb.className = 'feedback wrong';
-          fb.innerHTML = '<strong>Code incorrect.</strong> Cherche encore... le code est affiché sur place !';
-          attemptsDisplay.textContent = remaining + ' tentative' + (remaining > 1 ? 's' : '') + ' restante' + (remaining > 1 ? 's' : '');
-        } else {
-          fb.className = 'feedback wrong';
-          fb.innerHTML = '<strong>Plus de tentatives.</strong> Dommage ! Tu passes au spot suivant sans point pour celui-ci.';
-          btnValider.style.display = 'none';
-          input.disabled = true;
-          attemptsDisplay.style.display = 'none';
-          btnNext.style.display = 'block';
-          if(currentSpot === SPOTS.length - 1){
-            btnNext.textContent = 'Voir mes résultats 🎉';
-            btnNext.onclick = () => showWin();
-          } else {
-            btnNext.textContent = 'Spot suivant →';
-            btnNext.onclick = () => nextSpot();
-          }
-        }
+        btnNext.textContent = 'Spot suivant →';
+        btnNext.onclick = () => nextSpot();
       }
-    };
+    }
+  }
+};
   } else {
     document.getElementById('q-text').textContent = s.question;
     s.choices.forEach((c,i)=>{
@@ -632,24 +635,27 @@ function selectAnswer(spotIdx,choiceIdx,btn){
     fb.className='feedback correct';
     fb.innerHTML = '<strong>Bonne réponse !</strong> ' + (s.feedbackCorrect || s.feedback || "");
     answered_correct[spotIdx]=true;
+    saveGame(); // ← ici
   } else {
     btn.classList.add('selected-wrong');
     fb.className='feedback wrong';
     fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (s.feedbackWrong || s.feedback || "");
+    saveGame(); // ← ici
   }
- const btnNext=document.getElementById('btn-next');
-btnNext.style.display='block';
-if(currentSpot===SPOTS.length-1){
-  btnNext.textContent='Voir mes résultats 🎉';
-  btnNext.onclick=()=>showWin();
-} else {
-  btnNext.textContent='Spot suivant →';
-  btnNext.onclick=()=>nextSpot();
+  const btnNext=document.getElementById('btn-next');
+  btnNext.style.display='block';
+  if(currentSpot===SPOTS.length-1){
+    btnNext.textContent='Voir mes résultats 🎉';
+    btnNext.onclick=()=>showWin();
+  } else {
+    btnNext.textContent='Spot suivant →';
+    btnNext.onclick=()=>nextSpot();
+  }
 }
-  }
 
 function nextSpot(){
   currentSpot++;
+  saveGame();
   if(currentSpot>=SPOTS.length){
     showWin();
   } else {
@@ -657,6 +663,7 @@ function nextSpot(){
     showScreen('screen-map');
   }
 }
+  
 
 function nextAction(){
   if(inSubMap){
@@ -768,6 +775,7 @@ function selectSubAnswer(spotId, subId, questionIndex, choiceIdx, btn){
     fb.className = 'feedback wrong';
     fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (q.feedbackWrong || q.feedback || "");
   }
+  saveGame();
   const btnNext = document.getElementById('btn-next');
   btnNext.style.display = 'block';
   const isLastQuestion = questionIndex === s.questions.length - 1;
@@ -779,6 +787,7 @@ function selectSubAnswer(spotId, subId, questionIndex, choiceIdx, btn){
     btnNext.textContent = "Stand suivant →";
     btnNext.onclick = () => {
       currentSubSpot++;
+      saveGame();
       go(()=>{renderSubMap(spotId);showScreen('screen-submap');});
     };
   } else {
@@ -786,6 +795,7 @@ function selectSubAnswer(spotId, subId, questionIndex, choiceIdx, btn){
     btnNext.onclick = () => {
       currentSpot++;
       inSubMap = false;
+      saveGame();
       go(()=>{renderMap();showScreen('screen-map');});
     };
   }
