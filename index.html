@@ -172,17 +172,25 @@ hint:"Petit indice : lisez bien le panneau à l'entrée !",
     feedbackCorrect:"Parfait ! Le Jardin des Plantes de Montpellier, fondé en 1593, est le plus ancien jardin botanique de France. Il est dédié à la conservation et à la recherche botanique.",
 feedbackWrong:"Pas tout à fait. Le Jardin des Plantes n'est ni un parc de loisirs ni un musée : c'est un lieu de conservation et de recherche botanique, fondé en 1593 — le plus ancien de France !"},
   {id:2,label:"Monument Rabelais",x:"67%",y:"54%",bg:"bg-rabelais.jpg",
-    secretCode:"Garg@ntua7"},
+    secretCode:"Garg@ntua7",
+  secretFeedback:"Gargantua est le géant héros de Rabelais, médecin et humaniste de la Renaissance. Son œuvre mêle humour, satire et savoir... Tout comme Rabelais lui-même, qui étudia à Montpellier !"},
   {id:3,label:"Stand des partenaires",x:"56%",y:"32%",bg:"bg-village-partenaires.jpg",hasStands:true,
     riddle:"Un village de tentes s'est installé pour l'occasion, juste à côté de la Noria. De nombreux partenaires de l'apprentissage t'y attendent avec leurs questions. Rends-toi au village des stands partenaires !"},
   {id:4,label:"La Noria",x:"56%",y:"40%",bg:"bg-noria.jpg",
-    secretCode:"Narc1ssa93"},
+    secretCode:"Narc1ssa93",
+  secretFeedback:"Narcissa était la belle-fille d'Edward Young, poète anglais. Morte de tuberculose en 1736, elle aurait été enterrée ici par le poète."},
   {id:5,label:"Bambouseraie",x:"57%",y:"48%",bg:"bg-bambouseraie.jpg",
-    secretCode:"Ph@ll0chloa"},
+    secretCode:"Ph@ll0chloa",
+  secretFeedback:"Phyllostachys est le nom scientifique du bambou géant. Malgré ses allures de bois exotique, le bambou est en réalité une graminée, comme le blé ou le maïs !"},
   {id:6,label:"Serre Martins",x:"25%",y:"40%",bg:"bg-serre-martins.jpg",
-    secretCode:"Agav3_1593"},
+    secretCode:"Agav3_1593",
+  secretFeedback:"L'agave peut vivre des dizaines d'années sans fleurir... puis produit une immense hampe florale pouvant dépasser 5 mètres, et meurt après. Une floraison unique et spectaculaire !"},
   {id:7,label:"Bassin aux lotus",x:"30%",y:"58%",bg:"bg-bassin-lotus.jpg",
-    secretCode:"Nelumb0_34"}
+    secretCode:"Nelumb0_34",
+  secretFeedback:"Nelumbo nucifera est le nom scientifique du lotus sacré. Ses fleurs s'ouvrent chaque matin et se ferment le soir."},
+  {id:8,label:"Pavillon astronomique",x:"40%",y:"60%",bg:"bg-pavillon-astronomique.jpg",
+    secretCode:"Ant@res_1879",
+  secretFeedback:"Ce petit pavillon a été inauguré le 28 juillet 1879 à l'occasion d'un événement rare : l'occultation de l'étoile Antarès par la Lune. Autrement dit, la Lune passant devant l'étoile et la cachant momentanément. Il vient d'être restauré et réinauguré en avril 2026 par l'Université de Montpellier !"},
 ];
 
 /* Stands partenaires — déclenchés depuis le spot "Stand des partenaires".
@@ -696,7 +704,7 @@ function showQuestion(idx){
       if(val === s.secretCode){
         fb.style.display = 'block';
         fb.className = 'feedback correct';
-        fb.innerHTML = '<strong>Code correct !</strong> Bien joué !';
+        fb.innerHTML = '<strong>Code correct !</strong> ' + (s.secretFeedback || 'Bien joué, tu as trouvé le spot !');
         answered_correct[idx] = true;
         btnValider.style.display = 'none';
         input.disabled = true;
