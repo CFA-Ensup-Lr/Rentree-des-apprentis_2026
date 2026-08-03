@@ -94,6 +94,17 @@
     </div>
     <div class="question-body">
       <div class="question-card">
+      <div class="question-body">
+  <div class="question-card">
+    <div class="q-riddle" id="q-riddle" style="display:none"></div>
+    <p class="q-text" id="q-text"></p>
+    <p id="q-hint" style="font-size:12px;font-style:italic;color:#287ec0;margin-bottom:1rem;display:none"></p>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback" style="display:none"></div>
+    <button class="btn-next" id="btn-next" onclick="nextAction()">Prochain spot →</button>
+  </div>
+  <button id="btn-back-to-map" onclick="backToMainMap()" style="display:none;width:100%;margin-top:1rem;background:var(--surface);color:var(--green-deep);border:1.5px solid var(--line);padding:14px;border-radius:var(--radius-md);font-size:14.5px;font-weight:600;cursor:pointer;min-height:48px;">← Retour à la carte principale</button>
+</div>
         <div class="q-riddle" id="q-riddle" style="display:none"></div>
         <p class="q-text" id="q-text"></p>
         <p id="q-hint" style="font-size:12px;font-style:italic;color:#287ec0;margin-bottom:1rem;display:none"></p>
@@ -506,6 +517,7 @@ function showQuestion(idx){
   const s=SPOTS[idx];
   document.getElementById('q-location-name-top').textContent=s.label;
   document.getElementById('q-eyebrow').textContent='Spot '+(idx+1)+' / '+SPOTS.length;
+  document.getElementById('btn-back-to-map').style.display = 'none';
   applyHeroBackground(s.bg, 'Jardin des Plantes', s.label);
   const riddleEl = document.getElementById('q-riddle');
   riddleEl.style.display='block';
@@ -716,6 +728,7 @@ function showSubQuestionStep(spotId, subId, questionIndex){
   document.getElementById('q-location-name-top').textContent=s.label;
   document.getElementById('q-eyebrow').textContent = s.zone + ' · Question ' + (questionIndex+1) + '/' + s.questions.length;
   applyHeroBackground(q.bg, s.zone, s.label);
+  document.getElementById('btn-back-to-map').style.display = 'block';
   document.getElementById('q-riddle').style.display='none';
   document.getElementById('q-text').textContent = q.question;
   const choicesEl = document.getElementById('choices');
