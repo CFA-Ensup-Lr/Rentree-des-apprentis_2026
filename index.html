@@ -686,7 +686,7 @@ function nextAction(){
 }
 
 function showSubMap(id){
-  currentSubSpot = 0;
+  // Ne remet pas currentSubSpot à 0 si on revient en cours de route
   renderSubMap(id);
   showScreen('screen-submap');
 }
