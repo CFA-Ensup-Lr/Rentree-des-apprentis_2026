@@ -172,32 +172,17 @@ hint:"Petit indice : lisez bien le panneau à l'entrée !",
     feedbackCorrect:"Parfait ! Le Jardin des Plantes de Montpellier, fondé en 1593, est le plus ancien jardin botanique de France. Il est dédié à la conservation et à la recherche botanique.",
 feedbackWrong:"Pas tout à fait. Le Jardin des Plantes n'est ni un parc de loisirs ni un musée : c'est un lieu de conservation et de recherche botanique, fondé en 1593 — le plus ancien de France !"},
   {id:2,label:"Monument Rabelais",x:"67%",y:"54%",bg:"bg-rabelais.jpg",
-    riddle:"Au pied d'une montagne artificielle plantée d'arbustes méditerranéens, un monument rend hommage à un célèbre carabin. Rends-toi devant le monument François Rabelais.",
-    question:"À combien de semaines de congés payés par an a droit un apprenti ?",
-    choices:["2 semaines","4 semaines","5 semaines","6 semaines"],correct:2,
-    feedback:"Comme tout salarié, l'apprenti a droit à 5 semaines de congés payés par an, soit 2,5 jours par mois travaillé."},
+    secretCode:"Garg@ntua7"},
   {id:3,label:"Stand des partenaires",x:"56%",y:"32%",bg:"bg-village-partenaires.jpg",hasStands:true,
     riddle:"Un village de tentes s'est installé pour l'occasion, juste à côté de la Noria. De nombreux partenaires de l'apprentissage t'y attendent avec leurs questions. Rends-toi au village des stands partenaires !"},
   {id:4,label:"La Noria",x:"56%",y:"40%",bg:"bg-noria.jpg",
-    riddle:"Je suis un ancien puits entouré d'arcades, orné de plantes succulentes. Tout près de moi dort un mystérieux tombeau... Rends-toi à la Noria et au tombeau de Narcissa.",
-    question:"Quel est le statut juridique de l'apprenti ?",
-    choices:["Étudiant salarié","Stagiaire","Salarié lié par un contrat de travail","Fonctionnaire stagiaire"],correct:2,
-    feedback:"L'apprenti est un salarié à part entière ! Il signe un contrat de travail (le contrat d'apprentissage) et bénéficie des mêmes droits qu'un salarié."},
+    secretCode:"Narc1ssa93"},
   {id:5,label:"Bambouseraie",x:"57%",y:"48%",bg:"bg-bambouseraie.jpg",
-    riddle:"Un coin de verdure dense et exotique au cœur du jardin, où les tiges vertes montent haut vers le ciel. Rends-toi à la bambouseraie.",
-    question:"Quelles aides peuvent faciliter l'accès au logement pour un apprenti ?",
-    choices:["Uniquement le 1% logement patronal","L'APL et Mobili-Jeune","Seulement les aides de la région","L'apprenti n'a aucune aide au logement"],correct:1,
-    feedback:"L'apprenti peut bénéficier de l'APL via la CAF, et de Mobili-Jeune (aide d'Action Logement pour les moins de 30 ans en alternance). Il peut aussi solliciter les résidences CROUS."},
+    secretCode:"Ph@ll0chloa"},
   {id:6,label:"Serre Martins",x:"25%",y:"40%",bg:"bg-serre-martins.jpg",
-    riddle:"Au nord du jardin, une grande serre abrite cactus, agaves et aloès venus des régions sèches du monde entier. Rends-toi devant la serre Martins.",
-    question:"Comment évolue le salaire d'un apprenti ?",
-    choices:["Il est fixe pendant toute la durée du contrat","Il augmente selon l'âge et l'année d'exécution du contrat","Il est librement négocié avec l'entreprise","Il est identique au SMIC pour tous les apprentis"],correct:1,
-    feedback:"Le salaire de l'apprenti est calculé en pourcentage du SMIC et évolue selon l'âge de l'apprenti ET l'année d'exécution du contrat."},
+    secretCode:"Agav3_1593"},
   {id:7,label:"Bassin aux lotus",x:"30%",y:"58%",bg:"bg-bassin-lotus.jpg",
-    riddle:"Près d'un grand bassin où fleurissent des lotus, se dresse une rotonde ancienne. André Gide et Paul Valéry s'y promenaient. Rends-toi au bassin aux lotus. Le trésor n'est plus très loin !",
-    question:"De quel document l'apprenti bénéficie-t-il pour des réductions sur les transports, la culture et la restauration universitaire ?",
-    choices:["La carte Vitale","La carte étudiant","Le passeport mobilité","La carte de réduction SNCF"],correct:1,
-    feedback:"L'apprenti bénéficie de la carte étudiant, qui donne accès aux réductions sur les transports, les activités culturelles et les restaurants universitaires du CROUS."}
+    secretCode:"Nelumb0_34"}
 ];
 
 /* Stands partenaires — déclenchés depuis le spot "Stand des partenaires".
@@ -672,27 +657,94 @@ function showQuestion(idx){
   const riddleEl = document.getElementById('q-riddle');
   riddleEl.style.display='block';
   riddleEl.textContent=s.riddle;
-  document.getElementById('q-text').textContent = s.question;
-const hintEl = document.getElementById('q-hint');
-if(s.hint){
-  hintEl.textContent = s.hint;
-  hintEl.style.display = 'block';
-} else {
-  hintEl.style.display = 'none';
-}
+  const hintEl = document.getElementById('q-hint');
+  if(s.hint){
+    hintEl.textContent = s.hint;
+    hintEl.style.display = 'block';
+  } else {
+    hintEl.style.display = 'none';
+  }
   const choicesEl=document.getElementById('choices');
   choicesEl.innerHTML='';
-  s.choices.forEach((c,i)=>{
-    const btn=document.createElement('button');
-    btn.className='choice';btn.textContent=c;
-    btn.onclick=()=>selectAnswer(idx,i,btn);
-    choicesEl.appendChild(btn);
-  });
   document.getElementById('feedback').style.display='none';
   document.getElementById('btn-next').style.display='none';
+
+  if(s.secretCode){
+    document.getElementById('q-text').textContent = "Inscris le code secret trouvé sur place :";
+    let attempts = 0;
+    const maxAttempts = 3;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.id = 'secret-input';
+    input.placeholder = 'Code secret...';
+    input.style.cssText = 'width:100%;padding:12px;border:1px solid #96bbda;border-radius:10px;font-size:16px;margin-bottom:1rem;letter-spacing:2px';
+    choicesEl.appendChild(input);
+    const attemptsDisplay = document.createElement('p');
+    attemptsDisplay.style.cssText = 'font-size:12px;color:#287ec0;margin-bottom:1rem;';
+    attemptsDisplay.textContent = '3 tentatives restantes';
+    choicesEl.appendChild(attemptsDisplay);
+    const btnValider = document.createElement('button');
+    btnValider.className = 'btn-next';
+    btnValider.style.display = 'block';
+    btnValider.textContent = 'Valider le code';
+    choicesEl.appendChild(btnValider);
+    const fb = document.getElementById('feedback');
+    const btnNext = document.getElementById('btn-next');
+    btnValider.onclick = () => {
+      const val = document.getElementById('secret-input').value.trim();
+      attempts++;
+      if(val === s.secretCode){
+        fb.style.display = 'block';
+        fb.className = 'feedback correct';
+        fb.innerHTML = '<strong>Code correct !</strong> Bien joué, tu as trouvé le spot !';
+        answered_correct[idx] = true;
+        btnValider.style.display = 'none';
+        input.disabled = true;
+        attemptsDisplay.style.display = 'none';
+        btnNext.style.display = 'block';
+        if(currentSpot === SPOTS.length - 1){
+          btnNext.textContent = 'Voir mes résultats 🎉';
+          btnNext.onclick = () => showWin();
+        } else {
+          btnNext.textContent = 'Spot suivant →';
+          btnNext.onclick = () => nextSpot();
+        }
+      } else {
+        const remaining = maxAttempts - attempts;
+        fb.style.display = 'block';
+        if(remaining > 0){
+          fb.className = 'feedback wrong';
+          fb.innerHTML = '<strong>Code incorrect.</strong> Cherche encore... le code est affiché sur place !';
+          attemptsDisplay.textContent = remaining + ' tentative' + (remaining > 1 ? 's' : '') + ' restante' + (remaining > 1 ? 's' : '');
+        } else {
+          fb.className = 'feedback wrong';
+          fb.innerHTML = '<strong>Plus de tentatives.</strong> Pas de panique, tu passes au spot suivant sans point pour celui-ci.';
+          btnValider.style.display = 'none';
+          input.disabled = true;
+          attemptsDisplay.style.display = 'none';
+          btnNext.style.display = 'block';
+          if(currentSpot === SPOTS.length - 1){
+            btnNext.textContent = 'Voir mes résultats 🎉';
+            btnNext.onclick = () => showWin();
+          } else {
+            btnNext.textContent = 'Spot suivant →';
+            btnNext.onclick = () => nextSpot();
+          }
+        }
+      }
+    };
+  } else {
+    document.getElementById('q-text').textContent = s.question;
+    s.choices.forEach((c,i)=>{
+      const btn=document.createElement('button');
+      btn.className='choice';btn.textContent=c;
+      btn.onclick=()=>selectAnswer(idx,i,btn);
+      choicesEl.appendChild(btn);
+    });
+  }
+
   showScreen('screen-question');
 }
-
 function selectAnswer(spotIdx,choiceIdx,btn){
   if(answered[spotIdx]!==null)return;
   answered[spotIdx]=choiceIdx;
