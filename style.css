@@ -106,10 +106,13 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
   background-size:cover;
   background-position:center;
   min-height:100vh;
+  min-height:100dvh; /* dynamic viewport height — corrige le bug iOS */
   display:flex;
   flex-direction:column;
-  justify-content:center;
+  justify-content:flex-start; /* ← au lieu de center */
   align-items:center;
+  overflow-y:auto;
+  gap:.75rem;
 }
 .intro-badge{
   display:inline-flex;align-items:center;gap:6px;
@@ -155,6 +158,12 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
 }
 .btn-start:active{transform:scale(.97)}
 .btn-start:hover{opacity:.92}
+#screen-intro .btn-start{
+  margin-top:auto;
+  margin-bottom:1rem;
+  width:100%;
+  max-width:320px;
+}
 
 /* =========== Nom / formulaire =========== */
 #screen-name{padding:calc(1.5rem + var(--safe-top)) 1.25rem calc(2rem + var(--safe-bottom));display:flex;align-items:center;min-height:100vh}
