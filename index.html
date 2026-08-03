@@ -696,7 +696,7 @@ function showQuestion(idx){
       if(val === s.secretCode){
         fb.style.display = 'block';
         fb.className = 'feedback correct';
-        fb.innerHTML = '<strong>Code correct !</strong> Bien joué, tu as trouvé le spot !';
+        fb.innerHTML = '<strong>Code correct !</strong> Bien joué !';
         answered_correct[idx] = true;
         btnValider.style.display = 'none';
         input.disabled = true;
@@ -718,7 +718,7 @@ function showQuestion(idx){
           attemptsDisplay.textContent = remaining + ' tentative' + (remaining > 1 ? 's' : '') + ' restante' + (remaining > 1 ? 's' : '');
         } else {
           fb.className = 'feedback wrong';
-          fb.innerHTML = '<strong>Plus de tentatives.</strong> Pas de panique, tu passes au spot suivant sans point pour celui-ci.';
+          fb.innerHTML = '<strong>Plus de tentatives.</strong> Dommage ! Tu passes au spot suivant sans point pour celui-ci.';
           btnValider.style.display = 'none';
           input.disabled = true;
           attemptsDisplay.style.display = 'none';
