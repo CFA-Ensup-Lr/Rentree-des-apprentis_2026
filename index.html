@@ -158,52 +158,46 @@
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqevdlen";
 
-/* Ordre du parcours : Entrée principale -> Monument Rabelais -> Stand
+/* Ordre du parcours : Entrée principale -> Monument Rabelais -> Village
    des partenaires -> La Noria -> Bambouseraie -> Serre Martins ->
-   Bassin aux lotus. Les coordonnées x/y restent celles de chaque lieu
-   réel sur le plan du Jardin des Plantes ; le stand des partenaires
-   est positionné juste à côté de la Noria (même zone du jardin). */
+   Pavillon astronomique -> Bassin aux lotus. */
 
   const SPOTS = [
   {id:1,label:"Entrée principale",x:"95%",y:"40%",bg:"bg-entree.jpg",
     riddle:"Bienvenue au Jardin des Plantes ! Ton aventure commence là où tout débute : l'entrée principale, Boulevard Henri IV.",
     question:"Qu'est-ce que le Jardin des Plantes ?",
-hint:"Petit indice : lisez bien le panneau à l'entrée !",
+    hint:"Petit indice : lisez bien le panneau à l'entrée !",
     choices:["Le Jardin des plantes est un espace de loisirs et de promenade pour les familles","Le Jardin des plantes est un musée d'histoire naturelle en plein air","Le Jardin des plantes est un lieu de conservation et de recherche botanique"],correct:2,
     feedbackCorrect:"Le Jardin des Plantes de Montpellier, fondé en 1593, est le plus ancien jardin botanique de France. Il est dédié à la conservation et à la recherche botanique.",
-feedbackWrong:"Pas tout à fait. Le Jardin des Plantes n'est ni un parc de loisirs ni un musée : c'est un lieu de conservation et de recherche botanique, fondé en 1593 — le plus ancien de France !"},
+    feedbackWrong:"Pas tout à fait. Le Jardin des Plantes n'est ni un parc de loisirs ni un musée : c'est un lieu de conservation et de recherche botanique, fondé en 1593 — le plus ancien de France !"},
   {id:2,label:"Monument Rabelais",x:"67%",y:"54%",bg:"bg-rabelais.jpg",
     secretCode:"Garg@ntua7",
-  secretFeedback:"Gargantua est le géant héros de Rabelais, médecin et humaniste de la Renaissance. Son œuvre mêle humour, satire et savoir... Tout comme Rabelais lui-même, qui étudia à Montpellier !"},
+    secretFeedback:"Gargantua est le géant héros de Rabelais, médecin et humaniste de la Renaissance. Son œuvre mêle humour, satire et savoir... Tout comme Rabelais lui-même, qui étudia à Montpellier !"},
   {id:3,label:"Village des partenaires",x:"56%",y:"32%",bg:"bg-village-partenaires.jpg",hasStands:true,
     riddle:"Un village s'est installé pour l'occasion, juste à côté de la Noria. De nombreux partenaires de l'apprentissage t'y attendent avec leurs réponses. Rends-toi au village des partenaires !"},
   {id:4,label:"La Noria",x:"56%",y:"40%",bg:"bg-noria.jpg",
     secretCode:"Narc1ssa93",
-  secretFeedback:"Narcissa était la belle-fille d'Edward Young, poète anglais. Morte de tuberculose en 1736, elle aurait été enterrée ici par le poète."},
+    secretFeedback:"Narcissa était la belle-fille d'Edward Young, poète anglais. Morte de tuberculose en 1736, elle aurait été enterrée ici par le poète."},
   {id:5,label:"Bambouseraie",x:"57%",y:"48%",bg:"bg-bambouseraie.jpg",
     secretCode:"Ph@ll0chloa",
-  secretFeedback:"Phyllostachys est le nom scientifique du bambou géant. Malgré ses allures de bois exotique, le bambou est en réalité une graminée, comme le blé ou le maïs !"},
+    secretFeedback:"Phyllostachys est le nom scientifique du bambou géant. Malgré ses allures de bois exotique, le bambou est en réalité une graminée, comme le blé ou le maïs !"},
   {id:6,label:"Serre Martins",x:"25%",y:"36%",bg:"bg-serre-martins.jpg",
     secretCode:"Agav3_1593",
-  secretFeedback:"L'agave peut vivre des dizaines d'années sans fleurir... puis produit une immense hampe florale pouvant dépasser 5 mètres, et meurt après. Une floraison unique et spectaculaire !"},
+    secretFeedback:"L'agave peut vivre des dizaines d'années sans fleurir... puis produit une immense hampe florale pouvant dépasser 5 mètres, et meurt après. Une floraison unique et spectaculaire !"},
   {id:7,label:"Pavillon astronomique",x:"30%",y:"60%",bg:"bg-pavillon-astronomique.jpg",
-   riddle:"Surnommé 'le marabout algérien', ce petit pavillon été inauguré le 28 juillet 1879 à l'occasion de l'observation de l'occultation de l'étoile Antarès par la Lune. Rends-toi devant le pavillon astronomique !",
-  question:"Qui s'était opposé au projet d'installation du pavillon astronomique dans le jardin ?",
-  hint:"Un indice : lisez la pancarte !",
-  choices:["Pierre Richer de Belleval","Charles Martins","Antoine Gouan"],
-  correct:1,
-  feedbackCorrect:"Exact ! Charles Martins, alors directeur du Jardin, s'était opposé au projet, estimant que l'humidité du site pourrait détériorer l'équipement. Une controverse qui nécessita même l'arbitrage du ministre de l'Instruction publique !",
-  feedbackWrong:"C'est Charles Martins, directeur du Jardin à l'époque, qui s'y était opposé. Il craignait que l'humidité du site ne détériore l'équipement. C'est écrit sur la pancarte devant toi !"}
+    riddle:"Surnommé 'le marabout algérien', ce petit pavillon été inauguré le 28 juillet 1879 à l'occasion de l'observation de l'occultation de l'étoile Antarès par la Lune. Rends-toi devant le pavillon astronomique !",
+    question:"Qui s'était opposé au projet d'installation du pavillon astronomique dans le jardin ?",
+    hint:"Un indice : lisez la pancarte !",
+    choices:["Pierre Richer de Belleval","Charles Martins","Antoine Gouan"],
+    correct:1,
+    feedbackCorrect:"Exact ! Charles Martins, alors directeur du Jardin, s'était opposé au projet, estimant que l'humidité du site pourrait détériorer l'équipement. Une controverse qui nécessita même l'arbitrage du ministre de l'Instruction publique !",
+    feedbackWrong:"C'est Charles Martins, directeur du Jardin à l'époque, qui s'y était opposé. Il craignait que l'humidité du site ne détériore l'équipement. C'est écrit sur la pancarte devant toi !"},
   {id:8,label:"Bassin aux lotus",x:"30%",y:"58%",bg:"bg-bassin-lotus.jpg",
-  secretCode:"Nelumb0_34",
-  secretFeedback:"Nelumbo nucifera est le nom scientifique du lotus sacré. Ses fleurs s'ouvrent chaque matin et se ferment le soir."},
+    secretCode:"Nelumb0_34",
+    secretFeedback:"Nelumbo nucifera est le nom scientifique du lotus sacré. Ses fleurs s'ouvrent chaque matin et se ferment le soir."}
 ];
 
-/* Stands partenaires — déclenchés depuis le spot "Stand des partenaires".
-   16 stands répartis en quinconce (colonne centrale, décalée
-   alternativement à gauche et à droite) sur plan_zoom_noria.png.
-   Positions abaissées (plus bas dans l'image) par rapport à la
-   version précédente. x/y sont à ajuster à ton vrai plan si besoin. */
+/* Stands partenaires — déclenchés depuis le spot "Village des partenaires". */
 const SUBSPOTS = {
   1: [
     {
@@ -385,12 +379,6 @@ let playerSite = "";
 
 /* =========================================================
    NAVIGATION — pile d'historique
-   Chaque écran affiché pousse la fonction de rendu de l'écran
-   précédent dans navStack. goBack() dépile et ré-affiche
-   l'écran précédent exact (avec son état), jamais "le début".
-   Le bouton retour est volontairement masqué sur l'écran
-   question (voir CSS #back-question) : on ne peut pas
-   revenir en arrière une fois sur une question.
    ========================================================= */
 let navStack = [];
 let currentRender = () => showScreen('screen-intro');
@@ -524,8 +512,12 @@ function showQuestion(idx){
   document.getElementById('btn-back-to-map').style.display = 'none';
   applyHeroBackground(s.bg, 'Jardin des Plantes', s.label);
   const riddleEl = document.getElementById('q-riddle');
-  riddleEl.style.display='block';
-  riddleEl.textContent=s.riddle;
+  if(s.riddle){
+    riddleEl.style.display='block';
+    riddleEl.textContent=s.riddle;
+  } else {
+    riddleEl.style.display='none';
+  }
   const hintEl = document.getElementById('q-hint');
   if(s.hint){
     hintEl.textContent = s.hint;
@@ -560,51 +552,51 @@ function showQuestion(idx){
     const fb = document.getElementById('feedback');
     const btnNext = document.getElementById('btn-next');
     btnValider.onclick = () => {
-  const val = document.getElementById('secret-input').value.trim();
-  attempts++;
-  if(val === s.secretCode){
-    fb.style.display = 'block';
-    fb.className = 'feedback correct';
-    fb.innerHTML = '<strong>Code correct !</strong> ' + (s.secretFeedback || 'Bien joué, tu as trouvé le spot !');
-    answered_correct[idx] = true;
-    saveGame(); // ← ici, après code correct
-    btnValider.style.display = 'none';
-    input.disabled = true;
-    attemptsDisplay.style.display = 'none';
-    btnNext.style.display = 'block';
-    if(currentSpot === SPOTS.length - 1){
-      btnNext.textContent = 'Voir mes résultats 🎉';
-      btnNext.onclick = () => showWin();
-    } else {
-      btnNext.textContent = 'Spot suivant →';
-      btnNext.onclick = () => nextSpot();
-    }
-  } else {
-    const remaining = maxAttempts - attempts;
-    fb.style.display = 'block';
-    if(remaining > 0){
-      fb.className = 'feedback wrong';
-      fb.innerHTML = '<strong>Code incorrect.</strong> Cherche encore... le code est affiché sur place !';
-      attemptsDisplay.textContent = remaining + ' tentative' + (remaining > 1 ? 's' : '') + ' restante' + (remaining > 1 ? 's' : '');
-      saveGame(); // ← ici, après tentative échouée
-    } else {
-      fb.className = 'feedback wrong';
-      fb.innerHTML = '<strong>Plus de tentatives.</strong> Dommage ! Tu passes au spot suivant sans point pour celui-ci.';
-      saveGame(); // ← ici, après épuisement des tentatives
-      btnValider.style.display = 'none';
-      input.disabled = true;
-      attemptsDisplay.style.display = 'none';
-      btnNext.style.display = 'block';
-      if(currentSpot === SPOTS.length - 1){
-        btnNext.textContent = 'Voir mes résultats 🎉';
-        btnNext.onclick = () => showWin();
+      const val = document.getElementById('secret-input').value.trim();
+      attempts++;
+      if(val === s.secretCode){
+        fb.style.display = 'block';
+        fb.className = 'feedback correct';
+        fb.innerHTML = '<strong>Code correct !</strong> ' + (s.secretFeedback || 'Bien joué, tu as trouvé le spot !');
+        answered_correct[idx] = true;
+        saveGame();
+        btnValider.style.display = 'none';
+        input.disabled = true;
+        attemptsDisplay.style.display = 'none';
+        btnNext.style.display = 'block';
+        if(currentSpot === SPOTS.length - 1){
+          btnNext.textContent = 'Voir mes résultats 🎉';
+          btnNext.onclick = () => showWin();
+        } else {
+          btnNext.textContent = 'Spot suivant →';
+          btnNext.onclick = () => nextSpot();
+        }
       } else {
-        btnNext.textContent = 'Spot suivant →';
-        btnNext.onclick = () => nextSpot();
+        const remaining = maxAttempts - attempts;
+        fb.style.display = 'block';
+        if(remaining > 0){
+          fb.className = 'feedback wrong';
+          fb.innerHTML = '<strong>Code incorrect.</strong> Cherche encore... le code est affiché sur place !';
+          attemptsDisplay.textContent = remaining + ' tentative' + (remaining > 1 ? 's' : '') + ' restante' + (remaining > 1 ? 's' : '');
+          saveGame();
+        } else {
+          fb.className = 'feedback wrong';
+          fb.innerHTML = '<strong>Plus de tentatives.</strong> Dommage ! Tu passes au spot suivant sans point pour celui-ci.';
+          saveGame();
+          btnValider.style.display = 'none';
+          input.disabled = true;
+          attemptsDisplay.style.display = 'none';
+          btnNext.style.display = 'block';
+          if(currentSpot === SPOTS.length - 1){
+            btnNext.textContent = 'Voir mes résultats 🎉';
+            btnNext.onclick = () => showWin();
+          } else {
+            btnNext.textContent = 'Spot suivant →';
+            btnNext.onclick = () => nextSpot();
+          }
+        }
       }
-    }
-  }
-};
+    };
   } else {
     document.getElementById('q-text').textContent = s.question;
     s.choices.forEach((c,i)=>{
@@ -632,12 +624,12 @@ function selectAnswer(spotIdx,choiceIdx,btn){
     fb.className='feedback correct';
     fb.innerHTML = '<strong>Bonne réponse !</strong> ' + (s.feedbackCorrect || s.feedback || "");
     answered_correct[spotIdx]=true;
-    saveGame(); // ← ici
+    saveGame();
   } else {
     btn.classList.add('selected-wrong');
     fb.className='feedback wrong';
     fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (s.feedbackWrong || s.feedback || "");
-    saveGame(); // ← ici
+    saveGame();
   }
   const btnNext=document.getElementById('btn-next');
   btnNext.style.display='block';
@@ -660,7 +652,6 @@ function nextSpot(){
     showScreen('screen-map');
   }
 }
-  
 
 function nextAction(){
   if(inSubMap){
@@ -683,14 +674,12 @@ function nextAction(){
 }
 
 function showSubMap(id){
-  // Ne remet pas currentSubSpot à 0 si on revient en cours de route
   renderSubMap(id);
   showScreen('screen-submap');
 }
 
 /* Retour direct à la carte principale depuis la sous-carte des stands,
-   sans faire avancer le parcours (le stand des partenaires reste actif
-   tant que tous les stands n'ont pas été visités). */
+   sans faire avancer le parcours. */
 function backToMainMap(){
   inSubMap = false;
   go(()=>{renderMap();showScreen('screen-map');});
@@ -741,6 +730,7 @@ function showSubQuestionStep(spotId, subId, questionIndex){
   applyHeroBackground(q.bg, s.zone, s.label);
   document.getElementById('btn-back-to-map').style.display = 'block';
   document.getElementById('q-riddle').style.display='none';
+  document.getElementById('q-hint').style.display='none';
   document.getElementById('q-text').textContent = q.question;
   const choicesEl = document.getElementById('choices');
   choicesEl.innerHTML = "";
@@ -871,6 +861,7 @@ async function sendResults(){
       status.innerHTML='<strong>Résultats envoyés !</strong> Le CFA a bien reçu ta participation. Bonne chance pour le tirage au sort 🍀';
       btn.innerHTML='✅ Résultats envoyés !';
       playSentChime();
+      clearSave();
     } else {
       throw new Error('Erreur serveur');
     }
@@ -881,6 +872,7 @@ async function sendResults(){
     btn.innerHTML='📨 Réessayer';
   }
 }
+
 function saveGame(){
   const state = {
     playerName,
@@ -913,7 +905,7 @@ function loadGame(){
 function clearSave(){
   localStorage.removeItem('chasse_tresor_save');
 }
-  
+
 /* Initialisation */
 updateBackButtons();
 
