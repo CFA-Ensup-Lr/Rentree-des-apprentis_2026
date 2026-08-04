@@ -373,6 +373,7 @@ let inSubMap = false;
 
 let answered = [];
 let answered_correct = [];
+let subspot_correct = {}; // {subId: [true/false, true/false]}
 
 let playerName = "";
 let playerSite = "";
@@ -762,7 +763,9 @@ function selectSubAnswer(spotId, subId, questionIndex, choiceIdx, btn){
     fb.className = 'feedback wrong';
     fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (q.feedbackWrong || q.feedback || "");
   }
-  saveGame();
+  if(!subspot_correct[subId]) subspot_correct[subId] = [];
+subspot_correct[subId][questionIndex] = (choiceIdx === q.correct);
+saveGame();
   const btnNext = document.getElementById('btn-next');
   btnNext.style.display = 'block';
   const isLastQuestion = questionIndex === s.questions.length - 1;
@@ -792,10 +795,28 @@ function selectSubAnswer(spotId, subId, questionIndex, choiceIdx, btn){
    VICTOIRE
    ========================================================= */
 function showWin(){
-  const score=answered_correct.filter(Boolean).length;
-  document.getElementById('win-score').textContent=score+' / '+SPOTS.length+' bonnes réponses';
-  document.getElementById('win-name-display').value=playerName;
-  document.getElementById('win-site-display').value=playerSite;
+  // Points spots principaux (7 spots hors village des partenaires)
+  const mainSpotScore = SPOTS.reduce((total, s, i) => {
+    if(s.hasStands) return total; // le village des partenaires ne compte pas
+    return total + (answered_correct[i] ? 1 : 0);
+  }, 0);
+
+  // Points subspots : chaque question vaut 0.5, min 0 par stand
+  let subScore = 0;
+  Object.values(subspot_correct).forEach(answers => {
+    answers.forEach(correct => {
+      if(correct) subScore += 0.5;
+    });
+  });
+
+  const totalScore = mainSpotScore + subScore;
+  const maxMain = SPOTS.filter(s => !s.hasStands).length; // 7
+  const maxSub = SUBSPOTS[1].length; // 8 stands × 1 point = 8
+  const maxTotal = maxMain + maxSub; // 15
+
+  document.getElementById('win-score').textContent = totalScore + ' / ' + maxTotal + ' points';
+  document.getElementById('win-name-display').value = playerName;
+  document.getElementById('win-site-display').value = playerSite;
   showScreen('screen-win');
   playWin();
 }
@@ -836,18 +857,44 @@ function playSentChime(){
 async function sendResults(){
   const btn=document.getElementById('btn-send');
   const status=document.getElementById('send-status');
-  const score=answered_correct.filter(Boolean).length;
+
+  // Calcul du score principal (spots hors village des partenaires)
+  const mainSpotScore = SPOTS.reduce((total, s, i) => {
+    if(s.hasStands) return total;
+    return total + (answered_correct[i] ? 1 : 0);
+  }, 0);
+
+  // Calcul du score subspots (0.5 par bonne réponse)
+  let subScore = 0;
+  Object.values(subspot_correct).forEach(answers => {
+    answers.forEach(correct => { if(correct) subScore += 0.5; });
+  });
+
+  const totalScore = mainSpotScore + subScore;
+  const maxTotal = SPOTS.filter(s => !s.hasStands).length + SUBSPOTS[1].length;
+
   btn.disabled=true;
   btn.innerHTML='⏳ Envoi en cours...';
 
-  const details=SPOTS.map((s,i)=>s.label+' : '+(answered_correct[i]?'✓ Correct':'✗ Incorrect')).join(' | ');
+  const mainDetails = SPOTS.map((s,i) => {
+    if(s.hasStands) return null;
+    return s.label + ' : ' + (answered_correct[i] ? '✓ Correct' : '✗ Incorrect');
+  }).filter(Boolean).join(' | ');
+
+  const subDetails = Object.entries(subspot_correct).map(([subId, answers]) => {
+    const stand = SUBSPOTS[1][parseInt(subId)];
+    const label = stand ? stand.label : 'Stand ' + subId;
+    const pts = answers.filter(Boolean).length * 0.5;
+    return label + ' : ' + pts + '/1 pt';
+  }).join(' | ');
 
   const payload={
     nom: playerName,
     site_cfa: playerSite,
-    score: score+'/'+SPOTS.length,
-    details_reponses: details,
-    _subject: 'Chasse au trésor — '+playerName+' — '+score+'/'+SPOTS.length
+    score: totalScore + '/' + maxTotal,
+    details_spots: mainDetails,
+    details_stands: subDetails,
+    _subject: 'Chasse au trésor — ' + playerName + ' — ' + totalScore + '/' + maxTotal
   };
 
   try{
@@ -881,7 +928,8 @@ function saveGame(){
     currentSubSpot,
     inSubMap,
     answered: JSON.stringify(answered),
-    answered_correct: JSON.stringify(answered_correct)
+    answered_correct: JSON.stringify(answered_correct),
+    subspot_correct: JSON.stringify(subspot_correct)
   };
   localStorage.setItem('chasse_tresor_save', JSON.stringify(state));
 }
@@ -895,6 +943,7 @@ function loadGame(){
     playerSite = state.playerSite || "";
     currentSpot = state.currentSpot || 0;
     currentSubSpot = state.currentSubSpot || 0;
+    subspot_correct = JSON.parse(state.subspot_correct || '{}');
     inSubMap = state.inSubMap || false;
     answered = JSON.parse(state.answered || '[]');
     answered_correct = JSON.parse(state.answered_correct || '[]');
