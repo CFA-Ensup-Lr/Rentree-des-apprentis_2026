@@ -105,7 +105,7 @@
   </div>
 </div>
 
-  <!-- ===================== ÉCRAN DE VICTOIRE ===================== -->
+ <!-- ===================== ÉCRAN DE VICTOIRE ===================== -->
   <div id="screen-win" class="screen">
     <div class="win-emoji">🎉</div>
     <h2>Bravo, tu as terminé !</h2>
@@ -116,9 +116,13 @@
         <label>Nom complet</label>
         <input type="text" id="win-name-display" readonly>
       </div>
-      <div class="form-group" style="margin-bottom:0">
+      <div class="form-group" style="margin-bottom:.75rem">
         <label>Site de formation</label>
         <input type="text" id="win-site-display" readonly>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>Ton adresse email <span style="color:var(--terracotta-dk)">*</span></label>
+        <input type="email" id="win-email" placeholder="prenom.nom@exemple.com" autocomplete="email">
       </div>
     </div>
     <button class="btn-send" id="btn-send" onclick="sendResults()">
@@ -857,7 +861,13 @@ function playSentChime(){
 async function sendResults(){
   const btn=document.getElementById('btn-send');
   const status=document.getElementById('send-status');
-
+  const email = document.getElementById('win-email').value.trim();
+  if(!email){
+    status.className='err';
+    status.style.display='block';
+    status.innerHTML='<strong>Merci de renseigner ton adresse email</strong> pour participer au tirage au sort !';
+    return;
+  }
   // Calcul du score principal (spots hors village des partenaires)
   const mainSpotScore = SPOTS.reduce((total, s, i) => {
     if(s.hasStands) return total;
@@ -894,6 +904,7 @@ async function sendResults(){
     score: totalScore + '/' + maxTotal,
     details_spots: mainDetails,
     details_stands: subDetails,
+    email: email,
     _subject: 'Chasse au trésor — ' + playerName + ' — ' + totalScore + '/' + maxTotal
   };
 
