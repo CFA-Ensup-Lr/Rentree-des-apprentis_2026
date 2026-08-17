@@ -223,13 +223,19 @@ const SPOTS = [
    la CAF, la CPAM et l'IAE gardent leurs vraies questions.
    ========================================================= */
 
-const STAND_CFA_ID = 1; // le CFA est toujours tiré au sort
+const STAND_CFA_ID = 1; // le CFA est toujours tiré au sort, et toujours en premier
+
+// Répartition gauche/droite des 16 stands (doit correspondre à la
+// colonne x de chaque stand dans SUBSPOTS). Utilisée par le tirage
+// au sort pour garantir autant de stands piochés à gauche qu'à droite.
+const LEFT_STAND_IDS  = [1, 9, 3, 4, 11, 12, 13, 14]; // colonne 32% (CFA inclus)
+const RIGHT_STAND_IDS = [5, 10, 7, 8, 16, 17, 15, 18]; // colonne 68%
 
 const SUBSPOTS = {
   1: [
     /* ---- Colonne GAUCHE (x:22%) — 8 stands, alignés verticalement ---- */
     {
-      id:1, x:"32%", y:"96%", zone:"Stands · colonne gauche",
+      id:1, x:"32%", y:"90%", zone:"Stands · colonne gauche",
       logo:"logo-cfa.png", label:"Stand — CFA Ensup-LR",
       questions:[
         {
@@ -249,15 +255,15 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:9, x:"46%", y:"83%", zone:"Stands · colonne gauche",
-      logo:"logo_cciherault.png", label:"Stand — Médiateur (CCI Hérault)",
+      id:9, x:"32%", y:"77%", zone:"Stands · colonne gauche",
+      logo:"logo_cciherault.jpg", label:"Stand — Médiateur (CCI Hérault)",
       questions:[
         {bg:"bg-mediateur-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
         {bg:"bg-mediateur-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
       ]
     },
     {
-      id:3, x:"46%", y:"5%", zone:"Stands · colonne gauche",
+      id:3, x:"32%", y:"4%", zone:"Stands · colonne gauche",
       logo:"logo-fds.png", label:"Stand — Faculté des Sciences",
       questions:[
         {
@@ -277,7 +283,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:4, x:"32%", y:"18%", zone:"Stands · colonne gauche",
+      id:4, x:"32%", y:"16%", zone:"Stands · colonne gauche",
       logo:"logo-moma.png", label:"Stand — Montpellier Management",
       questions:[
         {
@@ -297,15 +303,15 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:11, x:"46%", y:"31%", zone:"Stands · colonne gauche",
-      logo:"logo_bve.png", label:"Stand — BVE",
+      id:11, x:"32%", y:"29%", zone:"Stands · colonne gauche",
+      logo:"logo_bve.jpg", label:"Stand — BVE",
       questions:[
         {bg:"bg-bve-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
         {bg:"bg-bve-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
       ]
     },
     {
-      id:12, x:"32%", y:"44%", zone:"Stands · colonne gauche",
+      id:12, x:"32%", y:"41%", zone:"Stands · colonne gauche",
       logo:"logo_iut.png", label:"Stand — IUT de Montpellier",
       questions:[
         {bg:"bg-iut-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -313,7 +319,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:13, x:"46%", y:"57%", zone:"Stands · colonne gauche",
+      id:13, x:"32%", y:"53%", zone:"Stands · colonne gauche",
       logo:"logo_institutagro.png", label:"Stand — Institut Agro",
       questions:[
         {bg:"bg-institut-agro-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -321,8 +327,8 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:14, x:"32%", y:"70%", zone:"Stands · colonne gauche",
-      logo:"logo_nqt.png", label:"Stand — NQT",
+      id:14, x:"32%", y:"65%", zone:"Stands · colonne gauche",
+      logo:"logo_nqt.jpg", label:"Stand — NQT",
       questions:[
         {bg:"bg-nqt-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
         {bg:"bg-nqt-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
@@ -331,7 +337,7 @@ const SUBSPOTS = {
 
     /* ---- Colonne DROITE (x:78%) — 8 stands, alignés verticalement ---- */
     {
-      id:5, x:"54%", y:"5%", zone:"Stands · colonne droite",
+      id:5, x:"68%", y:"10%", zone:"Stands · colonne droite",
       logo:"logo-caf.png", label:"Stand — CAF",
       questions:[
         {
@@ -351,7 +357,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:10, x:"68%", y:"18%", zone:"Stands · colonne droite",
+      id:10, x:"68%", y:"23%", zone:"Stands · colonne droite",
       logo:"logo_um.png", label:"Stand — Université de Montpellier",
       questions:[
         {bg:"bg-um-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -359,7 +365,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:7, x:"54%", y:"31%", zone:"Stands · colonne droite",
+      id:7, x:"68%", y:"35%", zone:"Stands · colonne droite",
       logo:"logo-cpam.png", label:"Stand — CPAM (Assurance Maladie)",
       questions:[
         {
@@ -379,7 +385,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:8, x:"68%", y:"44%", zone:"Stands · colonne droite",
+      id:8, x:"68%", y:"47%", zone:"Stands · colonne droite",
       logo:"logo-iae.png", label:"Stand — IAE Montpellier",
       questions:[
         {
@@ -399,23 +405,23 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:15, x:"54%", y:"83%", zone:"Stands · colonne droite",
-      logo:"logo_studhelp.png", label:"Stand — Stud Help",
+      id:15, x:"68%", y:"84%", zone:"Stands · colonne droite",
+      logo:"logo_studhelp.jpg", label:"Stand — Stud Help",
       questions:[
         {bg:"bg-studhelp-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
         {bg:"bg-studhelp-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
       ]
     },
     {
-      id:16, x:"54%", y:"57%", zone:"Stands · colonne droite",
-      logo:"logo_DDETS.png", label:"Stand — DDETS",
+      id:16, x:"68%", y:"59%", zone:"Stands · colonne droite",
+      logo:"logo_DDETS.jpg", label:"Stand — DDETS",
       questions:[
         {bg:"bg-ddets-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
         {bg:"bg-ddets-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
       ]
     },
     {
-      id:17, x:"68%", y:"70%", zone:"Stands · colonne droite",
+      id:17, x:"68%", y:"71%", zone:"Stands · colonne droite",
       logo:"logo_bps.png", label:"Stand — BPS",
       questions:[
         {bg:"bg-bps-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -446,13 +452,19 @@ function shuffleArray(arr){
 }
 
 function generateStandSelection(){
-  const allIds = SUBSPOTS[1].map(s=>s.id);
-  const others = allIds.filter(id=>id!==STAND_CFA_ID);
-  const chosenOthers = shuffleArray(others).slice(0,7);
-  // Le CFA est toujours le premier stand joué (rang 0), l'ordre des
-  // 7 autres stands tirés au sort est mélangé.
-  const selection = [STAND_CFA_ID, ...shuffleArray(chosenOthers)];
-  return selection; // ordre de jeu pour cette partie (8 ids)
+  // Le CFA est toujours tiré (colonne gauche) et toujours en 1er.
+  // On complète avec 3 autres stands de gauche et 4 de droite, pour
+  // arriver à 4 stands à gauche / 4 stands à droite au total (8).
+  const leftOthers  = LEFT_STAND_IDS.filter(id => id !== STAND_CFA_ID);
+  const chosenLeft  = shuffleArray(leftOthers).slice(0, 3);
+  const chosenRight = shuffleArray(RIGHT_STAND_IDS).slice(0, 4);
+
+  // Les 7 stands restants (3 gauche + 4 droite) sont mélangés ensemble
+  // pour que l'ordre de jeu alterne les côtés, au lieu de faire tout
+  // un côté puis l'autre. Le CFA reste toujours le tout premier.
+  const rest = shuffleArray([...chosenLeft, ...chosenRight]);
+  const selection = [STAND_CFA_ID, ...rest];
+  return selection; // ordre de jeu pour cette partie (8 ids, 4 gauche / 4 droite)
 }
 
 function getStandById(id){
