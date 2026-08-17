@@ -143,6 +143,16 @@
         <div id="subspots-container"></div>
       </div>
       <button class="btn-back-to-map" onclick="backToMainMap()">← Retour à la carte principale</button>
+
+      <button class="btn-edit-toggle" id="btn-toggle-edit" onclick="toggleEditMode()">✏️ Modifier les emplacements</button>
+      <div id="edit-mode-panel" style="display:none">
+        <p class="edit-mode-hint">Fais glisser chaque logo à l'endroit exact sur la photo, puis copie le code pour le coller dans <code>SUBSPOTS</code>.</p>
+        <div class="edit-mode-actions">
+          <button class="btn-edit-action" onclick="exportPositionsCode()">📋 Copier le code des positions</button>
+          <button class="btn-edit-action btn-edit-reset" onclick="resetPositions()">↺ Réinitialiser</button>
+        </div>
+        <textarea id="edit-export-textarea" readonly></textarea>
+      </div>
     </div>
   </div>
 
@@ -219,7 +229,7 @@ const SUBSPOTS = {
   1: [
     /* ---- Colonne GAUCHE (x:22%) — 8 stands, alignés verticalement ---- */
     {
-      id:1, x:"40%", y:"96%", zone:"Stands · colonne gauche",
+      id:1, x:"32%", y:"96%", zone:"Stands · colonne gauche",
       logo:"logo-cfa.png", label:"Stand — CFA Ensup-LR",
       questions:[
         {
@@ -239,7 +249,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:9, x:"40%", y:"83%", zone:"Stands · colonne gauche",
+      id:9, x:"46%", y:"83%", zone:"Stands · colonne gauche",
       logo:"logo_cciherault.png", label:"Stand — Médiateur (CCI Hérault)",
       questions:[
         {bg:"bg-mediateur-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -247,7 +257,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:3, x:"40%", y:"5%", zone:"Stands · colonne gauche",
+      id:3, x:"46%", y:"5%", zone:"Stands · colonne gauche",
       logo:"logo-fds.png", label:"Stand — Faculté des Sciences",
       questions:[
         {
@@ -267,7 +277,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:4, x:"40%", y:"18%", zone:"Stands · colonne gauche",
+      id:4, x:"32%", y:"18%", zone:"Stands · colonne gauche",
       logo:"logo-moma.png", label:"Stand — Montpellier Management",
       questions:[
         {
@@ -287,7 +297,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:11, x:"40%", y:"31%", zone:"Stands · colonne gauche",
+      id:11, x:"46%", y:"31%", zone:"Stands · colonne gauche",
       logo:"logo_bve.png", label:"Stand — BVE",
       questions:[
         {bg:"bg-bve-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -295,7 +305,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:12, x:"40%", y:"44%", zone:"Stands · colonne gauche",
+      id:12, x:"32%", y:"44%", zone:"Stands · colonne gauche",
       logo:"logo_iut.png", label:"Stand — IUT de Montpellier",
       questions:[
         {bg:"bg-iut-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -303,7 +313,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:13, x:"40%", y:"57%", zone:"Stands · colonne gauche",
+      id:13, x:"46%", y:"57%", zone:"Stands · colonne gauche",
       logo:"logo_institutagro.png", label:"Stand — Institut Agro",
       questions:[
         {bg:"bg-institut-agro-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -311,7 +321,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:14, x:"40%", y:"70%", zone:"Stands · colonne gauche",
+      id:14, x:"32%", y:"70%", zone:"Stands · colonne gauche",
       logo:"logo_nqt.png", label:"Stand — NQT",
       questions:[
         {bg:"bg-nqt-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -321,7 +331,7 @@ const SUBSPOTS = {
 
     /* ---- Colonne DROITE (x:78%) — 8 stands, alignés verticalement ---- */
     {
-      id:5, x:"60%", y:"5%", zone:"Stands · colonne droite",
+      id:5, x:"54%", y:"5%", zone:"Stands · colonne droite",
       logo:"logo-caf.png", label:"Stand — CAF",
       questions:[
         {
@@ -341,7 +351,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:10, x:"60%", y:"18%", zone:"Stands · colonne droite",
+      id:10, x:"68%", y:"18%", zone:"Stands · colonne droite",
       logo:"logo_um.png", label:"Stand — Université de Montpellier",
       questions:[
         {bg:"bg-um-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -349,7 +359,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:7, x:"60%", y:"31%", zone:"Stands · colonne droite",
+      id:7, x:"54%", y:"31%", zone:"Stands · colonne droite",
       logo:"logo-cpam.png", label:"Stand — CPAM (Assurance Maladie)",
       questions:[
         {
@@ -369,7 +379,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:8, x:"60%", y:"44%", zone:"Stands · colonne droite",
+      id:8, x:"68%", y:"44%", zone:"Stands · colonne droite",
       logo:"logo-iae.png", label:"Stand — IAE Montpellier",
       questions:[
         {
@@ -389,7 +399,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:15, x:"60%", y:"83%", zone:"Stands · colonne droite",
+      id:15, x:"54%", y:"83%", zone:"Stands · colonne droite",
       logo:"logo_studhelp.png", label:"Stand — Stud Help",
       questions:[
         {bg:"bg-studhelp-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -397,7 +407,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:16, x:"60%", y:"57%", zone:"Stands · colonne droite",
+      id:16, x:"54%", y:"57%", zone:"Stands · colonne droite",
       logo:"logo_DDETS.png", label:"Stand — DDETS",
       questions:[
         {bg:"bg-ddets-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -405,7 +415,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:17, x:"60%", y:"70%", zone:"Stands · colonne droite",
+      id:17, x:"68%", y:"70%", zone:"Stands · colonne droite",
       logo:"logo_bps.png", label:"Stand — BPS",
       questions:[
         {bg:"bg-bps-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -413,7 +423,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:18, x:"60%", y:"96%", zone:"Stands · colonne droite",
+      id:18, x:"68%", y:"96%", zone:"Stands · colonne droite",
       logo:"logo_ca.png", label:"Stand — CA Languedoc",
       questions:[
         {bg:"bg-ca-languedoc-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
@@ -465,6 +475,29 @@ let answered = [];
 let answered_correct = [];
 let subspot_correct = {}; // {standId: [true/false, true/false]}
 let selectedStandIds = []; // 8 ids tirés au sort pour cette partie (CFA inclus)
+
+/* Emplacements des stands modifiés à la main via le mode édition
+   (glisser-déposer). Stockés à part des coordonnées par défaut du
+   code, pour pouvoir les exporter puis les coller dans SUBSPOTS. */
+let editMode = false;
+let positionOverrides = {}; // {standId: {x:"32.0%", y:"96.0%"}}
+
+function loadPositionOverrides(){
+  try{
+    positionOverrides = JSON.parse(localStorage.getItem('chasse_tresor_positions_override') || '{}');
+  }catch(e){
+    positionOverrides = {};
+  }
+}
+
+function savePositionOverrides(){
+  localStorage.setItem('chasse_tresor_positions_override', JSON.stringify(positionOverrides));
+}
+
+function getStandXY(s){
+  const o = positionOverrides[s.id];
+  return o ? o : {x:s.x, y:s.y};
+}
 
 let playerName = "";
 let playerSite = "";
@@ -795,10 +828,11 @@ function renderSubMap(id){
 
   allStands.forEach((s)=>{
     const rank = selectedStandIds.indexOf(s.id); // -1 si non tiré au sort
+    const pos = getStandXY(s);
 
     const div=document.createElement('div');
     div.className='spot';
-    div.style.left=s.x;div.style.top=s.y;
+    div.style.left=pos.x;div.style.top=pos.y;
     div.title=s.label;
 
     const img=document.createElement('img');
@@ -806,7 +840,10 @@ function renderSubMap(id){
     img.alt=s.label;
     div.appendChild(img);
 
-    if(rank !== -1 && rank === currentSubSpot){
+    if(editMode){
+      div.classList.add('editable');
+      div.addEventListener('pointerdown', (e)=>startDragStand(e, s.id, div));
+    } else if(rank !== -1 && rank === currentSubSpot){
       div.classList.add('active');
       div.onclick=()=>go(()=>showSubQuestion(id,s.id));
     } else if(rank !== -1 && rank < currentSubSpot){
@@ -817,6 +854,72 @@ function renderSubMap(id){
 
     container.appendChild(div);
   });
+}
+
+/* =========================================================
+   MODE ÉDITION DES EMPLACEMENTS (glisser-déposer)
+   ========================================================= */
+function toggleEditMode(){
+  editMode = !editMode;
+  const panel = document.getElementById('edit-mode-panel');
+  const btn = document.getElementById('btn-toggle-edit');
+  panel.style.display = editMode ? 'block' : 'none';
+  btn.textContent = editMode ? '✅ Terminer l\'édition' : '✏️ Modifier les emplacements';
+  btn.classList.toggle('active', editMode);
+  document.getElementById('edit-export-textarea').style.display = 'none';
+  renderSubMap(1);
+}
+
+function startDragStand(e, standId, div){
+  e.preventDefault();
+  div.setPointerCapture(e.pointerId);
+  div.classList.add('dragging');
+  const mapContainer = document.querySelector('#screen-submap .map-container');
+  const rect = mapContainer.getBoundingClientRect();
+
+  function clamp(v){ return Math.max(0, Math.min(100, v)); }
+
+  function onMove(ev){
+    const xPct = clamp(((ev.clientX - rect.left) / rect.width) * 100).toFixed(1) + '%';
+    const yPct = clamp(((ev.clientY - rect.top) / rect.height) * 100).toFixed(1) + '%';
+    div.style.left = xPct;
+    div.style.top = yPct;
+    positionOverrides[standId] = {x:xPct, y:yPct};
+  }
+  function onUp(ev){
+    div.releasePointerCapture(ev.pointerId);
+    div.classList.remove('dragging');
+    div.removeEventListener('pointermove', onMove);
+    div.removeEventListener('pointerup', onUp);
+    savePositionOverrides();
+  }
+  div.addEventListener('pointermove', onMove);
+  div.addEventListener('pointerup', onUp);
+}
+
+function exportPositionsCode(){
+  const lines = SUBSPOTS[1].map(s=>{
+    const pos = getStandXY(s);
+    return `      id:${s.id}, x:"${pos.x}", y:"${pos.y}", // ${s.label}`;
+  });
+  const code = lines.join('\n');
+  const textarea = document.getElementById('edit-export-textarea');
+  textarea.value = code;
+  textarea.style.display = 'block';
+  textarea.focus();
+  textarea.select();
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(code).catch(()=>{});
+  }
+}
+
+function resetPositions(){
+  if(confirm('Réinitialiser tous les emplacements aux valeurs par défaut du code ?')){
+    positionOverrides = {};
+    localStorage.removeItem('chasse_tresor_positions_override');
+    document.getElementById('edit-export-textarea').style.display = 'none';
+    renderSubMap(1);
+  }
 }
 
 function showSubQuestion(spotId, standId){
@@ -1073,6 +1176,7 @@ function clearSave(){
 }
 
 /* Initialisation */
+loadPositionOverrides();
 updateBackButtons();
 
 </script>
