@@ -332,22 +332,31 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
    ne peut jamais déborder du cercle, quel que soit son format/ratio
    d'origine. Tous les stands sont TOUJOURS affichés — rien n'est
    jamais masqué. */
+/* Marqueurs de stands : cercle blanc contenant le logo en entier
+   (object-fit: contain → jamais rogné ni "zoomé"), avec un fond
+   blanc pour que chaque logo se détache proprement, même transparent.
+   Tous les stands sont TOUJOURS affichés — rien n'est jamais masqué. */
 #subspots-container .spot{
-  width:44px;height:44px;
+  width:48px;height:48px;
   border-radius:50%;
   transform:translate(-50%,-50%);
   border:2px solid #fff;
-  background-color:#fff;
-  background-size:contain;
-  background-repeat:no-repeat;
-  background-position:center;
-  background-origin:content-box;
-  padding:4px;
+  background:#fff;
   overflow:hidden;
   cursor:default;
   box-shadow:0 3px 8px rgba(0,0,0,.18);
 }
-#subspots-container .spot > *{transform:none}
+#subspots-container .spot img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+  padding:6px;
+  box-sizing:border-box;
+  display:block;
+  background:#fff;
+  transform:none;
+}
 
 /* Auréole : seul indicateur visuel du stand auquel il faut répondre
    maintenant. Le logo garde sa taille normale, non déformé. */
