@@ -193,16 +193,20 @@ const SPOTS = [
 /* =========================================================
    STANDS PARTENAIRES — LISTE MAÎTRESSE (16 stands validés)
    -----------------------------------------------------------
-   ⚠️ Les coordonnées x/y ci-dessous sont des PLACEHOLDERS
-   réparties sur 3 colonnes (39% / 51% / 63%). Elles sont FIXES
-   (chaque stand garde toujours la même position sur le plan
-   zoomé), mais elles doivent être ajustées pour correspondre
-   aux vrais emplacements physiques sur plan_zoom_noria.png.
+   ⚠️ Les coordonnées x/y ci-dessous sont des PLACEHOLDERS,
+   réparties en 2 colonnes bien alignées : gauche (x:22%) et
+   droite (x:78%), 8 stands chacune. Elles sont FIXES (chaque
+   stand garde toujours la même position sur le plan zoomé),
+   mais doivent être ajustées pour correspondre aux vrais
+   emplacements physiques sur plan_zoom_noria.png.
 
    Chaque partie tire au sort 8 stands parmi les 16 (le CFA est
-   toujours inclus) via generateStandSelection(). Les 16 stands
-   restent visibles sur le plan (positions fixes), mais seuls
-   les 8 tirés sont jouables pour cette partie.
+   toujours inclus) via generateStandSelection(). LES 16 STANDS
+   RESTENT TOUJOURS AFFICHÉS avec leur logo (aucun n'est masqué
+   ni grisé) : seul le stand actif à répondre porte une auréole
+   lumineuse qui pulse, et les stands déjà validés portent un
+   petit badge ✓. Les autres logos sont visibles normalement,
+   sans interaction.
 
    Les questions des nouveaux stands sont à définir manuellement
    (placeholders "à définir" ci-dessous) — le CFA, la FDS, MoMa,
@@ -213,17 +217,17 @@ const STAND_CFA_ID = 1; // le CFA est toujours tiré au sort
 
 const SUBSPOTS = {
   1: [
-    // ---- Colonne gauche (x:39%) ----
+    /* ---- Colonne GAUCHE (x:22%) — 8 stands, alignés verticalement ---- */
     {
-      id:1, x:"39%", y:"97%", zone:"Stands · côté gauche",
+      id:1, x:"22%", y:"5%", zone:"Stands · colonne gauche",
       logo:"logo-cfa.png", label:"Stand — CFA Ensup-LR",
       questions:[
         {
           bg:"bg-cfa-q1.jpg",
           question:"Le CFA Ensup-LR est un CFA « hors murs ». Qu'est-ce que cela signifie ?",
-          choices:["Il est un centre de formation d’apprentis qui ne dispense pas directement les cours","Il propose uniquement des formations à distance","Il est situé en dehors de Montpellier"],
+          choices:["Il est un centre de formation d\u2019apprentis qui ne dispense pas directement les cours","Il propose uniquement des formations à distance","Il est situé en dehors de Montpellier"],
           correct:0,
-          feedback:"Le CFA Ensup-LR est public et hors murs : les enseignements sont assurés par des établissements partenaires, tandis que le CFA joue un rôle clé d’accompagnement, de coordination et de suivi administratif."
+          feedback:"Le CFA Ensup-LR est public et hors murs : les enseignements sont assurés par des établissements partenaires, tandis que le CFA joue un rôle clé d\u2019accompagnement, de coordination et de suivi administratif."
         },
         {
           bg:"bg-cfa-q2.jpg",
@@ -235,15 +239,15 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:9, x:"39%", y:"86.3%", zone:"Stands · côté gauche",
-      logo:"logo-mediateur.png", label:"Stand — Médiateur",
+      id:9, x:"22%", y:"18%", zone:"Stands · colonne gauche",
+      logo:"logo_cciherault.png", label:"Stand — Médiateur (CCI Hérault)",
       questions:[
         {bg:"bg-mediateur-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
         {bg:"bg-mediateur-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
       ]
     },
     {
-      id:3, x:"39%", y:"50%", zone:"Stands · côté gauche",
+      id:3, x:"22%", y:"31%", zone:"Stands · colonne gauche",
       logo:"logo-fds.png", label:"Stand — Faculté des Sciences",
       questions:[
         {
@@ -263,7 +267,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:4, x:"39%", y:"15%", zone:"Stands · côté gauche",
+      id:4, x:"22%", y:"44%", zone:"Stands · colonne gauche",
       logo:"logo-moma.png", label:"Stand — Montpellier Management",
       questions:[
         {
@@ -282,10 +286,42 @@ const SUBSPOTS = {
         }
       ]
     },
-
-    // ---- Colonne droite (x:63%) ----
     {
-      id:5, x:"63%", y:"10%", zone:"Stands · côté droit",
+      id:11, x:"22%", y:"57%", zone:"Stands · colonne gauche",
+      logo:"logo_bve.png", label:"Stand — BVE",
+      questions:[
+        {bg:"bg-bve-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-bve-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+      ]
+    },
+    {
+      id:12, x:"22%", y:"70%", zone:"Stands · colonne gauche",
+      logo:"logo_iut.png", label:"Stand — IUT de Montpellier",
+      questions:[
+        {bg:"bg-iut-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-iut-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+      ]
+    },
+    {
+      id:13, x:"22%", y:"83%", zone:"Stands · colonne gauche",
+      logo:"logo_institutagro.png", label:"Stand — Institut Agro",
+      questions:[
+        {bg:"bg-institut-agro-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-institut-agro-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+      ]
+    },
+    {
+      id:14, x:"22%", y:"96%", zone:"Stands · colonne gauche",
+      logo:"logo_nqt.png", label:"Stand — NQT",
+      questions:[
+        {bg:"bg-nqt-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-nqt-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+      ]
+    },
+
+    /* ---- Colonne DROITE (x:78%) — 8 stands, alignés verticalement ---- */
+    {
+      id:5, x:"78%", y:"5%", zone:"Stands · colonne droite",
       logo:"logo-caf.png", label:"Stand — CAF",
       questions:[
         {
@@ -305,15 +341,15 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:10, x:"63%", y:"33%", zone:"Stands · côté droit",
-      logo:"logo-um.png", label:"Stand — Université de Montpellier",
+      id:10, x:"78%", y:"18%", zone:"Stands · colonne droite",
+      logo:"logo_um.png", label:"Stand — Université de Montpellier",
       questions:[
         {bg:"bg-um-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
         {bg:"bg-um-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
       ]
     },
     {
-      id:7, x:"63%", y:"59%", zone:"Stands · côté droit",
+      id:7, x:"78%", y:"31%", zone:"Stands · colonne droite",
       logo:"logo-cpam.png", label:"Stand — CPAM (Assurance Maladie)",
       questions:[
         {
@@ -333,7 +369,7 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:8, x:"63%", y:"93%", zone:"Stands · côté droit",
+      id:8, x:"78%", y:"44%", zone:"Stands · colonne droite",
       logo:"logo-iae.png", label:"Stand — IAE Montpellier",
       questions:[
         {
@@ -352,67 +388,33 @@ const SUBSPOTS = {
         }
       ]
     },
-
-    // ---- Colonne centrale (x:51%) — nouveaux stands ----
     {
-      id:11, x:"51%", y:"5%", zone:"Stands · centre",
-      logo:"logo-bve.png", label:"Stand — BVE",
-      questions:[
-        {bg:"bg-bve-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-bve-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
-      ]
-    },
-    {
-      id:12, x:"51%", y:"17%", zone:"Stands · centre",
-      logo:"logo-iut.png", label:"Stand — IUT de Montpellier",
-      questions:[
-        {bg:"bg-iut-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-iut-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
-      ]
-    },
-    {
-      id:13, x:"51%", y:"29%", zone:"Stands · centre",
-      logo:"logo-institut-agro.png", label:"Stand — Institut Agro",
-      questions:[
-        {bg:"bg-institut-agro-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-institut-agro-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
-      ]
-    },
-    {
-      id:14, x:"51%", y:"41%", zone:"Stands · centre",
-      logo:"logo-nqt.png", label:"Stand — NQT",
-      questions:[
-        {bg:"bg-nqt-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-nqt-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
-      ]
-    },
-    {
-      id:15, x:"51%", y:"53%", zone:"Stands · centre",
-      logo:"logo-studhelp.png", label:"Stand — Stud Help",
+      id:15, x:"78%", y:"57%", zone:"Stands · colonne droite",
+      logo:"logo_studhelp.png", label:"Stand — Stud Help",
       questions:[
         {bg:"bg-studhelp-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
         {bg:"bg-studhelp-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
       ]
     },
     {
-      id:16, x:"51%", y:"65%", zone:"Stands · centre",
-      logo:"logo-ddets.png", label:"Stand — DDETS",
+      id:16, x:"78%", y:"70%", zone:"Stands · colonne droite",
+      logo:"logo_DDETS.png", label:"Stand — DDETS",
       questions:[
         {bg:"bg-ddets-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
         {bg:"bg-ddets-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
       ]
     },
     {
-      id:17, x:"51%", y:"77%", zone:"Stands · centre",
-      logo:"logo-bps.png", label:"Stand — BPS",
+      id:17, x:"78%", y:"83%", zone:"Stands · colonne droite",
+      logo:"logo_bps.png", label:"Stand — BPS",
       questions:[
         {bg:"bg-bps-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
         {bg:"bg-bps-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
       ]
     },
     {
-      id:18, x:"51%", y:"89%", zone:"Stands · centre",
-      logo:"logo-ca-languedoc.png", label:"Stand — CA Languedoc",
+      id:18, x:"78%", y:"96%", zone:"Stands · colonne droite",
+      logo:"logo_ca.png", label:"Stand — CA Languedoc",
       questions:[
         {bg:"bg-ca-languedoc-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
         {bg:"bg-ca-languedoc-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
@@ -774,11 +776,13 @@ function backToMainMap(){
   go(()=>{renderMap();showScreen('screen-map');});
 }
 
-/* Affiche TOUJOURS les 16 repères sur le plan (positions fixes).
-   Seuls les 8 stands tirés au sort (selectedStandIds) sont jouables
-   pour cette partie : done / active / locked selon leur rang dans
-   le tirage. Les stands non tirés apparaissent en style "hors-jeu"
-   (visibles, mais non cliquables). */
+/* Affiche TOUJOURS les 16 logos sur le plan (positions fixes,
+   alignées à gauche et à droite), sans jamais en masquer aucun.
+   Seul le stand actif (celui auquel il faut répondre maintenant)
+   porte une auréole lumineuse qui pulse. Les stands déjà validés
+   portent un petit badge ✓ en plus de leur logo. Tous les autres
+   logos (à venir dans le tirage, ou non tirés cette partie)
+   restent affichés normalement, sans halo, non cliquables. */
 function renderSubMap(id){
   const allStands = SUBSPOTS[id];
   const container = document.getElementById('subspots-container');
@@ -789,37 +793,24 @@ function renderSubMap(id){
 
   allStands.forEach((s)=>{
     const rank = selectedStandIds.indexOf(s.id); // -1 si non tiré au sort
+
     const div=document.createElement('div');
     div.className='spot';
     div.style.left=s.x;div.style.top=s.y;
 
-    if(rank === -1){
-      // Stand non sélectionné pour cette partie : visible mais inactif
-      div.classList.add('not-in-game');
-      if(s.logo){
-        const img=document.createElement('img');
-        img.src=s.logo;img.alt=s.label;
-        div.appendChild(img);
-      } else {
-        const inner=document.createElement('span');inner.textContent='–';div.appendChild(inner);
-      }
-    } else if(rank < currentSubSpot){
-      div.classList.add('done');
-      const inner=document.createElement('span');inner.textContent='✓';div.appendChild(inner);
-    } else if(rank === currentSubSpot){
+    const img=document.createElement('img');
+    img.src=s.logo;img.alt=s.label;
+    div.appendChild(img);
+
+    if(rank !== -1 && rank === currentSubSpot){
       div.classList.add('active');
-      if(s.logo){
-        const img=document.createElement('img');
-        img.src=s.logo;img.alt=s.label;
-        div.appendChild(img);
-      } else {
-        const inner=document.createElement('span');inner.textContent=rank+1;div.appendChild(inner);
-      }
       div.onclick=()=>go(()=>showSubQuestion(id,s.id));
-    } else {
-      div.classList.add('locked');
-      const inner=document.createElement('span');inner.textContent='🔒';div.appendChild(inner);
+    } else if(rank !== -1 && rank < currentSubSpot){
+      div.classList.add('done');
     }
+    // sinon (à venir dans le tirage, ou non tiré cette partie) :
+    // le logo reste affiché tel quel, sans halo, non cliquable.
+
     container.appendChild(div);
   });
 }
