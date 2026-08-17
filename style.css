@@ -336,14 +336,30 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
    (object-fit: contain → jamais rogné ni "zoomé"), avec un fond
    blanc pour que chaque logo se détache proprement, même transparent.
    Tous les stands sont TOUJOURS affichés — rien n'est jamais masqué. */
+/* Marqueurs de stands : deux niveaux.
+   - .spot (extérieur) : positionnement sur la carte, PAS de rognage.
+     C'est lui qui porte le badge ✓ (::after), qui peut ainsi déborder
+     légèrement du cercle du logo sans jamais être coupé.
+   - .spot-inner (intérieur) : le cercle blanc rogné qui contient le
+     logo (object-fit: contain → jamais rogné ni "zoomé", toujours
+     entièrement visible, fond blanc pour qu'il se détache proprement
+     même transparent).
+   Tous les stands sont TOUJOURS affichés — rien n'est jamais masqué. */
 #subspots-container .spot{
   width:48px;height:48px;
-  border-radius:50%;
   transform:translate(-50%,-50%);
+  cursor:default;
+  border:none;
+  background:none;
+  box-shadow:none;
+  border-radius:0;
+}
+#subspots-container .spot-inner{
+  width:100%;height:100%;
+  border-radius:50%;
   border:2px solid #fff;
   background:#fff;
   overflow:hidden;
-  cursor:default;
   box-shadow:0 3px 8px rgba(0,0,0,.18);
 }
 #subspots-container .spot img{
@@ -360,18 +376,15 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
 
 /* Auréole : seul indicateur visuel du stand auquel il faut répondre
    maintenant. Le logo garde sa taille normale, non déformé. */
-#subspots-container .spot.active{
-  cursor:pointer;
+#subspots-container .spot.active{cursor:pointer}
+#subspots-container .spot.active .spot-inner{
   box-shadow:0 3px 8px rgba(0,0,0,.18), 0 0 0 6px rgba(226,121,63,.32);
   animation:pulse 2s infinite;
 }
 
 /* Petit badge ✓ superposé sur les stands déjà validés, sans jamais
-   cacher le logo en dessous. Le .spot est déjà position:absolute
-   (hérité de la règle de base), ce qui suffit comme contexte de
-   positionnement pour le ::after — on ne touche pas à "position"
-   ici pour ne pas faire sortir le marqueur de son emplacement fixe
-   sur la carte. */
+   cacher le logo en dessous. Porté par .spot (extérieur, sans
+   overflow:hidden) pour ne JAMAIS être rogné par le cercle du logo. */
 #subspots-container .spot.done::after{
   content:'✓';
   position:absolute;
@@ -384,6 +397,7 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
   font-weight:700;
   display:flex;align-items:center;justify-content:center;
   border:2px solid #fff;
+  z-index:2;
 }
 
 /* Stands en mode édition : curseur "grab", légère mise en avant
@@ -392,11 +406,10 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
   cursor:grab;
   touch-action:none;
 }
-#subspots-container .spot.dragging{
-  cursor:grabbing;
-  z-index:50;
+#subspots-container .spot.dragging .spot-inner{
   box-shadow:0 6px 18px rgba(0,0,0,.35), 0 0 0 4px rgba(63,125,92,.4);
 }
+#subspots-container .spot.dragging{cursor:grabbing;z-index:50}
 
 /* Bouton pour activer/désactiver le mode édition des emplacements */
 .btn-edit-toggle{
