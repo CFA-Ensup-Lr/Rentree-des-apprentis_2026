@@ -151,22 +151,11 @@
 <script>
 /* =========================================================
    DONNÉES
-   - "bg" : nom de fichier image à déposer à la racine du
-     projet, utilisée en fond de l'écran question (avec un
-     dégradé noir appliqué automatiquement en bas de la photo
-     via CSS/JS : voir applyHeroBackground()).
-     Dépose de vraies photos du jardin/stands portant EXACTEMENT
-     ces noms de fichiers à la racine du projet (à côté de
-     index.html) pour qu'elles remplacent le fond vert de secours.
    ========================================================= */
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqevdlen";
 
-/* Ordre du parcours : Entrée principale -> Monument Rabelais -> Village
-   des partenaires -> La Noria -> Bambouseraie -> Serre Martins ->
-   Pavillon astronomique -> Bassin aux lotus. */
-
-  const SPOTS = [
+const SPOTS = [
   {id:1,label:"Entrée principale",x:"95%",y:"40%",bg:"bg-entree.jpg",
     riddle:"Bienvenue au Jardin des Plantes ! Ton aventure commence là où tout débute : l'entrée principale, Boulevard Henri IV.",
     question:"Qu'est-ce que le Jardin des Plantes ?",
@@ -201,12 +190,33 @@ const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqevdlen";
     secretFeedback:"Nelumbo nucifera est le nom scientifique du lotus sacré. Ses fleurs s'ouvrent chaque matin et se ferment le soir."}
 ];
 
-/* Stands partenaires — déclenchés depuis le spot "Village des partenaires". */
+/* =========================================================
+   STANDS PARTENAIRES — LISTE MAÎTRESSE (16 stands validés)
+   -----------------------------------------------------------
+   ⚠️ Les coordonnées x/y ci-dessous sont des PLACEHOLDERS
+   réparties sur 3 colonnes (39% / 51% / 63%). Elles sont FIXES
+   (chaque stand garde toujours la même position sur le plan
+   zoomé), mais elles doivent être ajustées pour correspondre
+   aux vrais emplacements physiques sur plan_zoom_noria.png.
+
+   Chaque partie tire au sort 8 stands parmi les 16 (le CFA est
+   toujours inclus) via generateStandSelection(). Les 16 stands
+   restent visibles sur le plan (positions fixes), mais seuls
+   les 8 tirés sont jouables pour cette partie.
+
+   Les questions des nouveaux stands sont à définir manuellement
+   (placeholders "à définir" ci-dessous) — le CFA, la FDS, MoMa,
+   la CAF, la CPAM et l'IAE gardent leurs vraies questions.
+   ========================================================= */
+
+const STAND_CFA_ID = 1; // le CFA est toujours tiré au sort
+
 const SUBSPOTS = {
   1: [
+    // ---- Colonne gauche (x:39%) ----
     {
       id:1, x:"39%", y:"97%", zone:"Stands · côté gauche",
-      logo:"logo-cfa.png", label:"Stand 1 — CFA Ensup-LR",
+      logo:"logo-cfa.png", label:"Stand — CFA Ensup-LR",
       questions:[
         {
           bg:"bg-cfa-q1.jpg",
@@ -225,28 +235,16 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:2, x:"39%", y:"86.3%", zone:"Stands · côté droit",
-      logo:"logo-cap-emploi.png", label:"Stand 2 — CAP Emploi",
+      id:9, x:"39%", y:"86.3%", zone:"Stands · côté gauche",
+      logo:"logo-mediateur.png", label:"Stand — Médiateur",
       questions:[
-        {
-          bg:"bg-capemploi-q1.jpg",
-          question:"CAP Emploi est un organisme spécialisé dans l'accompagnement vers l'emploi. À quel public s'adresse-t-il ?",
-          choices:["Aux jeunes diplômés sans expérience","Aux personnes en situation de handicap","Aux demandeurs d'emploi de longue durée"],
-          correct:1,
-          feedback:"CAP Emploi accompagne les personnes en situation de handicap dans leur recherche d'emploi et leur maintien dans l'emploi."
-        },
-        {
-          bg:"bg-capemploi-q2.jpg",
-          question:"Un apprenti en situation de handicap peut-il bénéficier d'aménagements spécifiques dans son contrat d'apprentissage ?",
-          choices:["Non, le contrat est identique pour tous les apprentis","Oui, notamment sur la durée du contrat et les conditions de travail","Oui, mais uniquement sur la durée du contrat"],
-          correct:1,
-          feedback:"Un apprenti RQTH peut bénéficier d'aménagements : durée du contrat allongée, aménagement du poste, aides financières pour l'employeur."
-        }
+        {bg:"bg-mediateur-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-mediateur-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
       ]
     },
     {
       id:3, x:"39%", y:"50%", zone:"Stands · côté gauche",
-      logo:"logo-fds.png", label:"Stand 3 — Faculté des Sciences",
+      logo:"logo-fds.png", label:"Stand — Faculté des Sciences",
       questions:[
         {
           bg:"bg-fds-q1.jpg",
@@ -265,8 +263,8 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:4, x:"39%", y:"15%", zone:"Stands · côté droit",
-      logo:"logo-moma.png", label:"Stand 4 — Montpellier Management",
+      id:4, x:"39%", y:"15%", zone:"Stands · côté gauche",
+      logo:"logo-moma.png", label:"Stand — Montpellier Management",
       questions:[
         {
           bg:"bg-moma-q1.jpg",
@@ -284,9 +282,11 @@ const SUBSPOTS = {
         }
       ]
     },
+
+    // ---- Colonne droite (x:63%) ----
     {
       id:5, x:"63%", y:"10%", zone:"Stands · côté droit",
-      logo:"logo-caf.png", label:"Stand 5 — CAF",
+      logo:"logo-caf.png", label:"Stand — CAF",
       questions:[
         {
           bg:"bg-caf-q1.jpg",
@@ -305,28 +305,16 @@ const SUBSPOTS = {
       ]
     },
     {
-      id:6, x:"63%", y:"33%", zone:"Stands · côté droit",
-      logo:"logo-crous.png", label:"Stand 6 — CROUS",
+      id:10, x:"63%", y:"33%", zone:"Stands · côté droit",
+      logo:"logo-um.png", label:"Stand — Université de Montpellier",
       questions:[
-        {
-          bg:"bg-crous-q1.jpg",
-          question:"Quelle résidence le CROUS de Montpellier dédie-t-il spécifiquement aux apprentis en alternance ?",
-          choices:["La résidence Triolet","La résidence Sud Alternance","La résidence Boutonnet"],
-          correct:1,
-          feedback:"La résidence Sud Alternance est dédiée aux apprentis en alternance."
-        },
-        {
-          bg:"bg-crous-q2.jpg",
-          question:"A combien s'élève un repas Crous pour un apprenti ?",
-          choices:["3,30€","1€","0,30€","Gratuit, pris en charge par le CFA"],
-          correct:1,
-          feedback:"Le repas Crous est désormais à 1€ pour tous les étudiants."
-        }
+        {bg:"bg-um-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-um-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
       ]
     },
     {
-      id:7, x:"63%", y:"59%", zone:"Stands · côté gauche",
-      logo:"logo-cpam.png", label:"Stand 7 — CPAM (Assurance Maladie)",
+      id:7, x:"63%", y:"59%", zone:"Stands · côté droit",
+      logo:"logo-cpam.png", label:"Stand — CPAM (Assurance Maladie)",
       questions:[
         {
           bg:"bg-cpam-q1.jpg",
@@ -346,7 +334,7 @@ const SUBSPOTS = {
     },
     {
       id:8, x:"63%", y:"93%", zone:"Stands · côté droit",
-      logo:"logo-iae.png", label:"Stand 8 — IAE Montpellier",
+      logo:"logo-iae.png", label:"Stand — IAE Montpellier",
       questions:[
         {
           bg:"bg-iae-q1.jpg",
@@ -363,9 +351,103 @@ const SUBSPOTS = {
           feedback:"Dans le secteur public, c'est la DREETS / DDETS qui enregistre le contrat d'apprentissage."
         }
       ]
+    },
+
+    // ---- Colonne centrale (x:51%) — nouveaux stands ----
+    {
+      id:11, x:"51%", y:"5%", zone:"Stands · centre",
+      logo:"logo-bve.png", label:"Stand — BVE",
+      questions:[
+        {bg:"bg-bve-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-bve-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+      ]
+    },
+    {
+      id:12, x:"51%", y:"17%", zone:"Stands · centre",
+      logo:"logo-iut.png", label:"Stand — IUT de Montpellier",
+      questions:[
+        {bg:"bg-iut-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-iut-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+      ]
+    },
+    {
+      id:13, x:"51%", y:"29%", zone:"Stands · centre",
+      logo:"logo-institut-agro.png", label:"Stand — Institut Agro",
+      questions:[
+        {bg:"bg-institut-agro-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-institut-agro-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+      ]
+    },
+    {
+      id:14, x:"51%", y:"41%", zone:"Stands · centre",
+      logo:"logo-nqt.png", label:"Stand — NQT",
+      questions:[
+        {bg:"bg-nqt-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-nqt-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+      ]
+    },
+    {
+      id:15, x:"51%", y:"53%", zone:"Stands · centre",
+      logo:"logo-studhelp.png", label:"Stand — Stud Help",
+      questions:[
+        {bg:"bg-studhelp-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-studhelp-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+      ]
+    },
+    {
+      id:16, x:"51%", y:"65%", zone:"Stands · centre",
+      logo:"logo-ddets.png", label:"Stand — DDETS",
+      questions:[
+        {bg:"bg-ddets-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-ddets-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+      ]
+    },
+    {
+      id:17, x:"51%", y:"77%", zone:"Stands · centre",
+      logo:"logo-bps.png", label:"Stand — BPS",
+      questions:[
+        {bg:"bg-bps-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-bps-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+      ]
+    },
+    {
+      id:18, x:"51%", y:"89%", zone:"Stands · centre",
+      logo:"logo-ca-languedoc.png", label:"Stand — CA Languedoc",
+      questions:[
+        {bg:"bg-ca-languedoc-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
+        {bg:"bg-ca-languedoc-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+      ]
     }
   ]
 };
+
+/* =========================================================
+   TIRAGE ALÉATOIRE DES STANDS (8 parmi 16, CFA toujours inclus)
+   ========================================================= */
+function shuffleArray(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function generateStandSelection(){
+  const allIds = SUBSPOTS[1].map(s=>s.id);
+  const others = allIds.filter(id=>id!==STAND_CFA_ID);
+  const chosenOthers = shuffleArray(others).slice(0,7);
+  const selection = shuffleArray([STAND_CFA_ID, ...chosenOthers]);
+  return selection; // ordre de jeu pour cette partie (8 ids)
+}
+
+function getStandById(id){
+  return SUBSPOTS[1].find(s=>s.id===id);
+}
+
+function getSelectedStands(){
+  return selectedStandIds.map(id=>getStandById(id)).filter(Boolean);
+}
 
 /* =========================================================
    ÉTAT DU JEU
@@ -377,7 +459,8 @@ let inSubMap = false;
 
 let answered = [];
 let answered_correct = [];
-let subspot_correct = {}; // {subId: [true/false, true/false]}
+let subspot_correct = {}; // {standId: [true/false, true/false]}
+let selectedStandIds = []; // 8 ids tirés au sort pour cette partie (CFA inclus)
 
 let playerName = "";
 let playerSite = "";
@@ -461,6 +544,7 @@ function saveName(){
   answered=new Array(SPOTS.length).fill(null);
   answered_correct=new Array(SPOTS.length).fill(false);
   currentSpot=0;
+  selectedStandIds = generateStandSelection();
   saveGame();
   go(()=>{renderMap();showScreen('screen-map');});
 }
@@ -660,7 +744,7 @@ function nextSpot(){
 
 function nextAction(){
   if(inSubMap){
-    if(currentSubSpot < SUBSPOTS[1].length){
+    if(currentSubSpot < selectedStandIds.length){
       renderSubMap(1);
       showScreen('screen-submap');
     } else {
@@ -690,29 +774,48 @@ function backToMainMap(){
   go(()=>{renderMap();showScreen('screen-map');});
 }
 
+/* Affiche TOUJOURS les 16 repères sur le plan (positions fixes).
+   Seuls les 8 stands tirés au sort (selectedStandIds) sont jouables
+   pour cette partie : done / active / locked selon leur rang dans
+   le tirage. Les stands non tirés apparaissent en style "hors-jeu"
+   (visibles, mais non cliquables). */
 function renderSubMap(id){
-  const stands = SUBSPOTS[id];
+  const allStands = SUBSPOTS[id];
   const container = document.getElementById('subspots-container');
   container.innerHTML='';
-  const activeStand = stands[currentSubSpot];
+  const activeStandId = selectedStandIds[currentSubSpot];
+  const activeStand = activeStandId ? getStandById(activeStandId) : null;
   document.getElementById('submap-zone').textContent = activeStand ? activeStand.zone : 'Tous les stands visités';
-  stands.forEach((s,i)=>{
+
+  allStands.forEach((s)=>{
+    const rank = selectedStandIds.indexOf(s.id); // -1 si non tiré au sort
     const div=document.createElement('div');
     div.className='spot';
     div.style.left=s.x;div.style.top=s.y;
-    if(i<currentSubSpot){
+
+    if(rank === -1){
+      // Stand non sélectionné pour cette partie : visible mais inactif
+      div.classList.add('not-in-game');
+      if(s.logo){
+        const img=document.createElement('img');
+        img.src=s.logo;img.alt=s.label;
+        div.appendChild(img);
+      } else {
+        const inner=document.createElement('span');inner.textContent='–';div.appendChild(inner);
+      }
+    } else if(rank < currentSubSpot){
       div.classList.add('done');
       const inner=document.createElement('span');inner.textContent='✓';div.appendChild(inner);
-    } else if(i===currentSubSpot){
+    } else if(rank === currentSubSpot){
       div.classList.add('active');
       if(s.logo){
         const img=document.createElement('img');
         img.src=s.logo;img.alt=s.label;
         div.appendChild(img);
       } else {
-        const inner=document.createElement('span');inner.textContent=i+1;div.appendChild(inner);
+        const inner=document.createElement('span');inner.textContent=rank+1;div.appendChild(inner);
       }
-      div.onclick=()=>go(()=>showSubQuestion(id,i));
+      div.onclick=()=>go(()=>showSubQuestion(id,s.id));
     } else {
       div.classList.add('locked');
       const inner=document.createElement('span');inner.textContent='🔒';div.appendChild(inner);
@@ -721,17 +824,18 @@ function renderSubMap(id){
   });
 }
 
-function showSubQuestion(spotId, subId){
+function showSubQuestion(spotId, standId){
   inSubMap = true;
   currentSubQuestion = 0;
-  showSubQuestionStep(spotId, subId, 0);
+  showSubQuestionStep(spotId, standId, 0);
 }
 
-function showSubQuestionStep(spotId, subId, questionIndex){
-  const s = SUBSPOTS[spotId][subId];
+function showSubQuestionStep(spotId, standId, questionIndex){
+  const s = getStandById(standId);
+  const rank = selectedStandIds.indexOf(standId);
   const q = s.questions[questionIndex];
   document.getElementById('q-location-name-top').textContent=s.label;
-  document.getElementById('q-eyebrow').textContent = s.zone + ' · Question ' + (questionIndex+1) + '/' + s.questions.length;
+  document.getElementById('q-eyebrow').textContent = s.zone + ' · Stand ' + (rank+1) + '/' + selectedStandIds.length + ' · Question ' + (questionIndex+1) + '/' + s.questions.length;
   applyHeroBackground(q.bg, s.zone, s.label);
   document.getElementById('btn-back-to-map').style.display = 'block';
   document.getElementById('q-riddle').style.display='none';
@@ -743,7 +847,7 @@ function showSubQuestionStep(spotId, subId, questionIndex){
     const btn = document.createElement('button');
     btn.className = "choice";
     btn.textContent = c;
-    btn.onclick = () => selectSubAnswer(spotId, subId, questionIndex, i, btn);
+    btn.onclick = () => selectSubAnswer(spotId, standId, questionIndex, i, btn);
     choicesEl.appendChild(btn);
   });
   document.getElementById('feedback').style.display = 'none';
@@ -751,8 +855,8 @@ function showSubQuestionStep(spotId, subId, questionIndex){
   showScreen('screen-question');
 }
 
-function selectSubAnswer(spotId, subId, questionIndex, choiceIdx, btn){
-  const s = SUBSPOTS[spotId][subId];
+function selectSubAnswer(spotId, standId, questionIndex, choiceIdx, btn){
+  const s = getStandById(standId);
   const q = s.questions[questionIndex];
   document.querySelectorAll('.choice').forEach(c => { c.style.pointerEvents = 'none'; });
   const fb = document.getElementById('feedback');
@@ -767,16 +871,17 @@ function selectSubAnswer(spotId, subId, questionIndex, choiceIdx, btn){
     fb.className = 'feedback wrong';
     fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (q.feedbackWrong || q.feedback || "");
   }
-  if(!subspot_correct[subId]) subspot_correct[subId] = [];
-subspot_correct[subId][questionIndex] = (choiceIdx === q.correct);
-saveGame();
+  if(!subspot_correct[standId]) subspot_correct[standId] = [];
+  subspot_correct[standId][questionIndex] = (choiceIdx === q.correct);
+  saveGame();
   const btnNext = document.getElementById('btn-next');
   btnNext.style.display = 'block';
   const isLastQuestion = questionIndex === s.questions.length - 1;
-  const isLastStand = subId === SUBSPOTS[spotId].length - 1;
+  const rank = selectedStandIds.indexOf(standId);
+  const isLastStand = rank === selectedStandIds.length - 1;
   if (!isLastQuestion) {
     btnNext.textContent = "Question suivante →";
-    btnNext.onclick = () => go(()=>showSubQuestionStep(spotId, subId, questionIndex + 1));
+    btnNext.onclick = () => go(()=>showSubQuestionStep(spotId, standId, questionIndex + 1));
   } else if (!isLastStand) {
     btnNext.textContent = "Stand suivant →";
     btnNext.onclick = () => {
@@ -805,9 +910,10 @@ function showWin(){
     return total + (answered_correct[i] ? 1 : 0);
   }, 0);
 
-  // Points subspots : chaque question vaut 0.5, min 0 par stand
+  // Points subspots : chaque question vaut 0.5, min 0 par stand — sur les 8 stands tirés
   let subScore = 0;
-  Object.values(subspot_correct).forEach(answers => {
+  Object.entries(subspot_correct).forEach(([standId, answers]) => {
+    if(!selectedStandIds.includes(parseInt(standId))) return;
     answers.forEach(correct => {
       if(correct) subScore += 0.5;
     });
@@ -815,7 +921,7 @@ function showWin(){
 
   const totalScore = mainSpotScore + subScore;
   const maxMain = SPOTS.filter(s => !s.hasStands).length; // 7
-  const maxSub = SUBSPOTS[1].length; // 8 stands × 1 point = 8
+  const maxSub = selectedStandIds.length; // 8 stands tirés × 1 point = 8
   const maxTotal = maxMain + maxSub; // 15
 
   document.getElementById('win-score').textContent = totalScore + ' / ' + maxTotal + ' points';
@@ -874,14 +980,15 @@ async function sendResults(){
     return total + (answered_correct[i] ? 1 : 0);
   }, 0);
 
-  // Calcul du score subspots (0.5 par bonne réponse)
+  // Calcul du score subspots (0.5 par bonne réponse, sur les stands tirés)
   let subScore = 0;
-  Object.values(subspot_correct).forEach(answers => {
+  Object.entries(subspot_correct).forEach(([standId, answers]) => {
+    if(!selectedStandIds.includes(parseInt(standId))) return;
     answers.forEach(correct => { if(correct) subScore += 0.5; });
   });
 
   const totalScore = mainSpotScore + subScore;
-  const maxTotal = SPOTS.filter(s => !s.hasStands).length + SUBSPOTS[1].length;
+  const maxTotal = SPOTS.filter(s => !s.hasStands).length + selectedStandIds.length;
 
   btn.disabled=true;
   btn.innerHTML='⏳ Envoi en cours...';
@@ -891,9 +998,10 @@ async function sendResults(){
     return s.label + ' : ' + (answered_correct[i] ? '✓ Correct' : '✗ Incorrect');
   }).filter(Boolean).join(' | ');
 
-  const subDetails = Object.entries(subspot_correct).map(([subId, answers]) => {
-    const stand = SUBSPOTS[1][parseInt(subId)];
-    const label = stand ? stand.label : 'Stand ' + subId;
+  const subDetails = selectedStandIds.map((standId) => {
+    const stand = getStandById(standId);
+    const answers = subspot_correct[standId] || [];
+    const label = stand ? stand.label : 'Stand ' + standId;
     const pts = answers.filter(Boolean).length * 0.5;
     return label + ' : ' + pts + '/1 pt';
   }).join(' | ');
@@ -938,6 +1046,7 @@ function saveGame(){
     currentSpot,
     currentSubSpot,
     inSubMap,
+    selectedStandIds: JSON.stringify(selectedStandIds),
     answered: JSON.stringify(answered),
     answered_correct: JSON.stringify(answered_correct),
     subspot_correct: JSON.stringify(subspot_correct)
@@ -954,6 +1063,8 @@ function loadGame(){
     playerSite = state.playerSite || "";
     currentSpot = state.currentSpot || 0;
     currentSubSpot = state.currentSubSpot || 0;
+    selectedStandIds = JSON.parse(state.selectedStandIds || '[]');
+    if(!selectedStandIds.length) selectedStandIds = generateStandSelection();
     subspot_correct = JSON.parse(state.subspot_correct || '{}');
     inSubMap = state.inSubMap || false;
     answered = JSON.parse(state.answered || '[]');
