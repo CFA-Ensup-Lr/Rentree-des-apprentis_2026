@@ -376,8 +376,17 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
 }
 
 /* Auréole : seul indicateur visuel du stand auquel il faut répondre
-   maintenant. Le logo garde sa taille normale, non déformé. */
-#subspots-container .spot.active{cursor:pointer}
+   maintenant. Le logo garde sa taille normale, non déformé.
+   On neutralise ici le fond + l'animation "pulse" hérités de la
+   règle de base ".spot.active" (pensée pour les épingles carrées de
+   la carte principale) sur l'élément EXTÉRIEUR .spot (carré, sans
+   border-radius) : sans ça, un halo carré orange s'affichait derrière
+   le vrai halo rond porté par .spot-inner ci-dessous. */
+#subspots-container .spot.active{
+  cursor:pointer;
+  background:none;
+  animation:none;
+}
 #subspots-container .spot.active .spot-inner{
   box-shadow:0 3px 8px rgba(0,0,0,.18), 0 0 0 6px rgba(226,121,63,.32);
   animation:pulse 2s infinite;
