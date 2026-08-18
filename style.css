@@ -361,6 +361,7 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
   background:#fff;
   overflow:hidden;
   box-shadow:0 3px 8px rgba(0,0,0,.18);
+  transform:none; /* annule la rotation à 45° héritée des épingles de la carte principale, pour que logo/bulle restent droits */
 }
 #subspots-container .spot img{
   width:100%;
