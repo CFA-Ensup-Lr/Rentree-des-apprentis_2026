@@ -457,11 +457,12 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
   }
   #app{
     width:420px;
-    height:820px;
-    max-height:94vh;
+    height:780px;
+    max-height:90vh;
     min-height:auto;
     border-radius:32px;
-    overflow:hidden;
+    overflow-y:auto;
+    overflow-x:hidden;
     box-shadow:0 30px 70px -20px rgba(31,77,61,.35), 0 0 0 10px #0f1a14;
     background:var(--bg);
   }

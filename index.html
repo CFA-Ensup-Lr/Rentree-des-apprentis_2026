@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#1f4d3d">
 <title>Chasse au trésor — Jardin des Plantes</title>
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
@@ -1132,6 +1132,9 @@ function showSubQuestionStep(spotId, standId, questionIndex){
    un champ + un bouton "Valider". La correction (isCorrect) est
    fournie par l'appelant selon le type de question. */
 function renderSubOpenQuestion(spotId, standId, questionIndex, q, container, opts){
+  const MAX_ATTEMPTS = 2;
+  let attempts = 0;
+
   const input = document.createElement('input');
   input.type = opts.inputType;
   if(opts.inputMode) input.inputMode = opts.inputMode;
@@ -1139,6 +1142,11 @@ function renderSubOpenQuestion(spotId, standId, questionIndex, q, container, opt
   input.placeholder = opts.placeholder;
   input.style.cssText = `width:100%;padding:12px;border:1px solid #96bbda;border-radius:10px;font-size:16px;margin-bottom:1rem;letter-spacing:${opts.letterSpacing};${opts.center ? 'text-align:center;' : ''}`;
   container.appendChild(input);
+
+  const attemptsDisplay = document.createElement('p');
+  attemptsDisplay.style.cssText = 'font-size:12px;color:#287ec0;margin-bottom:1rem;';
+  attemptsDisplay.textContent = MAX_ATTEMPTS + ' tentatives restantes';
+  container.appendChild(attemptsDisplay);
 
   const btnValider = document.createElement('button');
   btnValider.className = 'btn-next';
@@ -1149,24 +1157,43 @@ function renderSubOpenQuestion(spotId, standId, questionIndex, q, container, opt
   btnValider.onclick = () => {
     const raw = input.value;
     const isCorrect = opts.isCorrect(raw);
-    input.disabled = true;
-    btnValider.style.display = 'none';
+    attempts++;
 
     const s = getStandById(standId);
     const fb = document.getElementById('feedback');
     fb.style.display = 'block';
+
     if(isCorrect){
+      input.disabled = true;
+      btnValider.style.display = 'none';
+      attemptsDisplay.style.display = 'none';
       fb.className = 'feedback correct';
       fb.innerHTML = '<strong>Bonne réponse !</strong> ' + (q.feedbackCorrect || q.feedback || "");
-    } else {
-      fb.className = 'feedback wrong';
-      fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (q.feedbackWrong || opts.wrongDefault || "Réessaie, la réponse se trouve directement sur le stand !");
+      if(!subspot_correct[standId]) subspot_correct[standId] = [];
+      subspot_correct[standId][questionIndex] = true;
+      saveGame();
+      wireSubNextButton(spotId, standId, questionIndex, s);
+      return;
     }
-    if(!subspot_correct[standId]) subspot_correct[standId] = [];
-    subspot_correct[standId][questionIndex] = isCorrect;
-    saveGame();
 
-    wireSubNextButton(spotId, standId, questionIndex, s);
+    const remaining = MAX_ATTEMPTS - attempts;
+    if(remaining > 0){
+      fb.className = 'feedback wrong';
+      fb.innerHTML = '<strong>Pas tout à fait...</strong> Réessaie !';
+      attemptsDisplay.textContent = remaining + ' tentative' + (remaining > 1 ? 's' : '') + ' restante' + (remaining > 1 ? 's' : '');
+      input.value = '';
+      input.focus();
+    } else {
+      input.disabled = true;
+      btnValider.style.display = 'none';
+      attemptsDisplay.style.display = 'none';
+      fb.className = 'feedback wrong';
+      fb.innerHTML = '<strong>Plus de tentatives.</strong> ' + (q.feedbackWrong || opts.wrongDefault || "Réessaie, la réponse se trouve directement sur le stand !");
+      if(!subspot_correct[standId]) subspot_correct[standId] = [];
+      subspot_correct[standId][questionIndex] = false;
+      saveGame();
+      wireSubNextButton(spotId, standId, questionIndex, s);
+    }
   };
 }
 
