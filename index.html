@@ -2,9 +2,13 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1f4d3d">
 <title>Chasse au trésor — Jardin des Plantes</title>
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
@@ -143,16 +147,6 @@
         <div id="subspots-container"></div>
       </div>
       <button class="btn-back-to-map" onclick="backToMainMap()">← Retour à la carte principale</button>
-
-      <button class="btn-edit-toggle" id="btn-toggle-edit" onclick="toggleEditMode()">✏️ Modifier les emplacements</button>
-      <div id="edit-mode-panel" style="display:none">
-        <p class="edit-mode-hint">Fais glisser chaque logo à l'endroit exact sur la photo, puis copie le code pour le coller dans <code>SUBSPOTS</code>.</p>
-        <div class="edit-mode-actions">
-          <button class="btn-edit-action" onclick="exportPositionsCode()">📋 Copier le code des positions</button>
-          <button class="btn-edit-action btn-edit-reset" onclick="resetPositions()">↺ Réinitialiser</button>
-        </div>
-        <textarea id="edit-export-textarea" readonly></textarea>
-      </div>
     </div>
   </div>
 
@@ -726,29 +720,6 @@ let answered_correct = [];
 let subspot_correct = {}; // {standId: [true/false, true/false]}
 let selectedStandIds = []; // 8 ids tirés au sort pour cette partie (CFA inclus)
 
-/* Emplacements des stands modifiés à la main via le mode édition
-   (glisser-déposer). Stockés à part des coordonnées par défaut du
-   code, pour pouvoir les exporter puis les coller dans SUBSPOTS. */
-let editMode = false;
-let positionOverrides = {}; // {standId: {x:"32.0%", y:"96.0%"}}
-
-function loadPositionOverrides(){
-  try{
-    positionOverrides = JSON.parse(localStorage.getItem('chasse_tresor_positions_override') || '{}');
-  }catch(e){
-    positionOverrides = {};
-  }
-}
-
-function savePositionOverrides(){
-  localStorage.setItem('chasse_tresor_positions_override', JSON.stringify(positionOverrides));
-}
-
-function getStandXY(s){
-  const o = positionOverrides[s.id];
-  return o ? o : {x:s.x, y:s.y};
-}
-
 let playerName = "";
 let playerSite = "";
 
@@ -1078,11 +1049,10 @@ function renderSubMap(id){
 
   allStands.forEach((s)=>{
     const rank = selectedStandIds.indexOf(s.id); // -1 si non tiré au sort
-    const pos = getStandXY(s);
 
     const div=document.createElement('div');
     div.className='spot';
-    div.style.left=pos.x;div.style.top=pos.y;
+    div.style.left=s.x;div.style.top=s.y;
     div.title=s.label;
 
     // Le cercle rogné (logo) est dans un conteneur interne séparé.
@@ -1096,10 +1066,7 @@ function renderSubMap(id){
     inner.appendChild(img);
     div.appendChild(inner);
 
-    if(editMode){
-      div.classList.add('editable');
-      div.addEventListener('pointerdown', (e)=>startDragStand(e, s.id, div));
-    } else if(rank !== -1 && rank === currentSubSpot){
+    if(rank !== -1 && rank === currentSubSpot){
       div.classList.add('active');
       div.onclick=()=>go(()=>showSubQuestion(id,s.id));
     } else if(rank !== -1 && rank < currentSubSpot){
@@ -1110,72 +1077,6 @@ function renderSubMap(id){
 
     container.appendChild(div);
   });
-}
-
-/* =========================================================
-   MODE ÉDITION DES EMPLACEMENTS (glisser-déposer)
-   ========================================================= */
-function toggleEditMode(){
-  editMode = !editMode;
-  const panel = document.getElementById('edit-mode-panel');
-  const btn = document.getElementById('btn-toggle-edit');
-  panel.style.display = editMode ? 'block' : 'none';
-  btn.textContent = editMode ? '✅ Terminer l\'édition' : '✏️ Modifier les emplacements';
-  btn.classList.toggle('active', editMode);
-  document.getElementById('edit-export-textarea').style.display = 'none';
-  renderSubMap(1);
-}
-
-function startDragStand(e, standId, div){
-  e.preventDefault();
-  div.setPointerCapture(e.pointerId);
-  div.classList.add('dragging');
-  const mapContainer = document.querySelector('#screen-submap .map-container');
-  const rect = mapContainer.getBoundingClientRect();
-
-  function clamp(v){ return Math.max(0, Math.min(100, v)); }
-
-  function onMove(ev){
-    const xPct = clamp(((ev.clientX - rect.left) / rect.width) * 100).toFixed(1) + '%';
-    const yPct = clamp(((ev.clientY - rect.top) / rect.height) * 100).toFixed(1) + '%';
-    div.style.left = xPct;
-    div.style.top = yPct;
-    positionOverrides[standId] = {x:xPct, y:yPct};
-  }
-  function onUp(ev){
-    div.releasePointerCapture(ev.pointerId);
-    div.classList.remove('dragging');
-    div.removeEventListener('pointermove', onMove);
-    div.removeEventListener('pointerup', onUp);
-    savePositionOverrides();
-  }
-  div.addEventListener('pointermove', onMove);
-  div.addEventListener('pointerup', onUp);
-}
-
-function exportPositionsCode(){
-  const lines = SUBSPOTS[1].map(s=>{
-    const pos = getStandXY(s);
-    return `      id:${s.id}, x:"${pos.x}", y:"${pos.y}", // ${s.label}`;
-  });
-  const code = lines.join('\n');
-  const textarea = document.getElementById('edit-export-textarea');
-  textarea.value = code;
-  textarea.style.display = 'block';
-  textarea.focus();
-  textarea.select();
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(code).catch(()=>{});
-  }
-}
-
-function resetPositions(){
-  if(confirm('Réinitialiser tous les emplacements aux valeurs par défaut du code ?')){
-    positionOverrides = {};
-    localStorage.removeItem('chasse_tresor_positions_override');
-    document.getElementById('edit-export-textarea').style.display = 'none';
-    renderSubMap(1);
-  }
 }
 
 function showSubQuestion(spotId, standId){
@@ -1205,11 +1106,13 @@ function showSubQuestionStep(spotId, standId, questionIndex){
   if(qType === 'text'){
     renderSubOpenQuestion(spotId, standId, questionIndex, q, choicesEl, {
       inputType:'text', placeholder:'Ta réponse...', center:false, letterSpacing:'normal', maxLength:null,
+      wrongDefault:"Ce n'est pas un prénom de l'équipe présente aujourd'hui — demande directement à l'équipe du stand !",
       isCorrect: (raw) => (q.acceptedAnswers||[]).some(a => normalizeAnswer(a) === normalizeAnswer(raw)) && raw.trim() !== ''
     });
   } else if(qType === 'code'){
     renderSubOpenQuestion(spotId, standId, questionIndex, q, choicesEl, {
       inputType:'text', inputMode:'numeric', placeholder:'Code à 4 chiffres', center:true, letterSpacing:'4px', maxLength:4,
+      wrongDefault:"Ce n'est pas le bon code — il est affiché directement sur le stand, demande de l'aide à l'équipe si besoin !",
       isCorrect: (raw) => raw.trim() === q.code
     });
   } else {
@@ -1254,10 +1157,10 @@ function renderSubOpenQuestion(spotId, standId, questionIndex, q, container, opt
     fb.style.display = 'block';
     if(isCorrect){
       fb.className = 'feedback correct';
-      fb.innerHTML = '<strong>Bonne réponse !</strong> ' + (q.feedback || "");
+      fb.innerHTML = '<strong>Bonne réponse !</strong> ' + (q.feedbackCorrect || q.feedback || "");
     } else {
       fb.className = 'feedback wrong';
-      fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (q.feedback || "");
+      fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (q.feedbackWrong || opts.wrongDefault || "Réessaie, la réponse se trouve directement sur le stand !");
     }
     if(!subspot_correct[standId]) subspot_correct[standId] = [];
     subspot_correct[standId][questionIndex] = isCorrect;
@@ -1511,7 +1414,6 @@ function clearSave(){
 }
 
 /* Initialisation */
-loadPositionOverrides();
 updateBackButtons();
 
 </script>

@@ -27,25 +27,42 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+  overflow-x:hidden;
+  height:100%;
+}
 body{
   font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   background:var(--bg);
   color:var(--ink);
   overscroll-behavior-y:none;
+  overflow-x:hidden;
+  width:100%;
+  min-height:100%;
+  touch-action:manipulation; /* évite le double-tap-to-zoom et le délai de 300ms sur mobile */
+}
+button,.spot,.choice,.btn-back,.btn-start,.btn-next,.btn-send,.btn-back-to-map{
+  touch-action:manipulation;
+}
+input,select,textarea{
+  font-size:16px; /* empêche Safari iOS de zoomer automatiquement au focus */
 }
 button{font-family:inherit}
 h1,h2,.font-display{font-family:'Fraunces',serif}
 
-#app{width:100%;max-width:600px;margin:0 auto;min-height:100vh;position:relative}
+#app{width:100%;max-width:600px;margin:0 auto;min-height:100vh;min-height:100dvh;position:relative;overflow-x:hidden}
 
 /* =========== Écrans / transitions =========== */
 .screen{
   display:none;
   position:fixed;
   inset:0;
+  overflow-x:hidden;
   overflow-y:auto;
+  overscroll-behavior:contain;
   -webkit-overflow-scrolling:touch;
   background:var(--bg);
   transform:translateX(100%);
@@ -166,7 +183,7 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
 }
 
 /* =========== Nom / formulaire =========== */
-#screen-name{padding:calc(1.5rem + var(--safe-top)) 1.25rem calc(2rem + var(--safe-bottom));display:flex;align-items:center;min-height:100vh}
+#screen-name{padding:calc(1.5rem + var(--safe-top)) 1.25rem calc(2rem + var(--safe-bottom));display:flex;align-items:center;min-height:100vh;min-height:100dvh}
 .name-card{
   background:var(--surface);
   border:1px solid var(--line);
@@ -410,113 +427,49 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
   z-index:2;
 }
 
-/* Stands en mode édition : curseur "grab", légère mise en avant
-   pendant le glisser pour un retour visuel clair. */
-#subspots-container .spot.editable{
-  cursor:grab;
-  touch-action:none;
-}
-#subspots-container .spot.dragging .spot-inner{
-  box-shadow:0 6px 18px rgba(0,0,0,.35), 0 0 0 4px rgba(63,125,92,.4);
-}
-#subspots-container .spot.dragging{cursor:grabbing;z-index:50}
-
-/* Bouton pour activer/désactiver le mode édition des emplacements */
-.btn-edit-toggle{
-  position:relative;
-  z-index:30;
-  width:100%;
-  margin-top:.6rem;
-  background:var(--surface);
-  color:var(--green-deep);
-  border:1.5px dashed var(--line);
-  padding:12px;
-  border-radius:var(--radius-md);
-  font-size:13.5px;
-  font-weight:600;
-  cursor:pointer;
-  min-height:44px;
-  transition:background .15s ease, border-color .15s ease;
-}
-.btn-edit-toggle:hover{background:var(--green-pale)}
-.btn-edit-toggle.active{
-  background:var(--green-pale);
-  border-color:var(--green);
-  color:var(--green-deep);
-}
-
-/* Panneau du mode édition — passé devant (z-index élevé) pour ne
-   jamais être recouvert/coupé par l'auréole pulsante d'un stand actif
-   ou tout autre élément qui pourrait chevaucher visuellement. */
-#edit-mode-panel{
-  position:relative;
-  z-index:30;
-  margin-top:.75rem;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:var(--radius-md);
-  padding:1rem;
-  box-shadow:var(--shadow-card);
-}
-.edit-mode-hint{
-  font-size:13px;
-  color:var(--ink-soft);
-  line-height:1.5;
-  margin-bottom:.85rem;
-}
-.edit-mode-hint code{
-  background:var(--green-pale);
-  color:var(--green-deep);
-  padding:1px 5px;
-  border-radius:4px;
-  font-size:12px;
-}
-.edit-mode-actions{
-  display:flex;
-  gap:.6rem;
-  flex-wrap:wrap;
-}
-.btn-edit-action{
-  flex:1 1 auto;
-  background:linear-gradient(180deg,var(--green),var(--green-deep));
-  color:#fff;
-  border:none;
-  padding:11px 14px;
-  border-radius:var(--radius-sm);
-  font-size:13px;
-  font-weight:600;
-  cursor:pointer;
-  min-height:42px;
-}
-.btn-edit-action.btn-edit-reset{
-  background:var(--bg);
-  color:var(--terracotta-dk);
-  border:1.5px solid var(--line);
-}
-#edit-export-textarea{
-  display:none;
-  width:100%;
-  height:220px;
-  margin-top:.85rem;
-  padding:.75rem;
-  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  font-size:11.5px;
-  line-height:1.5;
-  border:1.5px solid var(--line);
-  border-radius:var(--radius-sm);
-  background:var(--bg);
-  color:var(--ink);
-  resize:vertical;
-}
-
 .zone-divider{
   display:flex;align-items:center;gap:10px;margin:1.1rem 0 .3rem;
   font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-deep);
 }
 .zone-divider::before,.zone-divider::after{content:'';flex:1;height:1px;background:var(--line)}
 
-/* =========== Responsive tuning =========== */
-@media (min-width:640px){
-  #app{padding:1rem 0}
-  .screen{position:relative;top:auto;left:auto;height:auto;min-height:100vh}
+/* =========== Adaptation ORDINATEUR (≥900px) =========== */
+/* Le mobile (jusqu'à 899px) garde l'expérience plein écran d'origine,
+   optimisée en priorité puisque l'essentiel des joueurs est sur
+   téléphone. Au-delà, l'app se présente comme une carte centrée façon
+   "mockup de téléphone" à hauteur fixe, pour rester lisible sans
+   s'étirer sur toute la largeur/hauteur de l'écran. */
+@media (min-width:900px){
+  body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:2.5rem 1rem;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(63,125,92,.08), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(226,121,63,.08), transparent 45%),
+      var(--bg);
+  }
+  #app{
+    width:420px;
+    height:860px;
+    max-height:92vh;
+    min-height:auto;
+    border-radius:32px;
+    overflow:hidden;
+    box-shadow:0 30px 70px -20px rgba(31,77,61,.35), 0 0 0 10px #0f1a14;
+    background:var(--bg);
+  }
+  /* Contenu à l'intérieur du cadre plutôt que sur tout le viewport
+     du navigateur : chaque écran reste absolument positionné dans
+     #app, sans dépendre du flux normal (évite tout bug de hauteur
+     pendant les 380ms de transition où l'écran sortant et l'écran
+     entrant peuvent momentanément se chevaucher). */
+  .screen{position:absolute}
+}
+
+/* Sur très grand écran, un peu plus d'air autour de la carte */
+@media (min-width:1200px){
+  body{padding:4rem 1rem}
 }
