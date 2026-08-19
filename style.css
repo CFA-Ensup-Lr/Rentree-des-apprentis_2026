@@ -440,12 +440,16 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
    "mockup de téléphone" à hauteur fixe, pour rester lisible sans
    s'étirer sur toute la largeur/hauteur de l'écran. */
 @media (min-width:900px){
+  html,body{overflow-y:auto}
   body{
     display:flex;
-    align-items:center;
+    align-items:flex-start; /* ancre le cadre en haut : s'il dépasse la
+      fenêtre, on peut toujours scroller la PAGE pour voir le bas
+      (avec align-items:center, le bas pouvait sortir de l'écran sans
+      aucun moyen de l'atteindre) */
     justify-content:center;
     min-height:100vh;
-    padding:2.5rem 1rem;
+    padding:2rem 1rem;
     background:
       radial-gradient(circle at 20% 10%, rgba(63,125,92,.08), transparent 45%),
       radial-gradient(circle at 85% 80%, rgba(226,121,63,.08), transparent 45%),
@@ -453,8 +457,8 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
   }
   #app{
     width:420px;
-    height:860px;
-    max-height:92vh;
+    height:820px;
+    max-height:94vh;
     min-height:auto;
     border-radius:32px;
     overflow:hidden;
