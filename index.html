@@ -1179,7 +1179,7 @@ function renderSubOpenQuestion(spotId, standId, questionIndex, q, container, opt
     const remaining = MAX_ATTEMPTS - attempts;
     if(remaining > 0){
       fb.className = 'feedback wrong';
-      fb.innerHTML = '<strong>Pas tout à fait...</strong> Réessaie !';
+      fb.innerHTML = '<strong>Pas tout à fait...</strong> ' + (q.feedbackWrong || opts.wrongDefault || "Réessaie !");
       attemptsDisplay.textContent = remaining + ' tentative' + (remaining > 1 ? 's' : '') + ' restante' + (remaining > 1 ? 's' : '');
       input.value = '';
       input.focus();
@@ -1188,7 +1188,7 @@ function renderSubOpenQuestion(spotId, standId, questionIndex, q, container, opt
       btnValider.style.display = 'none';
       attemptsDisplay.style.display = 'none';
       fb.className = 'feedback wrong';
-      fb.innerHTML = '<strong>Plus de tentatives.</strong> ' + (q.feedbackWrong || opts.wrongDefault || "Réessaie, la réponse se trouve directement sur le stand !");
+      fb.innerHTML = '<strong>Plus de tentatives.</strong> Tu passes à la suite sans point pour cette question.';
       if(!subspot_correct[standId]) subspot_correct[standId] = [];
       subspot_correct[standId][questionIndex] = false;
       saveGame();
