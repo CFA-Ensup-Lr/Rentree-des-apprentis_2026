@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<link rel="icon" type="image/png" href="faviconCFA.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
 <title>Chasse au trésor — Jardin des Plantes</title>
@@ -270,11 +269,25 @@ const SUBSPOTS = {
           bg:"bg-mediateur-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"6954",
+          feedback:"Ce code te confirme ton passage au stand du Médiateur (CCI Hérault) — l'équipe est là pour répondre à toutes tes questions sur la résolution des conflits en apprentissage."
         },
-        {bg:"bg-mediateur-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-mediateur-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+        {
+          bg:"bg-mediateur-q1.jpg",
+          question:"Le médiateur de l'apprentissage intervient dans quel type de situation ?",
+          choices:["Pour valider les contrats d'apprentissage avant leur signature","Pour résoudre des conflits entre un apprenti et son employeur ou maître d'apprentissage","Pour financer la formation des apprentis"],
+          correct:1,
+          feedbackCorrect:"Le médiateur de l'apprentissage est un tiers neutre et impartial qui intervient en cas de conflit entre un apprenti et son employeur ou maître d'apprentissage.",
+          feedbackWrong:"Le médiateur n'enregistre pas les contrats et ne les finance pas : il intervient uniquement pour résoudre des conflits entre apprenti et employeur à l'amiable."
+        },
+        {
+          bg:"bg-mediateur-q2.jpg",
+          question:"Passé quel délai après le début du contrat, la rupture ne peut plus se faire librement et doit être justifiée ?",
+          choices:["30 jours","45 jours","60 jours"],
+          correct:1,
+          feedbackCorrect:"Exact ! Passé les 45 premiers jours en entreprise (période d'essai), la rupture doit être justifiée et suit une procédure encadrée par la loi.",
+          feedbackWrong:"C'est bien 45 jours — et non 30 ou 60 — qui constituent la période d'essai de l'apprenti. Au-delà, la rupture doit être motivée."
+        }
       ]
     },
     {
@@ -285,8 +298,8 @@ const SUBSPOTS = {
           bg:"bg-fds-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"6278",
+          feedback:"Ce code te confirme ton passage au stand de la Faculté des Sciences — n'hésite pas à demander à l'équipe leurs formations en apprentissage."
         },
         {
           bg:"bg-fds-q1.jpg",
@@ -312,8 +325,8 @@ const SUBSPOTS = {
           bg:"bg-moma-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"7424",
+          feedback:"Ce code te confirme ton passage au stand de Montpellier Management — l'occasion d'échanger sur leurs formations en apprentissage jusqu'au Master."
         },
         {
           bg:"bg-moma-q1.jpg",
@@ -339,11 +352,25 @@ const SUBSPOTS = {
           bg:"bg-bve-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"3585",
+          feedback:"Ce code te confirme ton passage au stand du BVE — pense à demander toutes les aides et dispositifs proposés aux étudiants."
         },
-        {bg:"bg-bve-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-bve-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+        {
+          bg:"bg-bve-q1.jpg",
+          question:"Le BVE propose des distributions alimentaires gratuites sur les campus. Avec quelle association partenaire organise-t-il ces distributions ?",
+          choices:["Les Restos du Cœur","Linkee","La Banque Alimentaire"],
+          correct:1,
+          feedbackCorrect:"En partenariat avec l'association Linkee, le BVE propose des distributions alimentaires un lundi sur deux dans les maisons des étudiants Triolet et Richter.",
+          feedbackWrong:"Ce n'est ni les Restos du Cœur ni la Banque Alimentaire : c'est avec l'association Linkee que le BVE organise ses distributions alimentaires sur les campus."
+        },
+        {
+          bg:"bg-bve-q2.jpg",
+          question:"Le BVE peut financer des projets étudiants via un fonds dédié. Quel est son nom ?",
+          choices:["Le Fonds d'Aide aux Initiatives Étudiantes (FAIE)","Le Fonds National pour l'Emploi Étudiant (FNEE)","Le Fonds de Solidarité et de Développement des Initiatives Étudiantes (FSDIE)"],
+          correct:2,
+          feedbackCorrect:"Le FSDIE (Fonds de Solidarité et de Développement des Initiatives Étudiantes) permet de financer des projets étudiants associatifs et individuels.",
+          feedbackWrong:"Ce n'est ni le FAIE ni le FNEE : c'est le FSDIE (Fonds de Solidarité et de Développement des Initiatives Étudiantes) qui finance les projets étudiants à l'UM."
+        }
       ]
     },
     {
@@ -354,11 +381,25 @@ const SUBSPOTS = {
           bg:"bg-iut-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"5674",
+          feedback:"Ce code te confirme ton passage au stand de l'IUT de Montpellier-Sète — l'occasion de découvrir leurs BUT accessibles en apprentissage."
         },
-        {bg:"bg-iut-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-iut-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+        {
+          bg:"bg-iut-q1.jpg",
+          question:"Lequel de ces BUT n'est PAS proposé à l'IUT Montpellier-Sète ?",
+          choices:["BUT Droit, Économie, Gestion","BUT Techniques de Commercialisation","BUT Informatique"],
+          correct:0,
+          feedbackCorrect:"Exact ! L'IUT Montpellier-Sète propose des BUT en Chimie, Génie Biologique, Informatique, Techniques de Commercialisation, GEA... mais pas de BUT Droit, Économie, Gestion — ce cursus relève des facultés de droit.",
+          feedbackWrong:"Le BUT Droit, Économie, Gestion n'existe pas à l'IUT Montpellier-Sète — les filières proposées sont Chimie, Génie Biologique, Informatique, Techniques de Commercialisation, GEA, entre autres."
+        },
+        {
+          bg:"bg-iut-q2.jpg",
+          question:"Quelle est la durée hebdomadaire de travail maximale d'un apprenti mineur de moins de 18 ans ?",
+          choices:["35 heures","39 heures","40 heures"],
+          correct:0,
+          feedbackCorrect:"Le temps de travail de l'apprenti est identique à celui des autres salariés. La durée légale du travail effectif est fixée à 35 heures par semaine.",
+          feedbackWrong:"Le temps de travail de l'apprenti est identique à celui des autres salariés. La durée légale du travail effectif est fixée à 35 heures par semaine."
+        }
       ]
     },
     {
@@ -369,11 +410,25 @@ const SUBSPOTS = {
           bg:"bg-institut-agro-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"1854",
+          feedback:"Ce code te confirme ton passage au stand de l'Institut Agro — une belle occasion d'en savoir plus sur les métiers de l'agronomie et de l'environnement."
         },
-        {bg:"bg-institut-agro-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-institut-agro-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+        {
+          bg:"bg-institut-agro-q1.jpg",
+          question:"L'Institut Agro Montpellier forme dans quel domaine principal ?",
+          choices:["Le droit et les sciences politiques","L'économie et la gestion","Les sciences agronomiques, agroalimentaires et environnementales"],
+          correct:2,
+          feedbackCorrect:"L'Institut Agro forme aux sciences agronomiques, agroalimentaires et environnementales — un domaine clé en Occitanie, région agricole et viticole de premier plan !",
+          feedbackWrong:"L'Institut Agro n'est ni une école de droit ni de gestion : c'est une grande école spécialisée en agronomie, agroalimentaire et environnement."
+        },
+        {
+          bg:"bg-institut-agro-q2.jpg",
+          question:"Un apprenti peut-il être amené à travailler le week-end ?",
+          choices:["Non, jamais","Oui, mais uniquement le samedi","Oui, si cela est prévu dans le contrat et selon les usages de la branche professionnelle"],
+          correct:2,
+          feedbackCorrect:"Oui ! Selon les usages de la branche et les dispositions du contrat, un apprenti peut être amené à travailler le week-end — notamment dans la restauration, le commerce ou l'agriculture.",
+          feedbackWrong:"Le travail du week-end est possible pour un apprenti si cela est prévu dans son contrat et correspond aux usages de sa branche professionnelle."
+        }
       ]
     },
     {
@@ -384,11 +439,25 @@ const SUBSPOTS = {
           bg:"bg-nqt-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"4663",
+          feedback:"Ce code te confirme ton passage au stand de NQT — pense à demander comment fonctionne leur système de mentorat."
         },
-        {bg:"bg-nqt-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-nqt-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+        {
+          bg:"bg-nqt-q1.jpg",
+          question:"NQT accompagne les jeunes diplômés vers l'emploi. Que signifie le sigle NQT ?",
+          choices:["Nouveaux Qualifiés en Transition","Nos Quartiers ont du Talent","Nationale pour la Qualification et le Travail"],
+          correct:1,
+          feedbackCorrect:"NQT = Nos Quartiers ont du Talent ! L'association a été fondée en 2005 pour accompagner les jeunes diplômés les plus éloignés de l'emploi, via un système de mentorat avec des professionnels en activité.",
+          feedbackWrong:"NQT signifie « Nos Quartiers ont du Talent » — une association fondée en 2005 pour accompagner par le mentorat les jeunes diplômés rencontrant des difficultés d'accès à l'emploi."
+        },
+        {
+          bg:"bg-nqt-q2.jpg",
+          question:"NQT propose un accompagnement spécifique pour les jeunes en alternance. Lequel ?",
+          choices:["Un financement du permis de conduire","La mise en relation avec un mentor professionnel pour trouver une alternance et s'y intégrer","Une garantie de CDI à la fin du contrat"],
+          correct:1,
+          feedbackCorrect:"NQT accompagne les jeunes en alternance via le mentorat : un professionnel en activité les aide à trouver une alternance, à s'y intégrer et à valoriser leurs compétences.",
+          feedbackWrong:"NQT n'offre ni financement du permis ni garantie d'embauche — mais un accompagnement humain via le mentorat, pour aider les jeunes à trouver et réussir leur alternance."
+        }
       ]
     },
 
@@ -401,8 +470,8 @@ const SUBSPOTS = {
           bg:"bg-caf-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"2561",
+          feedback:"Ce code te confirme ton passage au stand de la CAF — pense à demander les aides au logement auxquelles tu peux prétendre en tant qu'apprenti."
         },
         {
           bg:"bg-caf-q1.jpg",
@@ -428,8 +497,8 @@ const SUBSPOTS = {
           bg:"bg-um-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"5648",
+          feedback:"Ce code te confirme ton passage au stand de l'Université de Montpellier — n'hésite pas à demander leurs formations accessibles en apprentissage."
         },
         {bg:"bg-um-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
         {bg:"bg-um-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
@@ -443,8 +512,8 @@ const SUBSPOTS = {
           bg:"bg-cpam-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"0217",
+          feedback:"Ce code te confirme ton passage au stand de la CPAM — pense à demander comment déclarer un arrêt maladie en tant qu'apprenti."
         },
         {
           bg:"bg-cpam-q1.jpg",
@@ -470,8 +539,8 @@ const SUBSPOTS = {
           bg:"bg-iae-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"7905",
+          feedback:"Ce code te confirme ton passage au stand de l'IAE Montpellier — l'occasion de découvrir leurs formations en management accessibles en apprentissage."
         },
         {
           bg:"bg-iae-q1.jpg",
@@ -482,10 +551,10 @@ const SUBSPOTS = {
         },
         {
           bg:"bg-iae-q2.jpg",
-          question:"Dans le secteur public, quel organisme enregistre le contrat d'apprentissage à la place de l'OPCO ?",
-          choices:["Le Rectorat","La DREETS / DDETS","La Préfecture"],
+          question:"Combien de jours de congés payés un apprenti a-t-il droit chaque année, comme tout salarié ?",
+          choices:["4 semaines (20 jours ouvrés)","5 semaines (25 jours ouvrés)","6 semaines (30 jours ouvrés)"],
           correct:1,
-          feedback:"Dans le secteur public, c'est la DREETS / DDETS qui enregistre le contrat d'apprentissage."
+          feedback:"Comme tout salarié, l'apprenti a droit à 5 semaines de congés payés par an, soit 25 jours ouvrés (2,5 jours acquis par mois travaillé)."
         }
       ]
     },
@@ -497,11 +566,25 @@ const SUBSPOTS = {
           bg:"bg-studhelp-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"0179",
+          feedback:"Ce code te confirme ton passage au stand de StudHelp — pense à demander comment fonctionne leur système d'entraide alimentaire."
         },
-        {bg:"bg-studhelp-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-studhelp-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+        {
+          bg:"bg-studhelp-q1.jpg",
+          question:"StudHelp lutte contre la précarité alimentaire étudiante. Comment fonctionne concrètement l'association ?",
+          choices:["Elle gère des épiceries sociales sur les campus","Elle met en relation des étudiants dans le besoin avec des particuliers donateurs d'aide alimentaire","Elle distribue des chèques alimentaires aux étudiants"],
+          correct:1,
+          feedbackCorrect:"StudHelp met en relation des étudiants dans le besoin avec des particuliers volontaires qui leur apportent une aide alimentaire — un pack d'eau, des pâtes, des snacks... Le lien est créé par email la semaine suivant l'inscription, pour créer du lien social autant que de la solidarité !",
+          feedbackWrong:"StudHelp ne gère pas d'épicerie et ne distribue pas de chèques : l'association met directement en relation étudiants et donateurs particuliers via un formulaire en ligne."
+        },
+        {
+          bg:"bg-studhelp-q2.jpg",
+          question:"Un apprenti a-t-il le droit de refuser d'effectuer des tâches qui n'ont aucun lien avec sa formation ?",
+          choices:["Non, il doit exécuter toutes les tâches demandées par son employeur","Oui, le contrat d'apprentissage garantit que les tâches confiées doivent être en lien avec la formation suivie","Oui, mais uniquement s'il a l'accord du CFA au préalable"],
+          correct:1,
+          feedbackCorrect:"Le maître d'apprentissage a l'obligation de confier à l'apprenti des tâches en lien avec sa formation. Si ce n'est pas le cas, l'apprenti peut alerter son CFA ou le médiateur de l'apprentissage.",
+          feedbackWrong:"Un apprenti n'est pas un simple exécutant : le contrat d'apprentissage garantit que les missions confiées doivent être en lien avec sa formation. En cas de problème, le CFA ou le médiateur de l'apprentissage peuvent intervenir."
+        }
       ]
     },
     {
@@ -512,41 +595,83 @@ const SUBSPOTS = {
           bg:"bg-ddets-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"0785",
+          feedback:"Ce code te confirme ton passage au stand de la DDETS — pense à demander leur rôle dans l'enregistrement des contrats du secteur public."
         },
-        {bg:"bg-ddets-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-ddets-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+        {
+          bg:"bg-ddets-q1.jpg",
+          question:"Dans le cadre de l'apprentissage dans le secteur public, quel est le rôle de la DDETS ?",
+          choices:["Elle finance les formations des apprentis","Elle enregistre les contrats d'apprentissage","Elle recrute les maîtres d'apprentissage"],
+          correct:1,
+          feedbackCorrect:"Dans le secteur public, c'est la DREETS (ou la DDETS au niveau départemental) qui enregistre les contrats d'apprentissage — elle joue le rôle que l'OPCO occupe dans le secteur privé.",
+          feedbackWrong:"La DDETS ne finance pas les formations et ne recrute pas — son rôle dans l'apprentissage public est d'enregistrer les contrats d'apprentissage, à la place de l'OPCO."
+        },
+        {
+          bg:"bg-ddets-q2.jpg",
+          question:"Un apprenti dans le secteur public bénéficie-t-il des mêmes droits qu'un apprenti dans le secteur privé ?",
+          choices:["Non, il a des droits très différents","Non, il dépend d'un régime spécial sans protection sociale","Oui, les conditions de l'apprentissage sont les mêmes, à quelques exceptions près"],
+          correct:2,
+          feedbackCorrect:"Oui ! Un apprenti dans le secteur public bénéficie des mêmes droits qu'un apprenti dans le secteur privé. Il est affilié au régime général de la sécurité sociale et indemnisable dans les mêmes conditions, à quelques exceptions près liées au statut de la fonction publique.",
+          feedbackWrong:"Un apprenti dans le secteur public bénéficie bien des mêmes droits que dans le secteur privé : il est affilié au régime général de la sécurité sociale et les conditions de l'apprentissage sont les mêmes, à quelques exceptions près."
+        }
       ]
     },
     {
       id:17, x:"63%", y:"70%", zone:"Stands · colonne droite",
-      logo:"logo_bps.png", label:"Stand — BPS",
+      logo:"logo_bps.png", label:"Stand — Banque Populaire du Sud",
       questions:[
         {
           bg:"bg-bps-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"3748",
+          feedback:"Ce code te confirme ton passage au stand de la Banque Populaire du Sud — pense à demander leurs offres dédiées aux apprentis."
         },
-        {bg:"bg-bps-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-bps-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+        {
+          bg:"bg-bps-q1.jpg",
+          question:"La Banque Populaire du Sud est une banque coopérative. Qu'est-ce que cela signifie ?",
+          choices:["Elle est détenue par l'État","Elle appartient à ses sociétaires (clients-associés)","Elle est filiale d'un groupe bancaire étranger"],
+          correct:1,
+          feedbackCorrect:"La Banque Populaire est une banque coopérative : elle appartient à ses sociétaires, c'est-à-dire ses clients qui peuvent devenir associés et participer à sa gouvernance.",
+          feedbackWrong:"La Banque Populaire n'est ni publique ni étrangère : c'est une banque coopérative appartenant à ses sociétaires-clients."
+        },
+        {
+          bg:"bg-bps-q2.jpg",
+          question:"En tant qu'apprenti salarié, tu reçois un salaire chaque mois. Sur quel document peux-tu vérifier le détail de ta rémunération, tes cotisations et tes congés payés ?",
+          choices:["Le contrat d'apprentissage","La fiche de paie (bulletin de salaire)","L'attestation de formation du CFA"],
+          correct:1,
+          feedbackCorrect:"La fiche de paie (ou bulletin de salaire) est le document mensuel qui détaille ta rémunération brute, les cotisations sociales, le net à payer et tes congés acquis.",
+          feedbackWrong:"Ce n'est ni le contrat d'apprentissage ni l'attestation CFA : c'est la fiche de paie qui détaille chaque mois ta rémunération et tes cotisations."
+        }
       ]
     },
     {
       id:18, x:"63%", y:"80%", zone:"Stands · colonne droite",
-      logo:"logo_ca.png", label:"Stand — CA Languedoc",
+      logo:"logo_ca.png", label:"Stand — Crédit Agricole Languedoc",
       questions:[
         {
           bg:"bg-ca-languedoc-q0.jpg",
           type:"code",
           question:"Inscris le code à 4 chiffres trouvé sur le stand :",
-          code:"0000",
-          feedback:"Feedback à définir"
+          code:"4021",
+          feedback:"Ce code te confirme ton passage au stand du Crédit Agricole Languedoc — pense à demander le fonctionnement du Livret Engagé Sociétaire."
         },
-        {bg:"bg-ca-languedoc-q1.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"},
-        {bg:"bg-ca-languedoc-q2.jpg", question:"Question à définir", choices:["Réponse A à définir","Réponse B à définir","Réponse C à définir"], correct:0, feedback:"Feedback à définir"}
+        {
+          bg:"bg-ca-languedoc-q1.jpg",
+          question:"Le Crédit Agricole Languedoc propose un livret d'épargne unique, réservé à ses sociétaires. Comment s'appelle-t-il ?",
+          choices:["Le Livret de Développement Durable et Solidaire (LDDS)","Le Livret Engagé Sociétaire","Le Livret d'Épargne Populaire (LEP)"],
+          correct:1,
+          feedbackCorrect:"Le Livret Engagé Sociétaire est un produit d'épargne propre au Crédit Agricole, réservé à ses sociétaires — c'est-à-dire les clients qui ont choisi de s'engager à ses côtés en devenant co-propriétaires de leur caisse régionale.",
+          feedbackWrong:"Le LDDS et le LEP existent dans toutes les banques — le Livret Engagé Sociétaire, lui, est spécifique au Crédit Agricole et réservé à ses sociétaires."
+        },
+        {
+          bg:"bg-ca-languedoc-q2.jpg",
+          question:"En tant qu'apprenti, que faire en priorité si ton employeur ne te verse pas ton salaire à la date prévue ?",
+          choices:["Attendre la fin du contrat pour réclamer","En parler directement avec ton employeur, puis alerter le CFA si le problème persiste","Saisir immédiatement le Conseil de Prud'hommes"],
+          correct:1,
+          feedbackCorrect:"La première étape, c'est le dialogue avec ton employeur — ça peut être un simple oubli. Si ça persiste, tu alertes le CFA et un représentant du CSE, puis tu envoies un courrier recommandé. Le Conseil de Prud'hommes est le recours ultime. Tu as 3 ans pour agir !",
+          feedbackWrong:"Le Conseil de Prud'hommes est le recours ultime, pas le premier réflexe. Commence par en parler à ton employeur, puis alerte le CFA si ça persiste — plusieurs étapes existent avant d'en arriver là."
+        }
       ]
     }
   ]
