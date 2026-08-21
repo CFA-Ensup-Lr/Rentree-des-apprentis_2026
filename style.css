@@ -403,9 +403,10 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
    border-radius) : sans ça, un halo carré orange s'affichait derrière
    le vrai halo rond porté par .spot-inner ci-dessous. */
 #subspots-container .spot.active{
- box-shadow:none;
- animation:none;
- background:none;
+  box-shadow:none !important;
+  animation:none !important;
+  background:none !important;
+  color:inherit !important;
 }
 #subspots-container .spot.active .spot-inner{
  box-shadow:0 3px 8px rgba(0,0,0,.18), 0 0 0 6px rgba(226,121,63,.6);
