@@ -234,7 +234,10 @@ h1,h2,.font-display{font-family:'Fraunces',serif}
 #spots-container .spot.active{background:var(--terracotta) !important;width:34px !important;height:34px !important;padding:0 !important}
 .spot.done{background:var(--green);color:#fff;cursor:default;opacity:.85}
 .spot.locked{background:#c9c0a4;color:#fff;cursor:not-allowed;border-color:#d8d0b8}
-@keyframes pulse{0%,100%{box-shadow:0 3px 10px rgba(0,0,0,.25),0 0 0 6px rgba(226,121,63,.28)}50%{box-shadow:0 3px 10px rgba(0,0,0,.25),0 0 0 13px rgba(226,121,63,.08)}}
+@keyframes pulse{
+  0%,100%{box-shadow:0 3px 10px rgba(0,0,0,.25),0 0 0 6px rgba(226,121,63,.6)}
+  50%{box-shadow:0 3px 10px rgba(0,0,0,.25),0 0 0 13px rgba(226,121,63,.25)}
+}
 
 .map-hint{
   margin-top:1rem;background:var(--surface);border:1px dashed var(--line);
